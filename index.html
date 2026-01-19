@@ -17,7 +17,7 @@
             transition: overflow 0.3s;
         }
 
-        /* ドロワー（引き出し）メニューのスタイル */
+        /* ドロワー共通スタイル */
         .drawer-overlay {
             position: fixed;
             top: 0;
@@ -46,21 +46,22 @@
             flex-direction: column;
         }
 
-        body.drawer-active {
-            overflow: hidden;
-        }
-        body.drawer-active .drawer-overlay {
+        /* ドロワー有効時 */
+        body.drawer-active .drawer-overlay, 
+        body.nav-active .drawer-overlay {
             opacity: 1;
             visibility: visible;
         }
-        body.drawer-active .drawer-content {
+        body.drawer-active .search-drawer,
+        body.nav-active .nav-drawer {
             left: 0;
         }
-
-        /* アコーディオンのスタイル */
-        .filter-group {
-            border-bottom: 1px solid #eee;
+        body.drawer-active, body.nav-active {
+            overflow: hidden;
         }
+
+        /* アコーディオン */
+        .filter-group { border-bottom: 1px solid #eee; }
         .filter-group summary {
             list-style: none;
             padding: 20px;
@@ -73,23 +74,14 @@
             letter-spacing: 0.05em;
         }
         .filter-group summary::-webkit-details-marker { display: none; }
-        .filter-group summary::after {
-            content: "+";
-            font-weight: 300;
-            font-size: 18px;
-        }
-        .filter-group[open] summary::after {
-            content: "−";
-        }
+        .filter-group summary::after { content: "+"; font-weight: 300; font-size: 18px; }
+        .filter-group[open] summary::after { content: "−"; }
 
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d1d1; }
 
-        .hero-zoom:hover img {
-            transform: scale(1.05);
-        }
+        .hero-zoom:hover img { transform: scale(1.05); }
 
-        /* Marquee Animation */
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -99,10 +91,7 @@
             animation: marquee 30s linear infinite;
         }
 
-        .product-card:hover .quick-view {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .product-card:hover .quick-view { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body class="">
@@ -110,7 +99,14 @@
     <!-- ナビゲーションバー -->
     <nav class="sticky top-0 z-[60] bg-white border-b border-gray-100 px-4 md:px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-4 md:gap-8">
+            <!-- バーガーメニューボタン (スマホ用) -->
+            <button class="lg:hidden text-xl p-1" id="openNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
             <h1 class="text-lg md:text-xl font-bold tracking-widest text-black uppercase cursor-pointer" onclick="location.href='index.html'">Pro-Rent</h1>
+            
+            <!-- デスクトップメニュー -->
             <div class="hidden lg:flex items-center gap-6 text-xs font-medium text-gray-500 tracking-widest">
                 <a href="products.html" class="hover:text-black transition">Archive</a>
                 <a href="#" class="hover:text-black transition">Lookbook</a>
@@ -132,32 +128,38 @@
         </div>
     </nav>
 
-    <!-- 絞り込みドロワー (products.htmlへ遷移) -->
-    <div id="drawerWrapper">
-        <div class="drawer-overlay" id="closeOverlay"></div>
-        <div class="drawer-content">
+    <!-- [NEW] ナビゲーションドロワー (バーガーメニュー) -->
+    <div id="navDrawerWrapper">
+        <div class="drawer-overlay" onclick="closeAllDrawers()"></div>
+        <div class="drawer-content nav-drawer">
             <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-black text-white">
-                <h2 class="text-sm font-bold tracking-widest uppercase">Quick Search</h2>
-                <button class="close-drawer text-2xl leading-none" id="closeBtn">&times;</button>
+                <h2 class="text-sm font-bold tracking-widest uppercase text-center w-full">Menu</h2>
+                <button class="close-drawer text-2xl absolute right-6" onclick="closeAllDrawers()">&times;</button>
             </div>
             <div class="drawer-body flex-1 overflow-y-auto custom-scrollbar">
-                <details class="filter-group" open>
-                    <summary>空き状況を確認</summary>
-                    <div class="px-6 pb-6">
-                        <input type="date" class="w-full bg-gray-50 border border-gray-100 rounded text-sm p-3 outline-none">
+                <div class="p-6 space-y-8 mt-4">
+                    <!-- メインリンク -->
+                    <div class="space-y-4">
+                        <a href="products.html" class="block text-xl font-light uppercase tracking-tighter hover:pl-2 transition-all">Archive <span class="text-[10px] text-gray-400 ml-2">商品一覧</span></a>
+                        <a href="#" class="block text-xl font-light uppercase tracking-tighter hover:pl-2 transition-all">Lookbook <span class="text-[10px] text-gray-400 ml-2">ルックブック</span></a>
+                        <a href="#" class="block text-xl font-light uppercase tracking-tighter hover:pl-2 transition-all">Services <span class="text-[10px] text-gray-400 ml-2">サービス</span></a>
                     </div>
-                </details>
-                <details class="filter-group">
-                    <summary>カテゴリ</summary>
-                    <div class="px-6 pb-6 space-y-3 text-sm">
-                        <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" class="accent-black w-4 h-4"> トップス</label>
-                        <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" class="accent-black w-4 h-4"> アウター</label>
-                        <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" class="accent-black w-4 h-4"> ドレス</label>
+
+                    <!-- カテゴリーリスト -->
+                    <div class="pt-8 border-t border-gray-100">
+                        <h3 class="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-6">Categories</h3>
+                        <ul class="space-y-5">
+                            <li><a href="products.html" class="flex justify-between items-center text-sm font-medium hover:text-gray-500">Tops <span>&rarr;</span></a></li>
+                            <li><a href="products.html" class="flex justify-between items-center text-sm font-medium hover:text-gray-500">Outerwear <span>&rarr;</span></a></li>
+                            <li><a href="products.html" class="flex justify-between items-center text-sm font-medium hover:text-gray-500">Dress / Gowns <span>&rarr;</span></a></li>
+                            <li><a href="products.html" class="flex justify-between items-center text-sm font-medium hover:text-gray-500">Accessories <span>&rarr;</span></a></li>
+                        </ul>
                     </div>
-                </details>
+                </div>
             </div>
-            <div class="p-6 border-t border-gray-100">
-                <button class="w-full py-4 text-xs font-bold bg-black text-white uppercase tracking-widest" onclick="location.href='products.html'">Search Now</button>
+            <div class="p-8 border-t border-gray-100 bg-gray-50">
+                <button class="w-full bg-black text-white py-4 text-xs font-bold uppercase tracking-widest mb-4">Login</button>
+                <p class="text-[9px] text-gray-400 text-center uppercase tracking-widest">Support: 10:00 - 19:00</p>
             </div>
         </div>
     </div>
@@ -196,7 +198,7 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- Item 1: product-show.htmlへ遷移するように変更 -->
+                <!-- Item 1: product-show.htmlへ遷移 -->
                 <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
                     <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
                         <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
@@ -249,7 +251,7 @@
         <!-- Category/Taste Selection -->
         <section class="py-16 md:py-24 px-4 md:px-6 max-w-7xl mx-auto border-t border-gray-100">
             <div class="text-center mb-12 md:mb-16">
-                <h3 class="text-xs font-bold tracking-[0.3em] uppercase mb-2">Curated Look</h3>
+                <h3 class="text-xs font-bold tracking-[0.3em] uppercase mb-2 text-gray-400">Curated Look</h3>
                 <p class="text-gray-400 text-[10px] md:text-xs font-light">コンセプトに合わせた最適なアーカイブを</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -276,47 +278,24 @@
                 </div>
             </div>
         </section>
-
-        <!-- Pro Services Benefits -->
-        <section class="bg-gray-50 py-16 md:py-24">
-            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 text-center">
-                <div class="flex flex-col items-center">
-                    <div class="w-12 h-12 flex items-center justify-center bg-white rounded-full mb-6 shadow-sm"><i class="fa-solid fa-truck-ramp-box text-xl"></i></div>
-                    <h5 class="text-[11px] font-bold uppercase tracking-widest mb-4">Studio Delivery</h5>
-                    <p class="text-[11px] text-gray-500 leading-relaxed font-light px-4">都内23区の撮影スタジオへ直接配送。忙しい撮影当日の負担を軽減します。</p>
-                </div>
-                <div class="flex flex-col items-center border-t md:border-t-0 md:border-x border-gray-200 py-12 md:py-0">
-                    <div class="w-12 h-12 flex items-center justify-center bg-white rounded-full mb-6 shadow-sm"><i class="fa-solid fa-file-invoice-dollar text-xl"></i></div>
-                    <h5 class="text-[11px] font-bold uppercase tracking-widest mb-4">Invoice Payment</h5>
-                    <p class="text-[11px] text-gray-500 leading-relaxed font-light px-4">法人・プロ登録済みの方限定で、月締めの請求書払いに対応しています。</p>
-                </div>
-                <div class="flex flex-col items-center border-t md:border-t-0 border-gray-200 pt-12 md:pt-0">
-                    <div class="w-12 h-12 flex items-center justify-center bg-white rounded-full mb-6 shadow-sm"><i class="fa-solid fa-ruler-combined text-xl"></i></div>
-                    <h5 class="text-[11px] font-bold uppercase tracking-widest mb-4">Pro Measurements</h5>
-                    <p class="text-[11px] text-gray-500 leading-relaxed font-light px-4">全アイテムの実測平置きデータを公開。正確なサイズ選定が可能です。</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 p-8 md:p-12">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div>
+            <div class="text-center md:text-left">
                 <h4 class="text-xl font-bold mb-6 tracking-widest uppercase">Pro-Rent</h4>
                 <p class="text-gray-400 text-[10px] leading-loose">Premium rental archive for stylists and creators.<br>Based in Tokyo, Japan.</p>
             </div>
-            <div>
+            <div class="text-center md:text-left">
                 <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6">Explore</h5>
                 <ul class="text-[11px] space-y-4 uppercase tracking-widest font-medium">
                     <li><a href="products.html" class="hover:underline">Archive</a></li>
                     <li><a href="#" class="hover:underline">Terms of Service</a></li>
-                    <li><a href="#" class="hover:underline">Logistics</a></li>
                 </ul>
             </div>
             <div class="md:col-span-2">
-                <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6 font-semibold">Join Pro-Network</h5>
-                <p class="text-[10px] text-gray-400 mb-4 uppercase">最新の入荷情報や撮影実績を不定期で配信</p>
+                <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6 font-semibold text-center md:text-left">Join Pro-Network</h5>
                 <div class="flex gap-2">
                     <input type="text" placeholder="Email Address" class="flex-1 bg-gray-50 border-none px-4 py-3 text-xs outline-none focus:ring-1 focus:ring-black">
                     <button class="bg-black text-white px-6 md:px-8 py-3 text-xs font-bold uppercase tracking-widest">Join</button>
@@ -325,41 +304,22 @@
         </div>
     </footer>
 
-    <!-- 商品詳細モーダル (念のため残していますが、遷移が優先されます) -->
-    <div id="productModal" class="fixed inset-0 z-[100] hidden">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal()"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-5xl bg-white h-[85vh] md:h-[80vh] flex flex-col md:flex-row shadow-2xl overflow-hidden rounded-sm">
-            <button class="absolute top-4 right-6 z-10 text-2xl text-gray-500 hover:text-black" onclick="toggleModal()">&times;</button>
-            <div class="md:w-1/2 bg-gray-100 h-2/5 md:h-full overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
-            </div>
-            <div class="md:w-1/2 p-6 md:p-12 text-gray-900 flex flex-col justify-center overflow-y-auto">
-                <p class="text-[10px] font-bold text-gray-400 tracking-widest mb-2 uppercase">Selection</p>
-                <h2 class="text-2xl md:text-3xl font-light mb-6 uppercase leading-tight">Structural Asymmetric Gown</h2>
-                <button class="w-full bg-black text-white py-4 font-bold text-xs uppercase tracking-widest hover:bg-gray-800 transition" onclick="location.href='product-show.html'">View All Details</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        const openBtn = document.getElementById('openDrawer');
-        const closeBtn = document.getElementById('closeBtn');
-        const overlay = document.getElementById('closeOverlay');
+        // ドロワー制御
         const body = document.body;
+        const openNavBtn = document.getElementById('openNav');
 
-        const openDrawer = () => body.classList.add('drawer-active');
-        const closeDrawer = () => body.classList.remove('drawer-active');
+        const openNav = () => body.classList.add('nav-active');
+        const closeAllDrawers = () => {
+            body.classList.remove('nav-active', 'drawer-active');
+        };
 
-        if (openBtn) openBtn.addEventListener('click', openDrawer);
-        if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-        if (overlay) overlay.addEventListener('click', closeDrawer);
+        if (openNavBtn) openNavBtn.addEventListener('click', openNav);
 
-        function toggleModal() {
-            const modal = document.getElementById('productModal');
-            if(!modal) return;
-            modal.classList.toggle('hidden');
-            body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
-        }
+        // キーボード操作対応 (ESCで閉じる)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAllDrawers();
+        });
     </script>
 </body>
 </html>
