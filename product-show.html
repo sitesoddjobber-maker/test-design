@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO-RENT | ストラクチャラル・アシンメトリー・ガウン</title>
+    <title>PRO-RENT | ストラクチュアル・アシンメトリードレス</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -19,12 +19,15 @@
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d1d1; }
 
-        .sticky-detail {
-            position: sticky;
-            top: 100px;
+        /* PCでの右側情報の固定設定 */
+        @media (min-width: 1024px) {
+            .sticky-detail {
+                position: sticky;
+                top: 100px;
+            }
         }
 
-        /* アコーディオンのスタイル */
+        /* アコーディオンのスタイル（残りの項目用） */
         .filter-group {
             border-bottom: 1px solid #eee;
         }
@@ -52,6 +55,7 @@
 </head>
 <body>
 
+    <!-- ナビゲーションバー -->
     <nav class="sticky top-0 z-[60] bg-white border-b border-gray-100 px-4 md:px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-8">
             <h1 class="text-lg md:text-xl font-bold tracking-widest text-black uppercase cursor-pointer" onclick="location.href='index.html'">Pro-Rent</h1>
@@ -68,94 +72,121 @@
     </nav>
 
     <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+        <!-- パンくずリスト -->
         <nav class="flex text-[10px] uppercase tracking-widest text-gray-400 mb-8 gap-2">
-            <a href="index.html" class="hover:text-black">Home</a>
-            <span>/</span>
-            <a href="products.html" class="hover:text-black">Archive</a>
-            <span>/</span>
-            <span class="text-black font-bold">Gowns</span>
+            <a href="index.html" class="hover:text-black transition">Home</a><span>/</span>
+            <a href="products.html" class="hover:text-black transition">Archive</a><span>/</span>
+            <span class="text-black font-bold">Dress / Gowns</span>
         </nav>
 
         <div class="flex flex-col lg:flex-row gap-12">
-            <div class="lg:w-3/5 space-y-4">
-                <div class="aspect-[3/4] bg-gray-100 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1200" alt="Main Item" class="w-full h-full object-cover">
+            <!-- 左側：イメージギャラリー ＆ 説明文 -->
+            <div class="lg:w-3/5 space-y-8">
+                <div class="space-y-4">
+                    <!-- メイン画像 -->
+                    <div class="aspect-[3/4] bg-gray-100 overflow-hidden shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1200" alt="メインアイテム" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- サブ画像：スマホでは横並びでコンパクトに -->
+                    <div class="grid grid-cols-4 md:grid-cols-2 gap-2 md:gap-4">
+                        <div class="aspect-[3/4] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
+                        </div>
+                        <div class="aspect-[3/4] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
+                        </div>
+                        <!-- スマホでのみ表示される追加アングル例（コンパクトさを活かすため） -->
+                        <div class="aspect-[3/4] bg-gray-50 overflow-hidden md:hidden lg:hidden">
+                            <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e12?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
+                        </div>
+                        <div class="aspect-[3/4] bg-gray-50 overflow-hidden md:hidden lg:hidden">
+                            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
+                        </div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="aspect-[3/4] bg-gray-100"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover"></div>
-                    <div class="aspect-[3/4] bg-gray-100"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover"></div>
+
+                <!-- 説明文：閉じるタイプではなく画像の直下に配置 -->
+                <div class="py-6 border-t border-gray-100">
+                    <h3 class="text-[11px] font-bold uppercase tracking-widest text-black mb-4">Description / 商品説明</h3>
+                    <div class="text-sm text-gray-600 leading-relaxed font-light space-y-4">
+                        <p>構造的なシルエットが特徴のアシンメトリードレス。サテンの光沢感とチュールの繊細な重なりが、撮影においてドラマチックな陰影を生み出します。</p>
+                        <p>ハイファッションのエディトリアル撮影や、独創的なポートレートに最適な一着です。構築的なカッティングにより、モデルの動きに合わせて様々な表情を見せます。</p>
+                    </div>
                 </div>
-                <div class="aspect-[3/4] bg-gray-100"><img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e12?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover"></div>
             </div>
 
+            <!-- 右側：商品情報 ＆ カレンダー ＆ アクション -->
             <div class="lg:w-2/5">
                 <div class="sticky-detail">
                     <div class="mb-8 border-b border-gray-100 pb-8">
-                        <p class="text-[10px] font-bold text-gray-400 tracking-[0.3em] uppercase mb-2 italic">Editorial Selection</p>
-                        <h2 class="text-3xl md:text-4xl font-light uppercase tracking-tight leading-tight mb-4">ストラクチャラル・アシンメトリー・ガウン</h2>
+                        <p class="text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase mb-2">Editorial Selection</p>
+                        <h2 class="text-2xl md:text-3xl font-light uppercase tracking-tight leading-tight mb-4 text-gray-900">ストラクチュアル・アシンメトリードレス</h2>
                         <div class="flex items-baseline gap-4">
                             <span class="text-2xl font-semibold tracking-tighter">¥18,000</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">/ 3日間レンタル</span>
+                            <span class="text-[10px] text-gray-400 font-normal ml-2 tracking-widest uppercase">/ 3日間レンタル</span>
                         </div>
                     </div>
 
-                    <div class="mb-10 p-6 bg-gray-50 rounded-sm">
+                    <!-- 予約状況カレンダー（維持） -->
+                    <div class="mb-10 p-6 bg-gray-50 rounded-sm shadow-sm">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-[10px] font-bold uppercase tracking-widest text-black">予約状況カレンダー</h4>
-                            <span class="text-[9px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded">在庫状況：良好</span>
+                            <h4 class="text-[10px] font-bold uppercase tracking-widest text-black">空き状況カレンダー</h4>
+                            <span class="text-[9px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded font-bold">在庫：あり</span>
                         </div>
                         <div class="grid grid-cols-7 gap-1 text-center text-[10px] mb-4">
-                            <div class="py-2 text-gray-300">18</div><div class="py-2 text-gray-300">19</div>
-                            <div class="py-2 bg-black text-white font-bold">20</div><div class="py-2 bg-black text-white font-bold">21</div>
-                            <div class="py-2 bg-black text-white font-bold">22</div>
-                            <div class="py-2 border border-gray-200 hover:bg-white cursor-pointer transition">23</div>
-                            <div class="py-2 border border-gray-200 hover:bg-white cursor-pointer transition">24</div>
+                            <div class="py-2 text-gray-300">18</div>
+                            <div class="py-2 text-gray-300">19</div>
+                            <div class="py-2 bg-black text-white font-bold rounded-sm cursor-pointer">20</div>
+                            <div class="py-2 bg-black text-white font-bold rounded-sm cursor-pointer">21</div>
+                            <div class="py-2 bg-black text-white font-bold rounded-sm cursor-pointer">22</div>
+                            <div class="py-2 border border-gray-200 hover:bg-white cursor-pointer transition rounded-sm">23</div>
+                            <div class="py-2 border border-gray-200 hover:bg-white cursor-pointer transition rounded-sm">24</div>
                         </div>
-                        <p class="text-[9px] text-gray-500 italic"><i class="fa-solid fa-circle-info mr-1"></i> 2026.01.20 - 01.22 が現在選択されています。</p>
+                        <p class="text-[9px] text-gray-500 italic font-light"><i class="fa-solid fa-circle-info mr-1"></i> 現在 2026.01.20 - 01.22 が選択されています。</p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-x-8 gap-y-10 mb-10">
-                        <div>
-                            <h4 class="text-[10px] font-bold uppercase text-gray-400 mb-4 border-b border-gray-100 pb-1">サイズ詳細（平置き）</h4>
-                            <div class="text-[11px] space-y-3 font-medium">
+                    <!-- メインアクションボタン -->
+                    <div class="space-y-4 mb-10">
+                        <button class="w-full bg-black text-white py-5 font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-gray-800 transition shadow-lg">レンタルを予約する</button>
+                        <div class="flex gap-2">
+                            <button class="flex-1 border border-gray-200 py-3 text-[10px] font-bold hover:bg-gray-50 transition uppercase tracking-widest">このアイテムを問い合わせる</button>
+                            <button class="px-6 border border-gray-200 hover:bg-gray-50 transition"><i class="fa-regular fa-heart"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- プロ向けスペック ＆ その他詳細情報 -->
+                    <div class="space-y-1">
+                        <details class="filter-group" open>
+                            <summary>サイズ詳細（平置き）</summary>
+                            <div class="py-4 text-[11px] text-gray-600 space-y-2 font-medium">
                                 <div class="flex justify-between"><span>肩幅</span><span>42 cm</span></div>
-                                <div class="flex justify-between"><span>バスト</span><span>84 - 88 cm</span></div>
+                                <div class="flex justify-between"><span>身幅（バスト）</span><span>84 - 88 cm</span></div>
                                 <div class="flex justify-between"><span>ウエスト</span><span>62 - 66 cm</span></div>
                                 <div class="flex justify-between"><span>着丈</span><span>145 cm</span></div>
                             </div>
-                        </div>
-                        <div>
-                            <h4 class="text-[10px] font-bold uppercase text-gray-400 mb-4 border-b border-gray-100 pb-1">素材・仕様</h4>
-                            <div class="text-[11px] space-y-3 font-medium">
+                        </details>
+                        <details class="filter-group">
+                            <summary>素材・仕様</summary>
+                            <div class="py-4 text-[11px] text-gray-600 space-y-2 font-medium">
                                 <div class="flex justify-between"><span>素材</span><span>サテン / チュール</span></div>
                                 <div class="flex justify-between"><span>重量</span><span>1.2kg (標準)</span></div>
                                 <div class="flex justify-between"><span>透け感</span><span>なし</span></div>
                                 <div class="flex justify-between"><span>伸縮性</span><span>なし (0%)</span></div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <button class="w-full bg-black text-white py-5 font-bold text-xs uppercase tracking-widest hover:bg-gray-800 transition shadow-lg">プロジェクトボードに追加</button>
-                        <div class="flex gap-2">
-                            <button class="flex-1 border border-gray-200 py-3 text-[10px] font-bold hover:bg-gray-50 transition uppercase tracking-widest">このアイテムについて問い合わせる</button>
-                            <button class="px-6 border border-gray-200 hover:bg-gray-50 transition"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-
-                    <div class="mt-12">
-                        <details class="filter-group" open>
-                            <summary>掲載・着用実績</summary>
-                            <div class="pb-6 text-xs text-gray-500 leading-relaxed space-y-2">
-                                <p>・VOGUE JAPAN 2024年12月号 「Modern Sculpture」特集</p>
+                        </details>
+                        <details class="filter-group">
+                            <summary>掲載実績・使用履歴</summary>
+                            <div class="pb-6 text-xs text-gray-500 leading-relaxed space-y-2 font-light">
+                                <p>・VOGUE JAPAN 2024年12月号 "Modern Sculpture" 特集</p>
                                 <p>・ミュージックビデオ：XX アーティスト "Night Walker" (2025)</p>
-                                <p>・展示会：Tokyo Design Week 2025</p>
+                                <p>・エキシビション：Tokyo Design Week 2025 展示アイテム</p>
                             </div>
                         </details>
                         <details class="filter-group">
                             <summary>取り扱い・配送について</summary>
-                            <div class="pb-6 text-xs text-gray-500 leading-relaxed">
-                                <p>都内23区のスタジオ直送に対応。高価な素材を使用しているため、使用前の過度なスチームは避け、専用のガーメントバッグに入れて運搬してください。返却は最終日の午前10時までの集荷依頼をお願いします。</p>
+                            <div class="pb-6 text-xs text-gray-500 leading-relaxed font-light">
+                                <p>都内23区内の撮影スタジオへの直送・回収に対応。繊細な素材のため、過度なスチームアイロンは避け、運搬の際は専用のガーメントバッグをご使用ください。返却はレンタル最終日の午前10時までに集荷依頼を完了させてください。</p>
                             </div>
                         </details>
                     </div>
@@ -163,47 +194,39 @@
             </div>
         </div>
 
+        <!-- 関連アイテムセクション -->
         <section class="mt-32 pt-16 border-t border-gray-100">
-            <h3 class="text-xs font-bold tracking-[0.3em] uppercase mb-12 text-center">Related Archive</h3>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <h3 class="text-[10px] font-bold tracking-[0.3em] uppercase mb-12 text-center text-gray-400">Related Archive</h3>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <div class="group cursor-pointer" onclick="location.href='product-show.html'">
                     <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
                         <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
                     </div>
                     <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Noir Archive</p>
-                    <h4 class="text-[10px] font-medium uppercase truncate">デコンストラクト・ブレザー</h4>
-                    <p class="text-[11px] font-semibold">¥14,000</p>
+                    <h4 class="text-[10px] font-medium uppercase truncate font-semibold">デコンストラクテッド・ブレザー</h4>
+                    <p class="text-[11px] font-semibold tracking-tighter">¥14,000</p>
                 </div>
                 <div class="group cursor-pointer" onclick="location.href='product-show.html'">
                     <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
                         <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
                     </div>
                     <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Minimalist</p>
-                    <h4 class="text-[10px] font-medium uppercase truncate">リキッド・シルク・スカート</h4>
-                    <p class="text-[11px] font-semibold">¥12,000</p>
+                    <h4 class="text-[10px] font-medium uppercase truncate font-semibold">リキッドシルク・スカート</h4>
+                    <p class="text-[11px] font-semibold tracking-tighter">¥12,000</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-white border-t border-gray-100 p-8 md:p-12 mt-24">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div>
-                <h4 class="text-xl font-bold mb-6 tracking-widest">PRO-RENT</h4>
-                <p class="text-gray-400 text-[10px] leading-loose">スタイリストとクリエイターのためのプレミアム・レンタルアーカイブ。<br>東京を拠点に展開しています。</p>
-            </div>
-            <div>
-                <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6">Support</h5>
-                <ul class="text-[10px] space-y-4 uppercase tracking-widest font-medium">
-                    <li><a href="#" class="hover:text-black">Terms & Conditions</a></li>
-                    <li><a href="#" class="hover:text-black">Damage Guarantee</a></li>
-                    <li><a href="#" class="hover:text-black">Shipping Policy</a></li>
-                </ul>
-            </div>
-            <div class="md:col-span-2">
-                <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6 font-semibold">Contact for Editorial</h5>
-                <p class="text-[10px] text-gray-400 mb-4">大口のレンタルや海外撮影への持ち出しに関するご相談は、専用フォームよりお問い合わせください。</p>
-                <button class="bg-black text-white px-8 py-3 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-gray-800 transition">Contact Us</button>
+    <!-- フッター -->
+    <footer class="bg-white border-t border-gray-100 p-12 text-center">
+        <div class="max-w-7xl mx-auto">
+            <h4 class="text-xl font-bold mb-6 tracking-widest uppercase">Pro-Rent</h4>
+            <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-8">Premium rental archive for stylists and creators.</p>
+            <div class="flex justify-center gap-8 text-[10px] uppercase tracking-widest font-medium text-gray-500">
+                <a href="#" class="hover:text-black">Terms</a>
+                <a href="#" class="hover:text-black">Logistics</a>
+                <a href="#" class="hover:text-black">Contact</a>
             </div>
         </div>
     </footer>
