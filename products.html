@@ -17,7 +17,7 @@
             transition: overflow 0.3s;
         }
 
-        /* Drawer Custom Styles */
+        /* ドロワー（引き出し）メニューのスタイル */
         .drawer-overlay {
             position: fixed;
             top: 0;
@@ -46,6 +46,7 @@
             flex-direction: column;
         }
 
+        /* ドロワー有効時の状態 */
         body.drawer-active {
             overflow: hidden;
         }
@@ -57,6 +58,7 @@
             left: 0;
         }
 
+        /* アコーディオンのスタイル */
         .filter-group {
             border-bottom: 1px solid #eee;
         }
@@ -82,6 +84,7 @@
         }
 
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d1d1; }
 
         .product-card:hover .quick-view {
@@ -96,9 +99,9 @@
     <nav class="sticky top-0 z-[60] bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-8">
             <h1 class="text-xl font-bold tracking-widest text-black uppercase cursor-pointer" onclick="location.href='index.html'">Pro-Rent</h1>
-            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-500">
-                <a href="products.html" class="text-black transition uppercase font-semibold underline underline-offset-8">Archive</a>
-                <a href="#" class="hover:text-black transition uppercase">Pro Services</a>
+            <div class="hidden md:flex items-center gap-6 text-[10px] font-medium text-gray-500 tracking-widest uppercase">
+                <a href="products.html" class="text-black transition font-semibold underline underline-offset-8">Archive</a>
+                <a href="#" class="hover:text-black transition">Pro Services</a>
             </div>
         </div>
 
@@ -116,7 +119,7 @@
         </div>
     </nav>
 
-    <!-- 絞り込みドロワー -->
+    <!-- 絞り込みドロワー (モバイル用) -->
     <div id="drawerWrapper">
         <div class="drawer-overlay" id="closeOverlay"></div>
         <div class="drawer-content">
@@ -126,13 +129,16 @@
             </div>
             
             <div class="drawer-body flex-1 overflow-y-auto custom-scrollbar">
+                <!-- 日取り確認 -->
                 <details class="filter-group" open>
                     <summary>空き状況を確認</summary>
-                    <div class="px-6 pb-6 text-sm">
-                        <input type="date" class="w-full bg-gray-50 border border-gray-100 rounded p-3 outline-none">
+                    <div class="px-6 pb-6">
+                        <p class="text-[10px] text-gray-400 mb-3 uppercase font-bold tracking-widest">撮影予定日</p>
+                        <input type="date" class="w-full bg-gray-50 border border-gray-100 rounded text-sm p-3 outline-none focus:ring-1 focus:ring-black">
                     </div>
                 </details>
 
+                <!-- カテゴリ -->
                 <details class="filter-group">
                     <summary>カテゴリ</summary>
                     <div class="px-6 pb-6 space-y-3">
@@ -145,27 +151,94 @@
                         <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
                             <input type="checkbox" class="accent-black w-4 h-4"> ドレス・ガウン (15)
                         </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
+                            <input type="checkbox" class="accent-black w-4 h-4"> アクセサリー (20)
+                        </label>
+                    </div>
+                </details>
+
+                <!-- カラー (テキスト形式) -->
+                <details class="filter-group">
+                    <summary>カラー</summary>
+                    <div class="px-6 pb-6 space-y-3">
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600 font-light">
+                            <input type="checkbox" class="accent-black w-4 h-4"> ブラック
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600 font-light">
+                            <input type="checkbox" class="accent-black w-4 h-4"> ホワイト
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600 font-light">
+                            <input type="checkbox" class="accent-black w-4 h-4"> レッド・ボルドー
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600 font-light">
+                            <input type="checkbox" class="accent-black w-4 h-4"> ブルー・ネイビー
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600 font-light">
+                            <input type="checkbox" class="accent-black w-4 h-4"> シルバー・メタリック
+                        </label>
+                    </div>
+                </details>
+
+                <!-- サイズ -->
+                <details class="filter-group">
+                    <summary>サイズ</summary>
+                    <div class="px-6 pb-6 space-y-3">
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
+                            <input type="checkbox" class="accent-black w-4 h-4"> S / 7号
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
+                            <input type="checkbox" class="accent-black w-4 h-4"> M / 9号
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
+                            <input type="checkbox" class="accent-black w-4 h-4"> L / 11号
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600 font-light">
+                            <input type="checkbox" class="accent-black w-4 h-4"> フリーサイズ
+                        </label>
+                    </div>
+                </details>
+
+                <!-- プロ仕様・素材感 -->
+                <details class="filter-group">
+                    <summary>素材・スペック</summary>
+                    <div class="px-6 pb-6 space-y-3">
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
+                            <input type="checkbox" class="accent-black w-4 h-4"> シアー・透け感
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
+                            <input type="checkbox" class="accent-black w-4 h-4"> 光沢・サテン
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
+                            <input type="checkbox" class="accent-black w-4 h-4"> 重量感あり (1kg〜)
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer hover:text-gray-600">
+                            <input type="checkbox" class="accent-black w-4 h-4"> 伸縮性あり (ストレッチ)
+                        </label>
                     </div>
                 </details>
             </div>
 
-            <div class="p-6 border-t border-gray-100">
-                <button class="w-full py-4 bg-black text-white text-xs font-bold uppercase tracking-widest" onclick="closeDrawer()">結果を表示</button>
+            <div class="p-6 border-t border-gray-100 flex gap-3">
+                <button class="flex-1 py-3 text-[10px] font-bold bg-gray-100 uppercase tracking-widest hover:bg-gray-200 transition">クリア</button>
+                <button class="flex-1 py-3 text-[10px] font-bold bg-black text-white uppercase tracking-widest hover:bg-gray-800 transition" onclick="closeDrawer()">結果を表示</button>
             </div>
         </div>
     </div>
 
     <div class="flex">
-        <!-- PCサイドバー -->
+        <!-- PC用常駐サイドバー -->
         <aside class="hidden lg:block w-72 border-r border-gray-100 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto custom-scrollbar bg-white">
-            <div class="p-6 border-b border-gray-100">
-                <h2 class="text-sm font-bold tracking-widest uppercase text-gray-400 text-center tracking-tighter">Filter</h2>
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                <h2 class="text-sm font-bold tracking-widest uppercase text-gray-400 w-full text-center">Filter</h2>
             </div>
+
+            <!-- 日取り -->
             <div class="p-6 border-b border-gray-100">
                 <p class="text-[10px] text-gray-400 mb-3 uppercase font-bold tracking-widest">撮影予定日</p>
-                <input type="date" class="w-full bg-gray-50 border border-gray-100 rounded text-xs p-2 outline-none">
+                <input type="date" class="w-full bg-gray-50 border border-gray-100 rounded text-xs p-2 outline-none focus:ring-1 focus:ring-black">
             </div>
             
+            <!-- カテゴリ -->
             <details class="filter-group" open>
                 <summary>カテゴリ</summary>
                 <div class="px-6 pb-6 space-y-3">
@@ -177,6 +250,51 @@
                     </label>
                 </div>
             </details>
+
+            <!-- カラー -->
+            <details class="filter-group">
+                <summary>カラー</summary>
+                <div class="px-6 pb-6 space-y-3">
+                    <label class="flex items-center gap-3 text-xs cursor-pointer hover:text-black text-gray-500 font-light">
+                        <input type="checkbox" class="accent-black w-3 h-3"> ブラック
+                    </label>
+                    <label class="flex items-center gap-3 text-xs cursor-pointer hover:text-black text-gray-500 font-light">
+                        <input type="checkbox" class="accent-black w-3 h-3"> ホワイト
+                    </label>
+                    <label class="flex items-center gap-3 text-xs cursor-pointer hover:text-black text-gray-500 font-light">
+                        <input type="checkbox" class="accent-black w-3 h-3"> レッド・ボルドー
+                    </label>
+                </div>
+            </details>
+
+            <!-- サイズ -->
+            <details class="filter-group">
+                <summary>サイズ</summary>
+                <div class="px-6 pb-6 space-y-3">
+                    <label class="flex items-center gap-3 text-xs cursor-pointer hover:text-black text-gray-500">
+                        <input type="checkbox" class="accent-black w-3 h-3"> S / 7号
+                    </label>
+                    <label class="flex items-center gap-3 text-xs cursor-pointer hover:text-black text-gray-500">
+                        <input type="checkbox" class="accent-black w-3 h-3"> M / 9号
+                    </label>
+                    <label class="flex items-center gap-3 text-xs cursor-pointer hover:text-black text-gray-500">
+                        <input type="checkbox" class="accent-black w-3 h-3"> L / 11号
+                    </label>
+                </div>
+            </details>
+
+            <!-- スペック -->
+            <details class="filter-group">
+                <summary>素材・スペック</summary>
+                <div class="px-6 pb-6 space-y-3">
+                    <label class="flex items-center gap-3 text-xs cursor-pointer hover:text-black text-gray-500 font-light">
+                        <input type="checkbox" class="accent-black w-3 h-3"> シアー・透け感
+                    </label>
+                    <label class="flex items-center gap-3 text-xs cursor-pointer hover:text-black text-gray-500 font-light">
+                        <input type="checkbox" class="accent-black w-3 h-3"> 光沢・サテン
+                    </label>
+                </div>
+            </details>
         </aside>
 
         <!-- メインコンテンツ -->
@@ -184,7 +302,7 @@
             <div class="flex flex-col mb-10">
                 <!-- モバイル用検索アイコン -->
                 <div class="lg:hidden flex justify-start mb-4">
-                    <button class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full" id="openDrawer">
+                    <button class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full shadow-sm" id="openDrawer">
                         <i class="fa-solid fa-magnifying-glass text-lg"></i>
                     </button>
                 </div>
@@ -194,22 +312,27 @@
                         <h2 class="text-3xl font-light tracking-tight mb-2 uppercase">Archive <span class="text-gray-300">/ All Items</span></h2>
                         <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">48件のアイテムを表示中</p>
                     </div>
+                    <div class="hidden md:flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                        Sort by:
+                        <select class="bg-transparent border-none text-black focus:ring-0 cursor-pointer">
+                            <option>Newest</option>
+                            <option>Popularity</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <!-- 商品グリッド -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
                 
-                <!-- 商品 1: ここをクリックすると product-show.html に遷移します -->
                 <a href="product-show.html" class="product-card group cursor-pointer block">
                     <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
                         <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" alt="Rental Item" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
                         <div class="absolute top-4 left-4">
                             <span class="bg-black text-white text-[10px] px-2 py-1 tracking-widest uppercase">New In</span>
                         </div>
-                        <!-- クイックビューは表示のみ -->
                         <div class="quick-view absolute inset-x-0 bottom-0 p-4 translate-y-4 opacity-0 transition duration-300">
-                            <div class="bg-white text-black py-3 text-center text-[10px] font-bold hover:bg-black hover:text-white transition uppercase">View Full Details</div>
+                            <div class="bg-white text-black py-3 text-center text-[10px] font-bold uppercase tracking-widest">View Details</div>
                         </div>
                     </div>
                     <div>
@@ -219,9 +342,8 @@
                     </div>
                 </a>
 
-                <!-- 他の商品も同様に href="product-show.html" へ設定 -->
                 <a href="product-show.html" class="product-card group cursor-pointer block">
-                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
+                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4 text-gray-400">
                         <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
                     </div>
                     <div class="opacity-40">
