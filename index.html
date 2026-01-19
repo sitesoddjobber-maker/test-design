@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRO-RENT | Professional Stylist Rental (Top Page)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #fcfcfc;
+            color: #1a1a1a;
+            margin: 0;
+            transition: overflow 0.3s;
+        }
+
+        /* ドロワー（引き出し）メニューのスタイル */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .drawer-content {
+            position: fixed;
+            top: 0;
+            left: -350px;
+            width: 320px;
+            height: 100%;
+            background: #ffffff;
+            z-index: 1001;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.drawer-active {
+            overflow: hidden;
+        }
+        body.drawer-active .drawer-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+        body.drawer-active .drawer-content {
+            left: 0;
+        }
+
+        /* アコーディオンのスタイル */
+        .filter-group {
+            border-bottom: 1px solid #eee;
+        }
+        .filter-group summary {
+            list-style: none;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+        }
+        .filter-group summary::-webkit-details-marker { display: none; }
+        .filter-group summary::after {
+            content: "+";
+            font-weight: 300;
+            font-size: 18px;
+        }
+        .filter-group[open] summary::after {
+            content: "−";
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d1d1; }
+
+        .hero-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: inline-flex;
+            animation: marquee 30s linear infinite;
+        }
+
+        .product-card:hover .quick-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="">
+
+    <!-- ナビゲーションバー -->
+    <nav class="sticky top-0 z-[60] bg-white border-b border-gray-100 px-4 md:px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-4 md:gap-8">
+            <h1 class="text-lg md:text-xl font-bold tracking-widest text-black uppercase cursor-pointer" onclick="location.href='index.html'">Pro-Rent</h1>
+            <div class="hidden lg:flex items-center gap-6 text-xs font-medium text-gray-500 tracking-widest">
+                <a href="products.html" class="hover:text-black transition">Archive</a>
+                <a href="#" class="hover:text-black transition">Lookbook</a>
+                <a href="#" class="hover:text-black transition">Services</a>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 md:gap-6">
+            <div class="relative hidden sm:block">
+                <input type="text" placeholder="Search..." class="bg-gray-100 border-none rounded-full px-4 py-2 text-xs w-32 md:w-48 focus:ring-1 focus:ring-black outline-none">
+            </div>
+            <div class="flex items-center gap-4 text-gray-600">
+                <button class="relative hover:text-black">
+                    <i class="fa-regular fa-folder-open text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">3</span>
+                </button>
+                <button class="hover:text-black font-semibold text-xs uppercase border-l pl-4 border-gray-200">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 絞り込みドロワー (products.htmlへ遷移) -->
+    <div id="drawerWrapper">
+        <div class="drawer-overlay" id="closeOverlay"></div>
+        <div class="drawer-content">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-black text-white">
+                <h2 class="text-sm font-bold tracking-widest uppercase">Quick Search</h2>
+                <button class="close-drawer text-2xl leading-none" id="closeBtn">&times;</button>
+            </div>
+            <div class="drawer-body flex-1 overflow-y-auto custom-scrollbar">
+                <details class="filter-group" open>
+                    <summary>空き状況を確認</summary>
+                    <div class="px-6 pb-6">
+                        <input type="date" class="w-full bg-gray-50 border border-gray-100 rounded text-sm p-3 outline-none">
+                    </div>
+                </details>
+                <details class="filter-group">
+                    <summary>カテゴリ</summary>
+                    <div class="px-6 pb-6 space-y-3 text-sm">
+                        <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" class="accent-black w-4 h-4"> トップス</label>
+                        <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" class="accent-black w-4 h-4"> アウター</label>
+                        <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" class="accent-black w-4 h-4"> ドレス</label>
+                    </div>
+                </details>
+            </div>
+            <div class="p-6 border-t border-gray-100">
+                <button class="w-full py-4 text-xs font-bold bg-black text-white uppercase tracking-widest" onclick="location.href='products.html'">Search Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ページコンテンツ -->
+    <main id="page-home">
+        <!-- Hero Section -->
+        <section class="relative h-[80vh] md:h-[85vh] overflow-hidden bg-black">
+            <div class="absolute inset-0 hero-zoom transition duration-1000">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover opacity-70 transition duration-1000" alt="Hero Image">
+            </div>
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
+                <p class="text-white text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase mb-4">Professional Rental Archive</p>
+                <h2 class="text-white text-4xl md:text-7xl font-light tracking-tighter mb-8 leading-tight">THE ART OF <br class="hidden md:block">EDITORIAL PIECES</h2>
+                <button onclick="location.href='products.html'" class="bg-white text-black px-8 md:px-12 py-3 md:py-4 text-xs font-bold tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all duration-300">Explore Archive</button>
+            </div>
+        </section>
+
+        <!-- Availability Status Bar -->
+        <section class="bg-black text-white py-3 md:py-4 px-6 overflow-hidden whitespace-nowrap border-y border-white/10">
+            <div class="flex items-center gap-8 md:gap-12 animate-marquee">
+                <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-2"><i class="fa-solid fa-circle text-[6px] text-green-500"></i> Available for Next Week Shoots</span>
+                <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase">New Arrival: 24 Pieces added today</span>
+                <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-2"><i class="fa-solid fa-truck-fast text-[12px]"></i> Studio Delivery: Open</span>
+            </div>
+        </section>
+
+        <!-- New Arrivals Section -->
+        <section class="py-16 md:py-24 px-4 md:px-6 max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4">
+                <div>
+                    <h3 class="text-[10px] font-bold tracking-[0.3em] uppercase mb-2 text-gray-400">New Arrivals</h3>
+                    <p class="text-2xl md:text-3xl font-light uppercase tracking-tight">新着アーカイブ</p>
+                </div>
+                <a href="products.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-400 hover:border-gray-400 transition self-start md:self-auto">View All Items</a>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- Item 1: product-show.htmlへ遷移するように変更 -->
+                <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
+                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        <div class="quick-view lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-4 lg:translate-y-4 lg:opacity-0 lg:transition lg:duration-300">
+                            <button class="w-full bg-white text-black py-3 text-[9px] font-bold hover:bg-black hover:text-white transition uppercase hidden lg:block">View Details</button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Editorial</p>
+                        <h4 class="text-[10px] md:text-[11px] font-medium uppercase truncate">Structural Asymmetric Gown</h4>
+                        <p class="text-xs font-semibold mt-1">¥18,000</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
+                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                    </div>
+                    <div>
+                        <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Noir</p>
+                        <h4 class="text-[10px] md:text-[11px] font-medium uppercase truncate">Deconstructed Wool Blazer</h4>
+                        <p class="text-xs font-semibold mt-1">¥14,000</p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
+                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                    </div>
+                    <div>
+                        <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Minimal</p>
+                        <h4 class="text-[10px] md:text-[11px] font-medium uppercase truncate">Liquid Silk Drape Skirt</h4>
+                        <p class="text-xs font-semibold mt-1">¥12,000</p>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
+                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                    </div>
+                    <div>
+                        <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Detail</p>
+                        <h4 class="text-[10px] md:text-[11px] font-medium uppercase truncate">Metallic Accessory Set</h4>
+                        <p class="text-xs font-semibold mt-1">¥4,500</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category/Taste Selection -->
+        <section class="py-16 md:py-24 px-4 md:px-6 max-w-7xl mx-auto border-t border-gray-100">
+            <div class="text-center mb-12 md:mb-16">
+                <h3 class="text-xs font-bold tracking-[0.3em] uppercase mb-2">Curated Look</h3>
+                <p class="text-gray-400 text-[10px] md:text-xs font-light">コンセプトに合わせた最適なアーカイブを</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div class="group relative aspect-[4/5] overflow-hidden cursor-pointer" onclick="location.href='products.html'">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition flex flex-col justify-end p-6 md:p-8 text-white">
+                        <p class="text-[10px] font-bold tracking-widest uppercase mb-1">Look 01</p>
+                        <h4 class="text-xl md:text-2xl font-light uppercase tracking-widest">Avant-Garde</h4>
+                    </div>
+                </div>
+                <div class="group relative aspect-[4/5] overflow-hidden cursor-pointer" onclick="location.href='products.html'">
+                    <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition flex flex-col justify-end p-6 md:p-8 text-white">
+                        <p class="text-[10px] font-bold tracking-widest uppercase mb-1">Look 02</p>
+                        <h4 class="text-xl md:text-2xl font-light uppercase tracking-widest">Modern Trad</h4>
+                    </div>
+                </div>
+                <div class="group relative aspect-[4/5] overflow-hidden cursor-pointer" onclick="location.href='products.html'">
+                    <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition flex flex-col justify-end p-6 md:p-8 text-white">
+                        <p class="text-[10px] font-bold tracking-widest uppercase mb-1">Look 03</p>
+                        <h4 class="text-xl md:text-2xl font-light uppercase tracking-widest">High Street</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pro Services Benefits -->
+        <section class="bg-gray-50 py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 text-center">
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 flex items-center justify-center bg-white rounded-full mb-6 shadow-sm"><i class="fa-solid fa-truck-ramp-box text-xl"></i></div>
+                    <h5 class="text-[11px] font-bold uppercase tracking-widest mb-4">Studio Delivery</h5>
+                    <p class="text-[11px] text-gray-500 leading-relaxed font-light px-4">都内23区の撮影スタジオへ直接配送。忙しい撮影当日の負担を軽減します。</p>
+                </div>
+                <div class="flex flex-col items-center border-t md:border-t-0 md:border-x border-gray-200 py-12 md:py-0">
+                    <div class="w-12 h-12 flex items-center justify-center bg-white rounded-full mb-6 shadow-sm"><i class="fa-solid fa-file-invoice-dollar text-xl"></i></div>
+                    <h5 class="text-[11px] font-bold uppercase tracking-widest mb-4">Invoice Payment</h5>
+                    <p class="text-[11px] text-gray-500 leading-relaxed font-light px-4">法人・プロ登録済みの方限定で、月締めの請求書払いに対応しています。</p>
+                </div>
+                <div class="flex flex-col items-center border-t md:border-t-0 border-gray-200 pt-12 md:pt-0">
+                    <div class="w-12 h-12 flex items-center justify-center bg-white rounded-full mb-6 shadow-sm"><i class="fa-solid fa-ruler-combined text-xl"></i></div>
+                    <h5 class="text-[11px] font-bold uppercase tracking-widest mb-4">Pro Measurements</h5>
+                    <p class="text-[11px] text-gray-500 leading-relaxed font-light px-4">全アイテムの実測平置きデータを公開。正確なサイズ選定が可能です。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 p-8 md:p-12">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <h4 class="text-xl font-bold mb-6 tracking-widest uppercase">Pro-Rent</h4>
+                <p class="text-gray-400 text-[10px] leading-loose">Premium rental archive for stylists and creators.<br>Based in Tokyo, Japan.</p>
+            </div>
+            <div>
+                <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6">Explore</h5>
+                <ul class="text-[11px] space-y-4 uppercase tracking-widest font-medium">
+                    <li><a href="products.html" class="hover:underline">Archive</a></li>
+                    <li><a href="#" class="hover:underline">Terms of Service</a></li>
+                    <li><a href="#" class="hover:underline">Logistics</a></li>
+                </ul>
+            </div>
+            <div class="md:col-span-2">
+                <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6 font-semibold">Join Pro-Network</h5>
+                <p class="text-[10px] text-gray-400 mb-4 uppercase">最新の入荷情報や撮影実績を不定期で配信</p>
+                <div class="flex gap-2">
+                    <input type="text" placeholder="Email Address" class="flex-1 bg-gray-50 border-none px-4 py-3 text-xs outline-none focus:ring-1 focus:ring-black">
+                    <button class="bg-black text-white px-6 md:px-8 py-3 text-xs font-bold uppercase tracking-widest">Join</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 商品詳細モーダル (念のため残していますが、遷移が優先されます) -->
+    <div id="productModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-5xl bg-white h-[85vh] md:h-[80vh] flex flex-col md:flex-row shadow-2xl overflow-hidden rounded-sm">
+            <button class="absolute top-4 right-6 z-10 text-2xl text-gray-500 hover:text-black" onclick="toggleModal()">&times;</button>
+            <div class="md:w-1/2 bg-gray-100 h-2/5 md:h-full overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
+            </div>
+            <div class="md:w-1/2 p-6 md:p-12 text-gray-900 flex flex-col justify-center overflow-y-auto">
+                <p class="text-[10px] font-bold text-gray-400 tracking-widest mb-2 uppercase">Selection</p>
+                <h2 class="text-2xl md:text-3xl font-light mb-6 uppercase leading-tight">Structural Asymmetric Gown</h2>
+                <button class="w-full bg-black text-white py-4 font-bold text-xs uppercase tracking-widest hover:bg-gray-800 transition" onclick="location.href='product-show.html'">View All Details</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const openBtn = document.getElementById('openDrawer');
+        const closeBtn = document.getElementById('closeBtn');
+        const overlay = document.getElementById('closeOverlay');
+        const body = document.body;
+
+        const openDrawer = () => body.classList.add('drawer-active');
+        const closeDrawer = () => body.classList.remove('drawer-active');
+
+        if (openBtn) openBtn.addEventListener('click', openDrawer);
+        if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+        if (overlay) overlay.addEventListener('click', closeDrawer);
+
+        function toggleModal() {
+            const modal = document.getElementById('productModal');
+            if(!modal) return;
+            modal.classList.toggle('hidden');
+            body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+        }
+    </script>
+</body>
+</html>
