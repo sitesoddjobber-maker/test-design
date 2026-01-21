@@ -3,322 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO-RENT | Professional Stylist Rental (Top Page)</title>
+    <title>ARCHIVE CABINET - High-End Leasing for Professionals</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-        
         body {
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            background-color: #fcfcfc;
+            font-family: 'Inter', sans-serif;
+            background-color: #faf9f6;
             color: #1a1a1a;
-            margin: 0;
-            transition: overflow 0.3s;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        /* ドロワー共通スタイル */
-        .drawer-overlay {
-            position: fixed;
-            top: 0;
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .nav-link {
+            position: relative;
+            padding-bottom: 2px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
             left: 0;
+            background-color: currentColor;
+            transition: width 0.4s ease;
+        }
+        .nav-link:hover::after {
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(2px);
+        }
+        html {
+            scroll-behavior: smooth;
         }
 
-        .drawer-content {
-            position: fixed;
-            top: 0;
-            left: -350px;
-            width: 320px;
-            height: 100%;
-            background: #ffffff;
-            z-index: 1001;
-            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
-            transition: left 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ドロワー有効時 */
-        body.drawer-active .drawer-overlay, 
-        body.nav-active .drawer-overlay {
-            opacity: 1;
-            visibility: visible;
-        }
-        body.drawer-active .search-drawer,
-        body.nav-active .nav-drawer {
-            left: 0;
-        }
-        body.drawer-active, body.nav-active {
-            overflow: hidden;
-        }
-
-        /* アコーディオン */
-        .filter-group { border-bottom: 1px solid #eee; }
-        .filter-group summary {
-            list-style: none;
-            padding: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 13px;
-            letter-spacing: 0.05em;
-        }
-        .filter-group summary::-webkit-details-marker { display: none; }
-        .filter-group summary::after { content: "+"; font-weight: 300; font-size: 18px; }
-        .filter-group[open] summary::after { content: "−"; }
-
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d1d1; }
-
-        .hero-zoom:hover img { transform: scale(1.05); }
-
+        /* 無限ループスライダー */
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-            display: inline-flex;
-            animation: marquee 30s linear infinite;
+            display: flex;
+            width: fit-content;
+            animation: marquee 35s linear infinite;
+        }
+        
+        /* モバイルメニュー */
+        #mobile-menu {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(-100%);
+        }
+        #mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .category-item.active > .category-content {
+            max-height: 2500px; 
+        }
+        .category-item.active > button #category-icon {
+            transform: rotate(180deg);
         }
 
-        .product-card:hover .quick-view { opacity: 1; transform: translateY(0); }
+        #menu-toggle span {
+            background-color: currentColor;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .snap-x-mandatory {
+            scroll-snap-type: x mandatory;
+        }
+        .snap-start {
+            scroll-snap-align: start;
+        }
+
+        /* 商品スライダードラッグ */
+        #new-arrivals-slider {
+            cursor: grab;
+            user-select: none;
+        }
+        #new-arrivals-slider:active {
+            cursor: grabbing;
+        }
+        #new-arrivals-slider.dragging {
+            scroll-snap-type: none;
+        }
+        
+        @media (max-width: 768px) {
+            .group:hover img {
+                transform: none !important;
+            }
+        }
     </style>
 </head>
-<body class="">
+<body class="selection:bg-black selection:text-white">
 
-    <!-- ナビゲーションバー -->
-    <nav class="sticky top-0 z-[60] bg-white border-b border-gray-100 px-4 md:px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-4 md:gap-8">
-            <!-- バーガーメニューボタン (スマホ用) -->
-            <button class="lg:hidden text-xl p-1" id="openNav">
-                <i class="fa-solid fa-bars"></i>
+    <!-- Global Navigation -->
+    <header class="fixed w-full z-50 mix-blend-difference text-white py-4 md:py-6 px-6 md:px-12 flex justify-between items-center">
+        <div class="flex items-center space-x-4 md:space-x-12">
+            <button id="menu-toggle" class="lg:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none" aria-label="Menu">
+                <span class="block w-6 h-0.5 transition-transform duration-300"></span>
+                <span class="block w-6 h-0.5 transition-transform duration-300"></span>
+                <span class="block w-4 h-0.5 self-start transition-transform duration-300"></span>
             </button>
-            
-            <h1 class="text-lg md:text-xl font-bold tracking-widest text-black uppercase cursor-pointer" onclick="location.href='index.html'">Pro-Rent</h1>
-            
-            <!-- デスクトップメニュー -->
-            <div class="hidden lg:flex items-center gap-6 text-xs font-medium text-gray-500 tracking-widest">
-                <a href="products.html" class="hover:text-black transition">Archive</a>
-                <a href="#" class="hover:text-black transition">Lookbook</a>
-                <a href="#" class="hover:text-black transition">Services</a>
-            </div>
+            <h1 class="serif text-lg md:text-3xl font-bold tracking-tight whitespace-nowrap">Archive Cabinet.</h1>
+            <nav class="hidden lg:flex space-x-8 text-[10px] font-semibold uppercase tracking-[0.2em]">
+                <a href="#" class="nav-link">Editorial</a>
+                <a href="#" class="nav-link">By Era</a>
+                <a href="#" class="nav-link">By Texture</a>
+                <a href="#" class="nav-link">Showroom</a>
+            </nav>
         </div>
+        <div class="flex items-center space-x-2 md:space-x-8 text-[10px] font-semibold uppercase tracking-[0.2em]">
+            <button class="p-2 hover:opacity-60 transition-opacity focus:outline-none" aria-label="Search">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </button>
+            <button class="p-2 hover:opacity-60 transition-opacity focus:outline-none relative" aria-label="Cart">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <span class="absolute top-2 right-2 w-1.5 h-1.5 bg-white rounded-full"></span>
+            </button>
+            <a href="#" class="hidden md:block nav-link">Client Service</a>
+            <a href="#" class="hidden md:block bg-white text-black px-6 py-3 rounded-full hover:bg-zinc-200 transition-colors">Request Account</a>
+        </div>
+    </header>
 
-        <div class="flex items-center gap-4 md:gap-6">
-            <div class="relative hidden sm:block">
-                <input type="text" placeholder="Search..." class="bg-gray-100 border-none rounded-full px-4 py-2 text-xs w-32 md:w-48 focus:ring-1 focus:ring-black outline-none">
-            </div>
-            <div class="flex items-center gap-4 text-gray-600">
-                <button class="relative hover:text-black">
-                    <i class="fa-regular fa-folder-open text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">3</span>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-y-0 left-0 w-[85%] max-w-sm bg-white z-[60] flex flex-col shadow-2xl overflow-y-auto px-8 pt-24 pb-12 border-r border-zinc-100">
+        <button id="menu-close" class="absolute top-8 right-8 text-black focus:outline-none">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <nav class="flex flex-col space-y-7 text-xl font-light uppercase tracking-[0.1em] serif italic">
+            <a href="#" class="border-b border-zinc-100 pb-2 not-italic font-sans text-sm font-bold tracking-widest uppercase">Home</a>
+            <a href="#" class="border-b border-zinc-100 pb-2 not-italic font-sans text-sm font-bold tracking-widest uppercase">Rental Flow</a>
+            <a href="#" class="border-b border-zinc-100 pb-2 flex justify-between items-center not-italic font-sans text-sm font-bold tracking-widest uppercase text-green-600">
+                LINE Support
+                <span class="text-[9px] font-sans border border-green-500 text-green-500 px-2 py-0.5 rounded-full tracking-tighter uppercase">Support</span>
+            </a>
+            <div class="category-item border-b border-zinc-100 pb-2">
+                <button id="category-toggle" class="w-full flex justify-between items-center focus:outline-none not-italic font-sans text-sm font-bold tracking-widest uppercase">
+                    Category
+                    <svg id="category-icon" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <button class="hover:text-black font-semibold text-xs uppercase border-l pl-4 border-gray-200">Login</button>
             </div>
-        </div>
-    </nav>
-
-    <!-- [NEW] ナビゲーションドロワー (バーガーメニュー) -->
-    <div id="navDrawerWrapper">
-        <div class="drawer-overlay" onclick="closeAllDrawers()"></div>
-        <div class="drawer-content nav-drawer">
-            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-black text-white">
-                <h2 class="text-sm font-bold tracking-widest uppercase text-center w-full">Menu</h2>
-                <button class="close-drawer text-2xl absolute right-6" onclick="closeAllDrawers()">&times;</button>
-            </div>
-            <div class="drawer-body flex-1 overflow-y-auto custom-scrollbar">
-                <div class="p-6 space-y-8 mt-4">
-                    <!-- メインリンク -->
-                    <div class="space-y-4">
-                        <a href="products.html" class="block text-xl font-light uppercase tracking-tighter hover:pl-2 transition-all">Archive <span class="text-[10px] text-gray-400 ml-2">商品一覧</span></a>
-                        <a href="#" class="block text-xl font-light uppercase tracking-tighter hover:pl-2 transition-all">Lookbook <span class="text-[10px] text-gray-400 ml-2">ルックブック</span></a>
-                        <a href="#" class="block text-xl font-light uppercase tracking-tighter hover:pl-2 transition-all">Services <span class="text-[10px] text-gray-400 ml-2">サービス</span></a>
-                    </div>
-
-                    <!-- カテゴリーリスト -->
-                    <div class="pt-8 border-t border-gray-100">
-                        <h3 class="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-6">Categories</h3>
-                        <ul class="space-y-5">
-                            <li><a href="products.html" class="flex justify-between items-center text-sm font-medium hover:text-gray-500">Tops <span>&rarr;</span></a></li>
-                            <li><a href="products.html" class="flex justify-between items-center text-sm font-medium hover:text-gray-500">Outerwear <span>&rarr;</span></a></li>
-                            <li><a href="products.html" class="flex justify-between items-center text-sm font-medium hover:text-gray-500">Dress / Gowns <span>&rarr;</span></a></li>
-                            <li><a href="products.html" class="flex justify-between items-center text-sm font-medium hover:text-gray-500">Accessories <span>&rarr;</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="p-8 border-t border-gray-100 bg-gray-50">
-                <button class="w-full bg-black text-white py-4 text-xs font-bold uppercase tracking-widest mb-4">Login</button>
-                <p class="text-[9px] text-gray-400 text-center uppercase tracking-widest">Support: 10:00 - 19:00</p>
-            </div>
-        </div>
+            <a href="#" class="border-b border-zinc-100 pb-2 not-italic font-sans text-sm font-bold tracking-widest uppercase">Terms</a>
+        </nav>
     </div>
 
-    <!-- ページコンテンツ -->
-    <main id="page-home">
-        <!-- Hero Section -->
-        <section class="relative h-[80vh] md:h-[85vh] overflow-hidden bg-black">
-            <div class="absolute inset-0 hero-zoom transition duration-1000">
-                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover opacity-70 transition duration-1000" alt="Hero Image">
-            </div>
-            <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                <p class="text-white text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase mb-4">Professional Rental Archive</p>
-                <h2 class="text-white text-4xl md:text-7xl font-light tracking-tighter mb-8 leading-tight">THE ART OF <br class="hidden md:block">EDITORIAL PIECES</h2>
-                <button onclick="location.href='products.html'" class="bg-white text-black px-8 md:px-12 py-3 md:py-4 text-xs font-bold tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all duration-300">Explore Archive</button>
-            </div>
-        </section>
+    <!-- Background Dimmer -->
+    <div id="menu-overlay" class="fixed inset-0 bg-black/40 z-[55] opacity-0 pointer-events-none transition-opacity duration-500"></div>
 
-        <!-- Availability Status Bar -->
-        <section class="bg-black text-white py-3 md:py-4 px-6 overflow-hidden whitespace-nowrap border-y border-white/10">
-            <div class="flex items-center gap-8 md:gap-12 animate-marquee">
-                <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-2"><i class="fa-solid fa-circle text-[6px] text-green-500"></i> Available for Next Week Shoots</span>
-                <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase">New Arrival: 24 Pieces added today</span>
-                <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-2"><i class="fa-solid fa-truck-fast text-[12px]"></i> Studio Delivery: Open</span>
-            </div>
-        </section>
-
-        <!-- New Arrivals Section -->
-        <section class="py-16 md:py-24 px-4 md:px-6 max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4">
-                <div>
-                    <h3 class="text-[10px] font-bold tracking-[0.3em] uppercase mb-2 text-gray-400">New Arrivals</h3>
-                    <p class="text-2xl md:text-3xl font-light uppercase tracking-tight">新着アーカイブ</p>
+    <main>
+        <!-- 1. Hero Section -->
+        <section class="h-[60vh] lg:h-[90vh] w-full relative overflow-hidden bg-zinc-900">
+            <img src="image/hero-main.jpg" alt="Hero Main" class="w-full h-full object-cover opacity-70">
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white px-6">
+                <span class="serif italic text-sm md:text-2xl mb-3 md:mb-6 text-zinc-300">New Season In-Stock</span>
+                <h2 class="serif text-4xl md:text-8xl font-light leading-tight mb-8 md:mb-10 tracking-tight">The Sculptural<br>Silhouette.</h2>
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                    <a href="#new-arrivals" class="border border-white/40 hover:border-white px-10 py-4 md:py-4 text-[10px] uppercase tracking-[0.25em] transition-all bg-white/5 backdrop-blur-sm">Explore Collection</a>
                 </div>
-                <a href="products.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-400 hover:border-gray-400 transition self-start md:self-auto">View All Items</a>
+            </div>
+        </section>
+
+        <!-- Sliding Banner Ad -->
+        <div class="bg-black text-white py-4 overflow-hidden border-y border-white/10 relative z-10">
+            <div class="animate-marquee whitespace-nowrap flex items-center">
+                <div class="flex items-center space-x-12 px-6">
+                    <span class="text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase">今月の新作品：<span class="text-white font-bold">２４品</span></span>
+                    <span class="w-1 h-1 bg-zinc-600 rounded-full"></span>
+                    <span class="text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase">８,０００円以上で<span class="italic underline decoration-zinc-500 underline-offset-4">返却時の送料無料</span></span>
+                    <span class="w-1 h-1 bg-zinc-600 rounded-full"></span>
+                    <span class="text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase">１２,０００円以上で<span class="text-white font-bold whitespace-nowrap">発送 / 返却時の送料無料</span></span>
+                    <span class="w-1 h-1 bg-zinc-600 rounded-full"></span>
+                </div>
+                <div class="flex items-center space-x-12 px-6">
+                    <span class="text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase">今月の新作品：<span class="text-white font-bold">２４品</span></span>
+                    <span class="w-1 h-1 bg-zinc-600 rounded-full"></span>
+                    <span class="text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase">８,０００円以上で<span class="italic underline decoration-zinc-500 underline-offset-4">返却時の送料無料</span></span>
+                    <span class="w-1 h-1 bg-zinc-600 rounded-full"></span>
+                    <span class="text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase">１２,０００円以上で<span class="text-white font-bold whitespace-nowrap">発送 / 返却時の送料無料</span></span>
+                    <span class="w-1 h-1 bg-zinc-600 rounded-full"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. New Arrivals -->
+        <section id="new-arrivals" class="py-12 md:py-20 px-4 md:px-12 max-w-[1600px] mx-auto overflow-hidden">
+            <div class="flex flex-col md:flex-row justify-between items-baseline mb-6 md:mb-12 border-b border-zinc-200 pb-4 md:pb-6">
+                <h3 class="serif text-2xl md:text-4xl italic">New Arrivals</h3>
+                <div class="flex items-center space-x-6 mt-2 md:mt-0">
+                    <p class="hidden md:block text-[10px] text-zinc-400 uppercase tracking-[0.3em]">Curated latest stock</p>
+                    <a href="#" class="text-[10px] uppercase tracking-widest font-bold border-b border-black pb-1">View All Archives →</a>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- Item 1: product-show.htmlへ遷移 -->
-                <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
-                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
-                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                        <div class="quick-view lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-4 lg:translate-y-4 lg:opacity-0 lg:transition lg:duration-300">
-                            <button class="w-full bg-white text-black py-3 text-[9px] font-bold hover:bg-black hover:text-white transition uppercase hidden lg:block">View Details</button>
+            <div id="new-arrivals-slider" class="flex overflow-x-auto hide-scrollbar snap-x-mandatory gap-x-4 md:gap-x-6">
+                <!-- Item 1-6 -->
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
+                        <img src="image/new-arrival-1.png" alt="Product 1" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-zinc-400 uppercase tracking-widest block font-medium">Yohji Yamamoto</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate">Asymmetric Coat</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥18,000 / 3D</p>
+                    </div>
+                </div>
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
+                        <img src="image/new-arrival-2.png" alt="Product 2" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-zinc-400 uppercase tracking-widest block font-medium">Prada</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate">Geometric Shirt</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥12,000 / 3D</p>
+                    </div>
+                </div>
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
+                        <img src="image/new-arrival-3.png" alt="Product 3" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-zinc-400 uppercase tracking-widest block font-medium">Margiela</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate">Replica Knit</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥10,000 / 3D</p>
+                    </div>
+                </div>
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
+                        <img src="image/new-arrival-4.png" alt="Product 4" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-zinc-400 uppercase tracking-widest block font-medium">Gaultier</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate">Mesh Top</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥8,000 / 3D</p>
+                    </div>
+                </div>
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
+                        <img src="image/new-arrival-5.png" alt="Product 5" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-zinc-400 uppercase tracking-widest block font-medium">Archive</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate">Wool Blazer</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥14,000 / 3D</p>
+                    </div>
+                </div>
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
+                        <img src="image/new-arrival-6.png" alt="Product 6" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-zinc-400 uppercase tracking-widest block font-medium">Celine</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate">Silk Scarf</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥6,000 / 3D</p>
+                    </div>
+                </div>
+                <div class="flex-none w-[42%] md:w-[20%] snap-start flex flex-col items-center justify-center border border-zinc-200 aspect-[3/4] group cursor-pointer bg-zinc-50/50">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 text-center group-hover:text-black transition-colors">View All<br>Archives →</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Service Excellence (繊細な極細SVGアイコン & コンパクトレイアウト) -->
+        <section id="benefits" class="py-8 md:py-16 px-4 md:px-12 max-w-[1600px] mx-auto bg-white border-y border-zinc-200">
+            <div class="flex flex-col md:flex-row justify-between items-baseline mb-4 md:mb-10 border-b border-zinc-200 pb-3 md:pb-4">
+                <h3 class="serif text-2xl md:text-3xl italic">Service Excellence</h3>
+                <p class="text-[10px] text-zinc-400 uppercase tracking-[0.3em] mt-2 md:mt-0">Commitment to your creative process</p>
+            </div>
+            
+            <div class="grid grid-cols-2 lg:grid-cols-4 border-l border-t sm:border-l-0 sm:border-t-0 border-zinc-200">
+                <!-- 01: Hanger -->
+                <div class="p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 sm:border-l lg:border-t-0">
+                    <div class="text-zinc-900">
+                        <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2c0 2 2 3 2 5s-2 3-2 3-2-1-2-3 2-3 2-5z"/>
+                            <path d="M2 17c0-2 4-4 10-4s10 2 10 4v2H2v-2z"/>
+                            <path d="M12 10v3"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase">個性的な衣装に<br>出会える</h4>
+                    <p class="text-[10.5px] md:text-[12.5px] text-zinc-400 leading-relaxed font-medium">感性を刺激するピースをセレクト。LINE相談も可能です。</p>
+                </div>
+                <!-- 02: Clock -->
+                <div class="p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0">
+                    <div class="text-zinc-900">
+                        <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a9 9 0 1 0 5 1.5"/>
+                            <path d="M12 7v5l4 2"/>
+                            <circle cx="12" cy="12" r="0.5" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase">5泊6日の<br>柔軟なレンタル</h4>
+                    <p class="text-[10.5px] md:text-[12.5px] text-zinc-400 leading-relaxed font-medium">余裕を持った設定。急な撮影変更にも柔軟に対応します。</p>
+                </div>
+                <!-- 03: Box -->
+                <div class="p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0">
+                    <div class="text-zinc-900">
+                        <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/>
+                            <path d="M3 16.5l9 4.5 9-4.5"/>
+                            <path d="M3 7.5v9"/>
+                            <path d="M21 7.5v9"/>
+                            <path d="M12 12v9"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase">一定額以上で<br>送料無料</h4>
+                    <p class="text-[10.5px] md:text-[12.5px] text-zinc-400 leading-relaxed font-medium">8,000円〜返却無料。12,000円〜往復送料無料。</p>
+                </div>
+                <!-- 04: Sparkle -->
+                <div class="p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0">
+                    <div class="text-zinc-900">
+                        <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v4M12 17v4M3 12h4M17 12h4M18.5 5.5l-2.5 2.5M8 16l-2.5 2.5M5.5 5.5l2.5 2.5M16 16l2.5 2.5"/>
+                            <path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" stroke-dasharray="1 2"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase">プレス済みの<br>最高な状態で</h4>
+                    <p class="text-[10.5px] md:text-[12.5px] text-zinc-400 leading-relaxed font-medium">専属職人がプレスを施し、完璧な状態で直送します。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Categorized by Mood (モノトーンを廃止しカラー画像へ) -->
+        <section id="mood" class="py-12 md:py-24 px-4 md:px-12 max-w-[1600px] mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-baseline mb-6 md:mb-12 border-b border-zinc-200 pb-4 md:pb-6">
+                <h3 class="serif text-2xl md:text-4xl italic">Categorized by Mood</h3>
+                <p class="text-[10px] text-zinc-400 uppercase tracking-[0.3em] mt-2 md:mt-0">Select your visual direction</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8">
+                <a href="#" class="group block relative overflow-hidden bg-zinc-100 aspect-[3/4]">
+                    <img src="image/mood-minimal.jpg" alt="Minimal" class="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 md:p-8">
+                        <h4 class="serif text-xl md:text-4xl text-white font-light uppercase">Minimalism</h4>
+                    </div>
+                </a>
+                <a href="#" class="group block relative overflow-hidden bg-zinc-100 aspect-[3/4]">
+                    <img src="image/mood-avantgarde.jpg" alt="Avant-Garde" class="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 md:p-8">
+                        <h4 class="serif text-xl md:text-4xl text-white font-light uppercase">Avant-Garde</h4>
+                    </div>
+                </a>
+                <a href="#" class="group block relative overflow-hidden bg-zinc-100 aspect-[3/4] col-span-2 md:col-span-1">
+                    <img src="image/mood-heritage.jpg" alt="Heritage" class="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 md:p-8">
+                        <h4 class="serif text-xl md:text-4xl text-white font-light uppercase">Heritage</h4>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 5. Texture Section (こちらもカラーに変更し、質感を強調) -->
+        <section class="bg-zinc-900 text-white py-20 md:py-32">
+            <div class="max-w-[1600px] mx-auto px-6 md:px-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+                    <div>
+                        <h3 class="serif text-3xl md:text-7xl mb-6 md:mb-8 tracking-tight uppercase">Focus on<br><span class="italic text-zinc-400">Textural Elements</span></h3>
+                        <p class="text-zinc-400 text-[13px] md:text-sm leading-relaxed mb-10 md:mb-12 max-w-md font-light">素材本来の色彩と質感に基づいて分類されています。</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-5 md:gap-y-6 text-[10px] md:text-[11px] uppercase tracking-[0.25em]">
+                            <a href="#" class="flex items-center group"><span class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span> Heavy Leather</a>
+                            <a href="#" class="flex items-center group"><span class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span> Transparent Tulle</a>
+                            <a href="#" class="flex items-center group"><span class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span> Organic Wool</a>
+                            <a href="#" class="flex items-center group"><span class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span> Liquid Silk</a>
                         </div>
                     </div>
-                    <div>
-                        <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Editorial</p>
-                        <h4 class="text-[10px] md:text-[11px] font-medium uppercase truncate">Structural Asymmetric Gown</h4>
-                        <p class="text-xs font-semibold mt-1">¥18,000</p>
-                    </div>
-                </div>
-                <!-- Item 2 -->
-                <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
-                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
-                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
-                    <div>
-                        <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Noir</p>
-                        <h4 class="text-[10px] md:text-[11px] font-medium uppercase truncate">Deconstructed Wool Blazer</h4>
-                        <p class="text-xs font-semibold mt-1">¥14,000</p>
-                    </div>
-                </div>
-                <!-- Item 3 -->
-                <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
-                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
-                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
-                    <div>
-                        <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Minimal</p>
-                        <h4 class="text-[10px] md:text-[11px] font-medium uppercase truncate">Liquid Silk Drape Skirt</h4>
-                        <p class="text-xs font-semibold mt-1">¥12,000</p>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="product-card group cursor-pointer" onclick="location.href='product-show.html'">
-                    <div class="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
-                        <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
-                    <div>
-                        <p class="text-[8px] text-gray-400 tracking-widest mb-1 uppercase font-bold italic">Detail</p>
-                        <h4 class="text-[10px] md:text-[11px] font-medium uppercase truncate">Metallic Accessory Set</h4>
-                        <p class="text-xs font-semibold mt-1">¥4,500</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Category/Taste Selection -->
-        <section class="py-16 md:py-24 px-4 md:px-6 max-w-7xl mx-auto border-t border-gray-100">
-            <div class="text-center mb-12 md:mb-16">
-                <h3 class="text-xs font-bold tracking-[0.3em] uppercase mb-2 text-gray-400">Curated Look</h3>
-                <p class="text-gray-400 text-[10px] md:text-xs font-light">コンセプトに合わせた最適なアーカイブを</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <div class="group relative aspect-[4/5] overflow-hidden cursor-pointer" onclick="location.href='products.html'">
-                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition flex flex-col justify-end p-6 md:p-8 text-white">
-                        <p class="text-[10px] font-bold tracking-widest uppercase mb-1">Look 01</p>
-                        <h4 class="text-xl md:text-2xl font-light uppercase tracking-widest">Avant-Garde</h4>
-                    </div>
-                </div>
-                <div class="group relative aspect-[4/5] overflow-hidden cursor-pointer" onclick="location.href='products.html'">
-                    <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition flex flex-col justify-end p-6 md:p-8 text-white">
-                        <p class="text-[10px] font-bold tracking-widest uppercase mb-1">Look 02</p>
-                        <h4 class="text-xl md:text-2xl font-light uppercase tracking-widest">Modern Trad</h4>
-                    </div>
-                </div>
-                <div class="group relative aspect-[4/5] overflow-hidden cursor-pointer" onclick="location.href='products.html'">
-                    <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition flex flex-col justify-end p-6 md:p-8 text-white">
-                        <p class="text-[10px] font-bold tracking-widest uppercase mb-1">Look 03</p>
-                        <h4 class="text-xl md:text-2xl font-light uppercase tracking-widest">High Street</h4>
+                    <div class="grid grid-cols-2 gap-3 md:gap-4 mt-10 lg:mt-0">
+                        <img src="image/texture-left.jpg" alt="Texture Left" class="w-full aspect-square object-cover transition-opacity duration-700 hover:opacity-80">
+                        <img src="image/texture-right.jpg" alt="Texture Right" class="w-full aspect-square object-cover mt-6 md:mt-12 transition-opacity duration-700 hover:opacity-80">
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-100 p-8 md:p-12">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div class="text-center md:text-left">
-                <h4 class="text-xl font-bold mb-6 tracking-widest uppercase">Pro-Rent</h4>
-                <p class="text-gray-400 text-[10px] leading-loose">Premium rental archive for stylists and creators.<br>Based in Tokyo, Japan.</p>
-            </div>
-            <div class="text-center md:text-left">
-                <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6">Explore</h5>
-                <ul class="text-[11px] space-y-4 uppercase tracking-widest font-medium">
-                    <li><a href="products.html" class="hover:underline">Archive</a></li>
-                    <li><a href="#" class="hover:underline">Terms of Service</a></li>
-                </ul>
-            </div>
-            <div class="md:col-span-2">
-                <h5 class="text-[10px] font-bold uppercase text-gray-400 mb-6 font-semibold text-center md:text-left">Join Pro-Network</h5>
-                <div class="flex gap-2">
-                    <input type="text" placeholder="Email Address" class="flex-1 bg-gray-50 border-none px-4 py-3 text-xs outline-none focus:ring-1 focus:ring-black">
-                    <button class="bg-black text-white px-6 md:px-8 py-3 text-xs font-bold uppercase tracking-widest">Join</button>
-                </div>
-            </div>
-        </div>
+    <footer class="bg-white py-16 md:py-24 px-8 md:px-12 border-t border-zinc-200 text-center">
+        <h2 class="serif text-2xl md:text-3xl font-bold text-zinc-800 mb-6 tracking-tight">Archive Cabinet.</h2>
+        <p class="text-zinc-400 text-[9px] tracking-[0.3em] uppercase">© 2026 Archive Cabinet. All Rights Reserved.</p>
     </footer>
 
     <script>
-        // ドロワー制御
+        // Navigation Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
         const body = document.body;
-        const openNavBtn = document.getElementById('openNav');
 
-        const openNav = () => body.classList.add('nav-active');
-        const closeAllDrawers = () => {
-            body.classList.remove('nav-active', 'drawer-active');
-        };
+        function openMenu() {
+            mobileMenu.classList.add('active');
+            menuOverlay.style.opacity = '1';
+            menuOverlay.style.pointerEvents = 'auto';
+            body.style.overflow = 'hidden';
+            menuToggle.children[0].style.transform = "translateY(8px) rotate(45deg)";
+            menuToggle.children[1].style.opacity = "0";
+            menuToggle.children[2].style.transform = "translateY(-8px) rotate(-45deg)";
+            menuToggle.children[2].style.width = "100%";
+        }
 
-        if (openNavBtn) openNavBtn.addEventListener('click', openNav);
+        function closeMenu() {
+            mobileMenu.classList.remove('active');
+            menuOverlay.style.opacity = '0';
+            menuOverlay.style.pointerEvents = 'none';
+            body.style.overflow = '';
+            menuToggle.children[0].style.transform = "";
+            menuToggle.children[1].style.opacity = "1";
+            menuToggle.children[2].style.transform = "";
+            menuToggle.children[2].style.width = "";
+        }
 
-        // キーボード操作対応 (ESCで閉じる)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeAllDrawers();
+        menuToggle.addEventListener('click', openMenu);
+        menuClose.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+
+        // Slider Drag Logic
+        const slider = document.getElementById('new-arrivals-slider');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('dragging');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('dragging');
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('dragging');
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; 
+            slider.scrollLeft = scrollLeft - walk;
         });
     </script>
 </body>
