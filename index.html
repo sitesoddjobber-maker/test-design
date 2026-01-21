@@ -135,16 +135,11 @@
         .mood-card img {
             transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
             transform-origin: center center;
+            will-change: transform;
         }
 
         .mood-card:hover img {
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 768px) {
-            .group:hover img {
-                transform: none !important;
-            }
+            transform: scale(1.08);
         }
 
         @keyframes shimmer {
@@ -155,6 +150,20 @@
             100% {
                 transform: translateX(200%) skewX(-12deg);
             }
+        }
+
+        .shimmer-effect {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-12deg);
+        }
+
+        .group:hover .shimmer-effect {
+            animation: shimmer 1.5s infinite;
         }
     </style>
 </head>
@@ -397,7 +406,7 @@
             </div>
         </section>
 
-        <!-- 3. Service Excellence (Hoverable Delicate Icons) -->
+        <!-- 3. Service Excellence -->
         <section id="benefits"
             class="py-8 md:py-16 px-4 md:px-12 max-w-[1600px] mx-auto bg-white border-y border-zinc-200">
             <div
@@ -408,7 +417,6 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-4 border-l border-t sm:border-l-0 sm:border-t-0 border-zinc-200">
-                <!-- 01: Hanger -->
                 <div
                     class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 sm:border-l lg:border-t-0 cursor-default">
                     <div class="text-zinc-900">
@@ -424,7 +432,6 @@
                     <p class="text-[10.5px] md:text-[12.5px] text-zinc-400 leading-relaxed font-medium">
                         感性を刺激するピースをセレクト。LINE相談も可能です。</p>
                 </div>
-                <!-- 02: Clock -->
                 <div
                     class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0 cursor-default">
                     <div class="text-zinc-900">
@@ -440,7 +447,6 @@
                     <p class="text-[10.5px] md:text-[12.5px] text-zinc-400 leading-relaxed font-medium">
                         余裕を持った設定。急な撮影変更にも柔軟に対応します。</p>
                 </div>
-                <!-- 03: Box -->
                 <div
                     class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0 cursor-default">
                     <div class="text-zinc-900">
@@ -458,7 +464,6 @@
                     <p class="text-[10.5px] md:text-[12.5px] text-zinc-400 leading-relaxed font-medium">
                         8,000円〜返却無料。12,000円〜往復送料無料。</p>
                 </div>
-                <!-- 04: Sparkle -->
                 <div
                     class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0 cursor-default">
                     <div class="text-zinc-900">
@@ -477,7 +482,7 @@
             </div>
         </section>
 
-        <!-- Official LINE Service Bar (Aesthetic Gradient) -->
+        <!-- Official LINE Service Bar -->
         <section id="line-bar"
             class="bg-gradient-to-l from-[#058a3e] via-[#06C755] to-[#25e173] text-white py-8 md:py-14 cursor-pointer hover:brightness-105 transition-all duration-700 group border-b border-white/5 relative overflow-hidden">
             <div
@@ -502,9 +507,39 @@
                     </div>
                 </div>
             </div>
+            <div class="shimmer-effect z-5 block"></div>
         </section>
 
-        <!-- 4. Categorized by Mood (Centering Zoom Effect) -->
+        <!-- Official Instagram Bar (New Section) -->
+        <section id="instagram-bar"
+            class="bg-gradient-to-l from-[#515BD4] via-[#DD2A7B] to-[#FEDA77] text-white py-8 md:py-14 cursor-pointer hover:brightness-105 transition-all duration-700 group border-b border-white/5 relative overflow-hidden">
+            <div
+                class="max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-16 relative z-10">
+                <div class="flex flex-col items-center md:items-end">
+                    <span
+                        class="serif italic font-light text-[22px] md:text-4xl tracking-[0.1em] leading-none drop-shadow-md">Official
+                        Instagram</span>
+                    <span class="text-[8px] md:text-[10px] tracking-[0.4em] uppercase opacity-70 mt-1">Lookbook &
+                        Trends</span>
+                </div>
+                <div class="flex items-center space-x-6 md:space-x-10">
+                    <div class="h-8 md:h-12 w-[1px] bg-white/30 hidden md:block"></div>
+                    <span
+                        class="text-sm md:text-2xl font-semibold tracking-[0.2em] drop-shadow-sm">instagramはこちらから</span>
+                    <div
+                        class="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border border-white/30 group-hover:border-white group-hover:bg-white/10 transition-all duration-500">
+                        <svg class="w-5 h-5 md:w-7 md:h-7 transform group-hover:translate-x-1 transition-transform duration-500"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="shimmer-effect z-5 block"></div>
+        </section>
+
+        <!-- 4. Categorized by Mood -->
         <section id="mood" class="py-12 md:py-24 px-4 md:px-12 max-w-[1600px] mx-auto">
             <div
                 class="flex flex-col md:flex-row justify-between items-baseline mb-6 md:mb-12 border-b border-zinc-200 pb-4 md:pb-6">
@@ -513,7 +548,6 @@
                     direction</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8">
-
                 <a href="#"
                     class="mood-card group block relative overflow-hidden bg-zinc-100 aspect-[3/4] col-span-2 md:col-span-1">
                     <img src="image/mood-heritage.jpg" alt="Heritage" class="w-full h-full object-cover">
@@ -522,6 +556,7 @@
                         <h4 class="serif text-xl md:text-4xl text-white font-light uppercase">Heritage</h4>
                     </div>
                 </a>
+
                 <a href="#" class="mood-card group block relative overflow-hidden bg-zinc-100 aspect-[3/4]">
                     <img src="image/mood-minimal.jpg" alt="Minimal" class="w-full h-full object-cover">
                     <div
