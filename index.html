@@ -7,7 +7,7 @@
     <title>MIDEHYAH - Online Rental Clothing Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;900&display=swap"
         rel="stylesheet">
     <style>
         body {
@@ -45,7 +45,7 @@
             scroll-behavior: smooth;
         }
 
-        /* 無限ループスライダー（マーキー） */
+        /* 無限ループスライダー */
         @keyframes marquee {
             0% {
                 transform: translateX(0);
@@ -107,7 +107,7 @@
             scroll-snap-align: start;
         }
 
-        /* 商品スライダードラッグ */
+        /* 商品スライダードラッグ（PC用） */
         #new-arrivals-slider {
             cursor: grab;
             user-select: none;
@@ -121,9 +121,39 @@
             scroll-snap-type: none;
         }
 
+        /* ホバーアニメーション：アイコン */
+        .benefit-card svg {
+            transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1), color 0.4s ease;
+        }
+
+        .benefit-card:hover svg {
+            transform: translateY(-8px) scale(1.1);
+            color: #000;
+        }
+
+        /* ホバーアニメーション：画像ズーム */
+        .mood-card img {
+            transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+            transform-origin: center center;
+        }
+
+        .mood-card:hover img {
+            transform: scale(1.1);
+        }
+
         @media (max-width: 768px) {
             .group:hover img {
                 transform: none !important;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) skewX(-12deg);
+            }
+
+            100% {
+                transform: translateX(200%) skewX(-12deg);
             }
         }
     </style>
@@ -211,7 +241,7 @@
         class="fixed inset-0 bg-black/40 z-[55] opacity-0 pointer-events-none transition-opacity duration-500"></div>
 
     <main>
-        <!-- 1. Hero Section (Height optimized & Content repositioned to Bottom) -->
+        <!-- 1. Hero Section -->
         <section class="h-[50vh] lg:h-[80vh] w-full relative overflow-hidden bg-zinc-900">
             <img src="image/hero-main.jpg" alt="Midehyah Hero" class="w-full h-full object-cover opacity-60">
             <div
@@ -225,7 +255,6 @@
                     オンラインのお洋服レンタルショップ "Midehyah（ミデヤ）"<br class="hidden md:block">
                     ー かわいいお洋服をリーズナブルなお値段でお届け
                 </p>
-                <!-- Dual Action Buttons -->
                 <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
                     <a href="#new-arrivals"
                         class="border border-white/40 hover:border-white px-10 py-3.5 md:py-4 text-[9px] md:text-[10px] uppercase tracking-[0.25em] transition-all bg-white/5 backdrop-blur-sm">商品一覧はこちら</a>
@@ -249,6 +278,7 @@
                             class="text-white font-bold whitespace-nowrap">発送 / 返却時の送料無料</span></span>
                     <span class="w-1 h-1 bg-zinc-600 rounded-full"></span>
                 </div>
+                <!-- Loop connection -->
                 <div class="flex items-center space-x-12 px-6">
                     <span class="text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase">今月の新作品：<span
                             class="text-white font-bold">２４品</span></span>
@@ -263,7 +293,7 @@
             </div>
         </div>
 
-        <!-- 2. New Arrivals -->
+        <!-- 2. New Arrivals (Horizontal Slider) -->
         <section id="new-arrivals" class="py-12 md:py-20 px-4 md:px-12 max-w-[1600px] mx-auto overflow-hidden">
             <div
                 class="flex flex-col md:flex-row justify-between items-baseline mb-6 md:mb-12 border-b border-zinc-200 pb-4 md:pb-6">
@@ -278,7 +308,7 @@
 
             <div id="new-arrivals-slider"
                 class="flex overflow-x-auto hide-scrollbar snap-x-mandatory gap-x-4 md:gap-x-6">
-                <!-- Item 1-6 -->
+                <!-- Item 1 -->
                 <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
                     <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
                         <img src="image/new-arrival-1.png" alt="Product 1"
@@ -292,6 +322,7 @@
                         <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥18,000 / 3D</p>
                     </div>
                 </div>
+                <!-- Item 2 -->
                 <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
                     <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
                         <img src="image/new-arrival-2.png" alt="Product 2"
@@ -304,6 +335,7 @@
                         <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥12,000 / 3D</p>
                     </div>
                 </div>
+                <!-- Item 3 -->
                 <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
                     <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
                         <img src="image/new-arrival-3.png" alt="Product 3"
@@ -316,6 +348,7 @@
                         <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥10,000 / 3D</p>
                     </div>
                 </div>
+                <!-- Item 4 -->
                 <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
                     <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
                         <img src="image/new-arrival-4.png" alt="Product 4"
@@ -328,6 +361,7 @@
                         <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥8,000 / 3D</p>
                     </div>
                 </div>
+                <!-- Item 5 -->
                 <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
                     <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
                         <img src="image/new-arrival-5.png" alt="Product 5"
@@ -340,6 +374,7 @@
                         <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥14,000 / 3D</p>
                     </div>
                 </div>
+                <!-- Item 6 -->
                 <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
                     <div class="aspect-[3/4] overflow-hidden bg-zinc-100 mb-3 relative">
                         <img src="image/new-arrival-6.png" alt="Product 6"
@@ -352,16 +387,17 @@
                         <p class="text-[10px] md:text-[11px] font-black text-zinc-900 mt-0.5">¥6,000 / 3D</p>
                     </div>
                 </div>
+                <!-- View All Dummy -->
                 <div
                     class="flex-none w-[42%] md:w-[20%] snap-start flex flex-col items-center justify-center border border-zinc-200 aspect-[3/4] group cursor-pointer bg-zinc-50/50">
                     <span
-                        class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 text-center group-hover:text-black transition-colors">View
+                        class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 text-center group-hover:text-black transition-colors px-4">View
                         All<br>Archives →</span>
                 </div>
             </div>
         </section>
 
-        <!-- 3. Service Excellence (繊細な極細SVGアイコン & コンパクトレイアウト) -->
+        <!-- 3. Service Excellence (Hoverable Delicate Icons) -->
         <section id="benefits"
             class="py-8 md:py-16 px-4 md:px-12 max-w-[1600px] mx-auto bg-white border-y border-zinc-200">
             <div
@@ -374,7 +410,7 @@
             <div class="grid grid-cols-2 lg:grid-cols-4 border-l border-t sm:border-l-0 sm:border-t-0 border-zinc-200">
                 <!-- 01: Hanger -->
                 <div
-                    class="p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 sm:border-l lg:border-t-0">
+                    class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 sm:border-l lg:border-t-0 cursor-default">
                     <div class="text-zinc-900">
                         <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
@@ -390,7 +426,7 @@
                 </div>
                 <!-- 02: Clock -->
                 <div
-                    class="p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0">
+                    class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0 cursor-default">
                     <div class="text-zinc-900">
                         <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
@@ -406,7 +442,7 @@
                 </div>
                 <!-- 03: Box -->
                 <div
-                    class="p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0">
+                    class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0 cursor-default">
                     <div class="text-zinc-900">
                         <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
@@ -424,7 +460,7 @@
                 </div>
                 <!-- 04: Sparkle -->
                 <div
-                    class="p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0">
+                    class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-zinc-200 lg:border-t-0 cursor-default">
                     <div class="text-zinc-900">
                         <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
@@ -441,7 +477,34 @@
             </div>
         </section>
 
-        <!-- 4. Categorized by Mood -->
+        <!-- Official LINE Service Bar (Aesthetic Gradient) -->
+        <section id="line-bar"
+            class="bg-gradient-to-l from-[#058a3e] via-[#06C755] to-[#25e173] text-white py-8 md:py-14 cursor-pointer hover:brightness-105 transition-all duration-700 group border-b border-white/5 relative overflow-hidden">
+            <div
+                class="max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-16 relative z-10">
+                <div class="flex flex-col items-center md:items-end">
+                    <span
+                        class="serif italic font-light text-[22px] md:text-4xl tracking-[0.1em] leading-none drop-shadow-md">Official
+                        LINE Service</span>
+                    <span class="text-[8px] md:text-[10px] tracking-[0.4em] uppercase opacity-70 mt-1">Concierge
+                        Support</span>
+                </div>
+                <div class="flex items-center space-x-6 md:space-x-10">
+                    <div class="h-8 md:h-12 w-[1px] bg-white/30 hidden md:block"></div>
+                    <span class="text-sm md:text-2xl font-semibold tracking-[0.2em] drop-shadow-sm">お問合せはこちらから</span>
+                    <div
+                        class="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border border-white/30 group-hover:border-white group-hover:bg-white/10 transition-all duration-500">
+                        <svg class="w-5 h-5 md:w-7 md:h-7 transform group-hover:translate-x-1 transition-transform duration-500"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Categorized by Mood (Centering Zoom Effect) -->
         <section id="mood" class="py-12 md:py-24 px-4 md:px-12 max-w-[1600px] mx-auto">
             <div
                 class="flex flex-col md:flex-row justify-between items-baseline mb-6 md:mb-12 border-b border-zinc-200 pb-4 md:pb-6">
@@ -452,25 +515,22 @@
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8">
 
                 <a href="#"
-                    class="group block relative overflow-hidden bg-zinc-100 aspect-[3/4] col-span-2 md:col-span-1">
-                    <img src="image/mood-heritage.jpg" alt="Heritage"
-                        class="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-105">
+                    class="mood-card group block relative overflow-hidden bg-zinc-100 aspect-[3/4] col-span-2 md:col-span-1">
+                    <img src="image/mood-heritage.jpg" alt="Heritage" class="w-full h-full object-cover">
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 md:p-8">
                         <h4 class="serif text-xl md:text-4xl text-white font-light uppercase">Heritage</h4>
                     </div>
                 </a>
-                <a href="#" class="group block relative overflow-hidden bg-zinc-100 aspect-[3/4]">
-                    <img src="image/mood-minimal.jpg" alt="Minimal"
-                        class="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-105">
+                <a href="#" class="mood-card group block relative overflow-hidden bg-zinc-100 aspect-[3/4]">
+                    <img src="image/mood-minimal.jpg" alt="Minimal" class="w-full h-full object-cover">
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 md:p-8">
                         <h4 class="serif text-xl md:text-4xl text-white font-light uppercase">Minimalism</h4>
                     </div>
                 </a>
-                <a href="#" class="group block relative overflow-hidden bg-zinc-100 aspect-[3/4]">
-                    <img src="image/mood-avantgarde.jpg" alt="Avant-Garde"
-                        class="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-105">
+                <a href="#" class="mood-card group block relative overflow-hidden bg-zinc-100 aspect-[3/4]">
+                    <img src="image/mood-avantgarde.jpg" alt="Avant-Garde" class="w-full h-full object-cover">
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 md:p-8">
                         <h4 class="serif text-xl md:text-4xl text-white font-light uppercase">Avant-Garde</h4>
@@ -480,38 +540,55 @@
             </div>
         </section>
 
-        <!-- 5. Texture Section -->
-        <section class="bg-zinc-900 text-white py-20 md:py-32">
-            <div class="max-w-[1600px] mx-auto px-6 md:px-12">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
-                    <div>
-                        <h3 class="serif text-3xl md:text-7xl mb-6 md:mb-8 tracking-tight uppercase">Focus on<br><span
-                                class="italic text-zinc-400">Textural Elements</span></h3>
-                        <p
-                            class="text-zinc-400 text-[13px] md:text-sm leading-relaxed mb-10 md:mb-12 max-w-md font-light">
-                            素材本来の色彩と質感に基づいて分類されています。</p>
-                        <div
-                            class="grid grid-cols-1 sm:grid-cols-2 gap-y-5 md:gap-y-6 text-[10px] md:text-[11px] uppercase tracking-[0.25em]">
-                            <a href="#" class="flex items-center group"><span
-                                    class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span> Heavy
-                                Leather</a>
-                            <a href="#" class="flex items-center group"><span
-                                    class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-                                Transparent Tulle</a>
-                            <a href="#" class="flex items-center group"><span
-                                    class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span> Organic
-                                Wool</a>
-                            <a href="#" class="flex items-center group"><span
-                                    class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span> Liquid
-                                Silk</a>
-                        </div>
+        <!-- 5. Shop Attention & Guide Section -->
+        <section id="shop-attention"
+            class="py-16 md:py-24 px-6 md:px-12 max-w-[800px] mx-auto text-center border-t border-zinc-100 bg-white">
+            <div class="space-y-12">
+                <div class="space-y-2">
+                    <span
+                        class="serif italic text-[11px] md:text-[13px] text-zinc-400 tracking-[0.3em] uppercase">Important
+                        Notice</span>
+                    <h3 class="text-xl md:text-2xl font-bold tracking-[0.1em] text-zinc-900 leading-tight">当店はレンタルショップです
+                    </h3>
+                    <p class="text-[10px] md:text-[11px] text-zinc-400 tracking-[0.2em] font-medium">以下の点にご注意ください</p>
+                </div>
+
+                <div class="text-left space-y-8 border-y border-zinc-100 py-10">
+                    <div class="flex space-x-6 items-start group">
+                        <span
+                            class="serif italic text-2xl md:text-3xl text-zinc-200 leading-none group-hover:text-zinc-800 transition-colors">01</span>
+                        <p class="text-[11px] md:text-[13px] leading-relaxed text-zinc-600 font-medium">
+                            表示価格は5泊6日のレンタル価格になります</p>
                     </div>
-                    <div class="grid grid-cols-2 gap-3 md:gap-4 mt-10 lg:mt-0">
-                        <img src="image/texture-left.jpg" alt="Texture Left"
-                            class="w-full aspect-square object-cover transition-opacity duration-700 hover:opacity-80">
-                        <img src="image/texture-right.jpg" alt="Texture Right"
-                            class="w-full aspect-square object-cover mt-6 md:mt-12 transition-opacity duration-700 hover:opacity-80">
+                    <div class="flex space-x-6 items-start group">
+                        <span
+                            class="serif italic text-2xl md:text-3xl text-zinc-200 leading-none group-hover:text-zinc-800 transition-colors">02</span>
+                        <p class="text-[11px] md:text-[13px] leading-relaxed text-zinc-600 font-medium">初めてご利用の方は必ず「<a
+                                href="#" class="underline underline-offset-4 hover:text-black">レンタルの流れ</a>」をご一読ください</p>
                     </div>
+                    <div class="flex space-x-6 items-start group">
+                        <span
+                            class="serif italic text-2xl md:text-3xl text-zinc-200 leading-none group-hover:text-zinc-800 transition-colors">03</span>
+                        <p class="text-[11px] md:text-[13px] leading-relaxed text-zinc-600 font-medium">
+                            当店からのメールが迷惑メールへ振り分けされている場合がございます。取引終了までにメールをご確認ください</p>
+                    </div>
+                    <div class="flex space-x-6 items-start group">
+                        <span
+                            class="serif italic text-2xl md:text-3xl text-zinc-200 leading-none group-hover:text-zinc-800 transition-colors">04</span>
+                        <p class="text-[11px] md:text-[13px] leading-relaxed text-zinc-600 font-medium">
+                            配送地域によって到着日が異なります。お日にちには余裕を持ってご注文くださいませ</p>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <p class="text-[11px] md:text-[13px] text-zinc-500 leading-relaxed font-medium">
+                        レンタルや商品についての質問は、<br class="md:hidden">
+                        公式LINEからお気軽にお問い合わせくださいませ。
+                    </p>
+                    <a href="#"
+                        class="inline-block bg-[#06C755] text-white px-12 md:px-20 py-4 md:py-5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.3em] rounded-full hover:shadow-xl hover:shadow-[#06C755]/20 transition-all duration-500 transform hover:-translate-y-1">
+                        公式LINEで問合せる →
+                    </a>
                 </div>
             </div>
         </section>
