@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHIVE CABINET - High-End Leasing for Professionals</title>
+    <title>MIDEHYAH - Online Rental Clothing Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -37,7 +37,7 @@
             scroll-behavior: smooth;
         }
 
-        /* 無限ループスライダー */
+        /* 無限ループスライダー（マーキー） */
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -116,12 +116,12 @@
                 <span class="block w-6 h-0.5 transition-transform duration-300"></span>
                 <span class="block w-4 h-0.5 self-start transition-transform duration-300"></span>
             </button>
-            <h1 class="serif text-lg md:text-3xl font-bold tracking-tight whitespace-nowrap">Archive Cabinet.</h1>
+            <h1 class="serif text-lg md:text-3xl font-bold tracking-tight whitespace-nowrap">Midehyah.</h1>
             <nav class="hidden lg:flex space-x-8 text-[10px] font-semibold uppercase tracking-[0.2em]">
-                <a href="#" class="nav-link">Editorial</a>
-                <a href="#" class="nav-link">By Era</a>
-                <a href="#" class="nav-link">By Texture</a>
-                <a href="#" class="nav-link">Showroom</a>
+                <a href="#" class="nav-link">New Arrivals</a>
+                <a href="#" class="nav-link">Category</a>
+                <a href="#" class="nav-link">Styling</a>
+                <a href="#" class="nav-link">About Us</a>
             </nav>
         </div>
         <div class="flex items-center space-x-2 md:space-x-8 text-[10px] font-semibold uppercase tracking-[0.2em]">
@@ -132,8 +132,8 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                 <span class="absolute top-2 right-2 w-1.5 h-1.5 bg-white rounded-full"></span>
             </button>
-            <a href="#" class="hidden md:block nav-link">Client Service</a>
-            <a href="#" class="hidden md:block bg-white text-black px-6 py-3 rounded-full hover:bg-zinc-200 transition-colors">Request Account</a>
+            <a href="#" class="hidden md:block nav-link">Customer Care</a>
+            <a href="#" class="hidden md:block bg-white text-black px-6 py-3 rounded-full hover:bg-zinc-200 transition-colors">Login / Sign up</a>
         </div>
     </header>
 
@@ -163,14 +163,20 @@
     <div id="menu-overlay" class="fixed inset-0 bg-black/40 z-[55] opacity-0 pointer-events-none transition-opacity duration-500"></div>
 
     <main>
-        <!-- 1. Hero Section -->
-        <section class="h-[60vh] lg:h-[90vh] w-full relative overflow-hidden bg-zinc-900">
-            <img src="image/hero-main.jpg" alt="Hero Main" class="w-full h-full object-cover opacity-70">
-            <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white px-6">
-                <span class="serif italic text-sm md:text-2xl mb-3 md:mb-6 text-zinc-300">New Season In-Stock</span>
-                <h2 class="serif text-4xl md:text-8xl font-light leading-tight mb-8 md:mb-10 tracking-tight">The Sculptural<br>Silhouette.</h2>
-                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                    <a href="#new-arrivals" class="border border-white/40 hover:border-white px-10 py-4 md:py-4 text-[10px] uppercase tracking-[0.25em] transition-all bg-white/5 backdrop-blur-sm">Explore Collection</a>
+        <!-- 1. Hero Section (Height optimized & Content repositioned to Bottom) -->
+        <section class="h-[50vh] lg:h-[80vh] w-full relative overflow-hidden bg-zinc-900">
+            <img src="image/hero-main.jpg" alt="Midehyah Hero" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 flex flex-col justify-end items-center text-center text-white px-6 pb-12 md:pb-24">
+                <span class="serif italic text-xs md:text-2xl mb-3 md:mb-6 text-zinc-300 tracking-[0.3em] uppercase">- Online rental shop - MIDEHYAH</span>
+                <h2 class="serif text-4xl md:text-8xl font-light leading-tight mb-4 md:mb-6 tracking-tight">Midehyah</h2>
+                <p class="text-[10px] md:text-lg font-light tracking-widest mb-8 md:mb-12 max-w-2xl leading-loose text-zinc-100">
+                    オンラインのお洋服レンタルショップ "Midehyah（ミデヤ）"<br class="hidden md:block">
+                    ー かわいいお洋服をリーズナブルなお値段でお届け
+                </p>
+                <!-- Dual Action Buttons -->
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                    <a href="#new-arrivals" class="border border-white/40 hover:border-white px-10 py-3.5 md:py-4 text-[9px] md:text-[10px] uppercase tracking-[0.25em] transition-all bg-white/5 backdrop-blur-sm">商品一覧はこちら</a>
+                    <a href="#" class="border border-white/40 hover:border-white px-10 py-3.5 md:py-4 text-[9px] md:text-[10px] uppercase tracking-[0.25em] transition-all bg-white/5 backdrop-blur-sm">レンタルの流れはこちら</a>
                 </div>
             </div>
         </section>
@@ -335,7 +341,7 @@
             </div>
         </section>
 
-        <!-- 4. Categorized by Mood (モノトーンを廃止しカラー画像へ) -->
+        <!-- 4. Categorized by Mood -->
         <section id="mood" class="py-12 md:py-24 px-4 md:px-12 max-w-[1600px] mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-baseline mb-6 md:mb-12 border-b border-zinc-200 pb-4 md:pb-6">
                 <h3 class="serif text-2xl md:text-4xl italic">Categorized by Mood</h3>
@@ -363,7 +369,7 @@
             </div>
         </section>
 
-        <!-- 5. Texture Section (こちらもカラーに変更し、質感を強調) -->
+        <!-- 5. Texture Section -->
         <section class="bg-zinc-900 text-white py-20 md:py-32">
             <div class="max-w-[1600px] mx-auto px-6 md:px-12">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
@@ -387,8 +393,8 @@
     </main>
 
     <footer class="bg-white py-16 md:py-24 px-8 md:px-12 border-t border-zinc-200 text-center">
-        <h2 class="serif text-2xl md:text-3xl font-bold text-zinc-800 mb-6 tracking-tight">Archive Cabinet.</h2>
-        <p class="text-zinc-400 text-[9px] tracking-[0.3em] uppercase">© 2026 Archive Cabinet. All Rights Reserved.</p>
+        <h2 class="serif text-2xl md:text-3xl font-bold text-zinc-800 mb-6 tracking-tight">Midehyah.</h2>
+        <p class="text-zinc-400 text-[9px] tracking-[0.3em] uppercase">© 2026 Midehyah. All Rights Reserved.</p>
     </footer>
 
     <script>
