@@ -1,118 +1,618 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>テストサイト入り口</title>
+    <title>MIDEHYAH - Online Rental Clothing Shop</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;900&family=Jost:wght@300;400;500;600&family=Kiwi+Maru:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'kawaii-pink': '#ffe4e6', /* rose-100 */
+                        'kawaii-pink-dark': '#fda4af', /* rose-300 */
+                        'kawaii-beige': '#fafaf9', /* stone-50 */
+                        'kawaii-brown': '#78716c', /* stone-500 */
+                        'kawaii-text': '#44403c', /* stone-700 */
+                        'kawaii-accent': '#f43f5e', /* rose-500 */
+                    },
+                    fontFamily: {
+                        'sans': ['"Jost"', 'sans-serif'],
+                        'serif': ['"Zen Old Mincho"', 'serif'],
+                        'maru': ['"Kiwi Maru"', 'serif'],
+                        'inter': ['"Inter"', 'sans-serif'],           
+                        'garamond': ['"Cormorant Garamond"', 'serif'], 
+                    },
+                    backgroundImage: {
+                        'dot-pattern': "radial-gradient(#e7e5e4 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            font-family: 'Zen Old Mincho', serif;
+            background-color: #fffdfc;
+            color: #44403c;
+            background-image: radial-gradient(#f0e8e8 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            -webkit-tap-highlight-color: transparent;
         }
-        /* 背景の微細なドットパターン */
-        .bg-dots {
-            background-image: radial-gradient(#4b5563 1px, transparent 1px);
-            background-size: 20px 20px;
+
+        /* Fonts */
+        .eng-font { font-family: 'Jost', sans-serif; }
+        .maru-font { font-family: 'Kiwi Maru', serif; }
+        .inter-font { font-family: 'Inter', sans-serif; }
+
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fda4af;
+            transition: width 0.3s ease;
+            border-radius: 99px;
         }
+        .nav-link:hover::after { width: 100%; }
+
+        html { scroll-behavior: smooth; }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: fit-content;
+            animation: marquee 40s linear infinite;
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.active { transform: translateX(0); }
+
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+        .category-item.active>.category-content { max-height: 500px; }
+        .category-item.active>button #category-icon { transform: rotate(180deg); }
+
+        /* Benefit Icons Hover */
+        .benefit-card svg {
+            transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1), color 0.4s ease;
+        }
+        .benefit-card:hover svg {
+            transform: translateY(-8px) scale(1.1);
+            color: #f43f5e; 
+        }
+
+        /* Mood Card Hover */
+        .mood-card img {
+            transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+            transform-origin: center center;
+            will-change: transform;
+        }
+        .mood-card:hover img { transform: scale(1.08); }
+        .mood-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+        }
+
+        /* Shimmer Effect */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) skewX(-12deg); }
+            100% { transform: translateX(200%) skewX(-12deg); }
+        }
+        .shimmer-effect {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: skewX(-12deg);
+        }
+        .group:hover .shimmer-effect { animation: shimmer 1.5s infinite; }
+
+        /* Header Scroll Effect */
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        /* Slider Styles */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .snap-x-mandatory { scroll-snap-type: x mandatory; }
+        .snap-start { scroll-snap-align: start; }
+        #new-arrivals-slider { cursor: grab; user-select: none; }
+        #new-arrivals-slider:active { cursor: grabbing; }
+        #new-arrivals-slider.dragging { scroll-snap-type: none; }
     </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center antialiased relative overflow-hidden">
 
-    <!-- 背景装飾 -->
-    <div class="absolute inset-0 bg-dots opacity-20 pointer-events-none"></div>
-    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
-    <div class="absolute bottom-0 right-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
+<body class="selection:bg-rose-200 selection:text-rose-900">
 
-    <!-- メインコンテンツエリア -->
-    <main class="w-full max-w-lg p-6 relative z-10">
-        
-        <div class="space-y-6">
-            <!-- サンプル1へのリンク -->
-            <a href="test1.html" class="group block relative w-full">
-                <!-- 光るボーダーエフェクト -->
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-500"></div>
-                
-                <!-- カード本体 -->
-                <div class="relative flex items-center justify-between bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:bg-gray-800/90 transition-all duration-300">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold tracking-[0.2em] text-pink-400 mb-2 font-mono">SAMPLE 01</span>
-                        <h2 class="text-2xl font-bold text-white group-hover:text-pink-100 transition-colors">サンプル１はこちら</h2>
-                    </div>
-                    
-                    <!-- アイコン -->
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gray-700/50 group-hover:bg-pink-500/20 group-hover:scale-110 transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 group-hover:text-pink-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </div>
-                </div>
-            </a>
-
-            <!-- サンプル2へのリンク -->
-            <a href="test2.html" class="group block relative w-full">
-                <!-- 光るボーダーエフェクト -->
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-500"></div>
-                
-                <!-- カード本体 -->
-                <div class="relative flex items-center justify-between bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:bg-gray-800/90 transition-all duration-300">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold tracking-[0.2em] text-pink-400 mb-2 font-mono">SAMPLE 02</span>
-                        <h2 class="text-2xl font-bold text-white group-hover:text-pink-100 transition-colors">サンプル２はこちら</h2>
-                    </div>
-                    
-                    <!-- アイコン -->
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gray-700/50 group-hover:bg-pink-500/20 group-hover:scale-110 transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 group-hover:text-pink-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </div>
-                </div>
-            </a>
-
-            <!-- サンプル3へのリンク -->
-            <a href="test3.html" class="group block relative w-full">
-                <!-- 光るボーダーエフェクト -->
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-500"></div>
-                
-                <!-- カード本体 -->
-                <div class="relative flex items-center justify-between bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:bg-gray-800/90 transition-all duration-300">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold tracking-[0.2em] text-pink-400 mb-2 font-mono">SAMPLE 03</span>
-                        <h2 class="text-2xl font-bold text-white group-hover:text-pink-100 transition-colors">サンプル３はこちら</h2>
-                    </div>
-                    
-                    <!-- アイコン -->
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gray-700/50 group-hover:bg-pink-500/20 group-hover:scale-110 transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 group-hover:text-pink-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </div>
-                </div>
-            </a>
-
-            <!-- サンプル4へのリンク -->
-            <a href="test4.html" class="group block relative w-full">
-                <!-- 光るボーダーエフェクト -->
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-500"></div>
-                
-                <!-- カード本体 -->
-                <div class="relative flex items-center justify-between bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:bg-gray-800/90 transition-all duration-300">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold tracking-[0.2em] text-pink-400 mb-2 font-mono">SAMPLE 04</span>
-                        <h2 class="text-2xl font-bold text-white group-hover:text-pink-100 transition-colors">サンプル４はこちら</h2>
-                    </div>
-                    
-                    <!-- アイコン -->
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gray-700/50 group-hover:bg-pink-500/20 group-hover:scale-110 transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 group-hover:text-pink-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </div>
-                </div>
-            </a>
+    <!-- Global Navigation -->
+    <header class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-rose-100 py-3 md:py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center space-x-4 md:space-x-12">
+            <h1>
+                <a href="#" class="block hover:opacity-80 transition-opacity">
+                    <span class="maru-font text-xl md:text-3xl font-medium tracking-tight text-rose-900 flex items-center gap-2">
+                        <span class="bg-rose-100 text-rose-500 rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-sm md:text-lg">M</span>
+                        Midehyah.
+                    </span>
+                </a>
+            </h1>
+            
+            <nav class="hidden lg:flex space-x-8 text-[13px] font-medium tracking-wide text-stone-600 eng-font">
+                <a href="#new-arrivals" class="nav-link hover:text-rose-400 transition-colors">New Arrivals</a>
+                <a href="#benefits" class="nav-link hover:text-rose-400 transition-colors">Why Midehyah?</a>
+                <a href="#mood" class="nav-link hover:text-rose-400 transition-colors">Mood</a>
+                <a href="#" class="nav-link hover:text-rose-400 transition-colors">Guide</a>
+            </nav>
         </div>
+
+        <div class="flex items-center space-x-3 md:space-x-6">
+            <button class="p-2 text-stone-500 hover:text-rose-400 hover:bg-rose-50 rounded-full transition-colors focus:outline-none" aria-label="Search">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </button>
+            <button class="p-2 text-stone-500 hover:text-rose-400 hover:bg-rose-50 rounded-full transition-colors focus:outline-none relative" aria-label="Cart">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-400 rounded-full ring-2 ring-white"></span>
+            </button>
+            <a href="#" class="hidden md:block bg-rose-400 text-white px-6 py-2.5 rounded-full text-xs font-bold tracking-wider hover:bg-rose-500 hover:shadow-lg hover:shadow-rose-200 transition-all transform hover:-translate-y-0.5 eng-font">
+                LOGIN
+            </a>
+            <button id="menu-toggle" class="lg:hidden p-2 text-stone-600 hover:text-rose-500 focus:outline-none" aria-label="Menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-[85%] max-w-sm bg-white z-[60] flex flex-col shadow-2xl overflow-y-auto px-8 pt-24 pb-12 rounded-l-3xl border-l border-rose-100">
+        <button id="menu-close" class="absolute top-6 right-6 p-2 bg-rose-50 text-rose-400 rounded-full focus:outline-none hover:bg-rose-100 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <div class="mb-8">
+            <span class="eng-font text-xs text-rose-400 font-bold tracking-widest uppercase block mb-2">Menu</span>
+            <h2 class="maru-font text-2xl text-stone-700">メニュー</h2>
+        </div>
+        <nav class="flex flex-col space-y-4 font-medium text-stone-600">
+            <a href="#" class="p-3 rounded-xl hover:bg-rose-50 hover:text-rose-500 transition-colors flex items-center justify-between group">
+                <span class="eng-font">HOME</span>
+                <span class="text-rose-300 group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+            <div class="category-item">
+                <button id="category-toggle" class="w-full p-3 rounded-xl hover:bg-rose-50 hover:text-rose-500 transition-colors flex justify-between items-center focus:outline-none text-left">
+                    <span class="eng-font">CATEGORY</span>
+                    <svg id="category-icon" class="w-4 h-4 transition-transform duration-300 text-rose-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="category-content px-4 text-sm text-stone-500 space-y-2">
+                    <a href="#" class="block py-2 hover:text-rose-400">Tops</a>
+                    <a href="#" class="block py-2 hover:text-rose-400">Dresses</a>
+                    <a href="#" class="block py-2 hover:text-rose-400">Outerwear</a>
+                </div>
+            </div>
+            <a href="#" class="p-3 bg-green-50 text-green-700 rounded-xl hover:bg-green-100 transition-colors flex items-center justify-between mt-4">
+                <span class="flex items-center gap-2 font-bold"><span class="w-2 h-2 bg-green-500 rounded-full"></span>LINE Support</span>
+            </a>
+        </nav>
+    </div>
+    <div id="menu-overlay" class="fixed inset-0 bg-stone-900/20 backdrop-blur-sm z-[55] opacity-0 pointer-events-none transition-opacity duration-500"></div>
+
+    <main class="pt-16 md:pt-20">
+        <!-- 1. Hero Section -->
+        <section class="h-[50vh] lg:h-[80vh] w-full relative overflow-hidden bg-zinc-900">
+            <img src="image/hero-main.jpg" alt="Midehyah Hero" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 flex flex-col justify-end items-center text-center text-white px-6 pb-12 md:pb-24">
+                <span class="font-garamond italic text-xs md:text-2xl mb-3 md:mb-6 text-zinc-300 tracking-[0.3em] uppercase">- Online rental shop - MIDEHYAH</span>
+                <h2 class="font-garamond text-4xl md:text-8xl font-light leading-tight mb-4 md:mb-6 tracking-tight">Midehyah</h2>
+                <p class="inter-font text-[10px] md:text-lg font-light tracking-widest mb-8 md:mb-12 max-w-2xl leading-loose text-zinc-100">
+                    オンラインのお洋服レンタルショップ "Midehyah（ミデヤ）"<br class="hidden md:block">
+                    ー かわいいお洋服をリーズナブルなお値段でお届け
+                </p>
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                    <a href="#" class="border border-white/40 hover:border-white px-10 py-3.5 md:py-4 text-[9px] md:text-[10px] uppercase tracking-[0.25em] transition-all bg-white/5 backdrop-blur-sm inter-font">商品一覧はこちら</a>
+                    <a href="#" class="border border-white/40 hover:border-white px-10 py-3.5 md:py-4 text-[9px] md:text-[10px] uppercase tracking-[0.25em] transition-all bg-white/5 backdrop-blur-sm inter-font">レンタルの流れはこちら</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Announcement Slide Bar -->
+        <div class="bg-rose-100 py-3 overflow-hidden border-y border-rose-200 relative z-10">
+            <div class="animate-marquee whitespace-nowrap flex items-center">
+                <div class="flex items-center space-x-16 px-8 text-rose-800">
+                    <span class="eng-font text-xs md:text-sm font-bold tracking-widest flex items-center gap-2">
+                        NEW ARRIVALS: <span class="bg-white px-2 py-0.5 rounded-md text-rose-500">24 ITEMS</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                    <span class="maru-font text-xs md:text-sm font-medium tracking-wider flex items-center gap-2">
+                        8,000円以上で<span class="underline decoration-wavy decoration-rose-400">返却送料無料</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                    <span class="maru-font text-xs md:text-sm font-medium tracking-wider flex items-center gap-2">
+                        12,000円以上で<span class="bg-rose-400 text-white px-2 py-0.5 rounded-full text-xs ml-1">往復送料無料</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                </div>
+                <!-- Duplicate -->
+                 <div class="flex items-center space-x-16 px-8 text-rose-800">
+                    <span class="eng-font text-xs md:text-sm font-bold tracking-widest flex items-center gap-2">
+                        NEW ARRIVALS: <span class="bg-white px-2 py-0.5 rounded-md text-rose-500">24 ITEMS</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                    <span class="maru-font text-xs md:text-sm font-medium tracking-wider flex items-center gap-2">
+                        8,000円以上で<span class="underline decoration-wavy decoration-rose-400">返却送料無料</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                    <span class="maru-font text-xs md:text-sm font-medium tracking-wider flex items-center gap-2">
+                        12,000円以上で<span class="bg-rose-400 text-white px-2 py-0.5 rounded-full text-xs ml-1">往復送料無料</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2.5 New Arrivals -->
+        <section id="new-arrivals" class="py-16 md:py-24 px-4 md:px-12 max-w-[1600px] mx-auto overflow-hidden">
+            <!-- UPDATED TITLE SECTION (test2 style) -->
+            <div class="flex flex-col items-center justify-center mb-10 text-center">
+                <span class="text-rose-400 text-xs font-bold tracking-[0.2em] uppercase eng-font mb-2">Check it out!</span>
+                <h3 class="maru-font text-3xl md:text-4xl text-stone-700 mb-2">
+                    <span class="eng-font italic text-rose-300 mr-2">New</span>Arrivals
+                </h3>
+                <div class="w-12 h-1 bg-rose-200 rounded-full my-4"></div>
+                <p class="text-xs md:text-sm text-stone-400 tracking-wider inter-font">今月の新作アイテムをチェック</p>
+            </div>
+
+            <div id="new-arrivals-slider" class="flex overflow-x-auto hide-scrollbar snap-x-mandatory gap-x-4 md:gap-x-6">
+                <!-- Item 1 -->
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-100 mb-3 relative">
+                        <img src="image/new-arrival-1.png" alt="Product 1" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-stone-400 uppercase tracking-widest block font-medium inter-font">Yohji Yamamoto</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate inter-font">Asymmetric Coat</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-stone-900 mt-0.5 inter-font">¥18,000 / 3D</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-100 mb-3 relative">
+                        <img src="image/new-arrival-2.png" alt="Product 2" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-stone-400 uppercase tracking-widest block font-medium inter-font">Prada</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate inter-font">Geometric Shirt</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-stone-900 mt-0.5 inter-font">¥12,000 / 3D</p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-100 mb-3 relative">
+                        <img src="image/new-arrival-3.png" alt="Product 3" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-stone-400 uppercase tracking-widest block font-medium inter-font">Margiela</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate inter-font">Replica Knit</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-stone-900 mt-0.5 inter-font">¥10,000 / 3D</p>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-100 mb-3 relative">
+                        <img src="image/new-arrival-4.png" alt="Product 4" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-stone-400 uppercase tracking-widest block font-medium inter-font">Gaultier</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate inter-font">Mesh Top</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-stone-900 mt-0.5 inter-font">¥8,000 / 3D</p>
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-100 mb-3 relative">
+                        <img src="image/new-arrival-5.png" alt="Product 5" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-stone-400 uppercase tracking-widest block font-medium inter-font">Archive</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate inter-font">Wool Blazer</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-stone-900 mt-0.5 inter-font">¥14,000 / 3D</p>
+                    </div>
+                </div>
+                <!-- Item 6 -->
+                <div class="flex-none w-[42%] md:w-[20%] snap-start group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-100 mb-3 relative">
+                        <img src="image/new-arrival-6.png" alt="Product 6" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] md:text-[9px] text-stone-400 uppercase tracking-widest block font-medium inter-font">Celine</span>
+                        <h5 class="text-[11px] md:text-[12px] font-semibold leading-tight truncate inter-font">Silk Scarf</h5>
+                        <p class="text-[10px] md:text-[11px] font-black text-stone-900 mt-0.5 inter-font">¥6,000 / 3D</p>
+                    </div>
+                </div>
+                <!-- View All Dummy -->
+                <div class="flex-none w-[42%] md:w-[20%] snap-start flex flex-col items-center justify-center border border-stone-200 aspect-[3/4] group cursor-pointer bg-stone-50/50">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-stone-400 text-center group-hover:text-black transition-colors px-4 inter-font">View All<br>Archives →</span>
+                </div>
+            </div>
+            <!-- Added centered 'See More' button matching test2 style -->
+            <div class="flex justify-center mt-8">
+                <a href="#" class="inline-block border border-rose-200 text-rose-400 px-8 py-3 rounded-full text-xs font-bold tracking-widest hover:bg-rose-400 hover:text-white transition-all eng-font">
+                    SEE MORE
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. Benefit Section -->
+        <section id="benefits" class="py-16 md:py-24 px-4 md:px-12 max-w-[1600px] mx-auto bg-white border-t border-stone-100 mt-0">
+            <!-- UPDATED TITLE SECTION (test2 style) -->
+            <div class="flex flex-col items-center justify-center mb-10 text-center">
+                <span class="text-rose-400 text-xs font-bold tracking-[0.2em] uppercase eng-font mb-2">Our Commitment</span>
+                <h3 class="maru-font text-3xl md:text-4xl text-stone-700 mb-2">Why Midehyah?</h3>
+                <div class="w-12 h-1 bg-rose-200 rounded-full my-4"></div>
+                <p class="text-xs md:text-sm text-stone-400 tracking-wider inter-font">わたしたちのこだわり</p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 border-l border-t sm:border-l-0 sm:border-t-0 border-stone-200">
+                <!-- Item 1 -->
+                <div class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-stone-200 sm:border-l lg:border-t-0 cursor-default">
+                    <div class="text-stone-800">
+                        <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2c0 2 2 3 2 5s-2 3-2 3-2-1-2-3 2-3 2-5z" />
+                            <path d="M2 17c0-2 4-4 10-4s10 2 10 4v2H2v-2z" />
+                            <path d="M12 10v3" />
+                        </svg>
+                    </div>
+                    <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase inter-font">個性的な品揃え</h4>
+                    <p class="text-[10.5px] md:text-[12.5px] text-stone-400 leading-relaxed font-medium inter-font">
+                        他にはない個性的で可愛いアイテムを厳選。</p>
+                </div>
+                <!-- Item 2 -->
+                <div class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-stone-200 lg:border-t-0 cursor-default">
+                    <div class="text-stone-800">
+                        <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a9 9 0 1 0 5 1.5" />
+                            <path d="M12 7v5l4 2" />
+                            <circle cx="12" cy="12" r="0.5" fill="currentColor" />
+                        </svg>
+                    </div>
+                    <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase inter-font">ゆったり5泊6日</h4>
+                    <p class="text-[10.5px] md:text-[12.5px] text-stone-400 leading-relaxed font-medium inter-font">
+                        余裕のあるレンタル期間。焦らず安心です。</p>
+                </div>
+                <!-- Item 3 -->
+                <div class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-stone-200 lg:border-t-0 cursor-default">
+                    <div class="text-stone-800">
+                        <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z" />
+                            <path d="M3 16.5l9 4.5 9-4.5" />
+                            <path d="M3 7.5v9" />
+                            <path d="M21 7.5v9" />
+                            <path d="M12 12v9" />
+                        </svg>
+                    </div>
+                    <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase inter-font">お得な送料無料</h4>
+                    <p class="text-[10.5px] md:text-[12.5px] text-stone-400 leading-relaxed font-medium inter-font">
+                        8,000円以上で返却無料。たくさん借りるとお得。</p>
+                </div>
+                <!-- Item 4 -->
+                <div class="benefit-card p-5 md:p-10 flex flex-col space-y-4 md:space-y-6 border-r border-b border-stone-200 lg:border-t-0 cursor-default">
+                    <div class="text-stone-800">
+                        <svg class="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v4M12 17v4M3 12h4M17 12h4M18.5 5.5l-2.5 2.5M8 16l-2.5 2.5M5.5 5.5l2.5 2.5M16 16l2.5 2.5" />
+                            <path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" stroke-dasharray="1 2" />
+                        </svg>
+                    </div>
+                    <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase inter-font">最高な状態で</h4>
+                    <p class="text-[10.5px] md:text-[12.5px] text-stone-400 leading-relaxed font-medium inter-font">
+                        プロによるプレス仕上げで、新品のような気分で。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. LINE & Instagram -->
+        <section id="line-bar" class="bg-gradient-to-l from-[#6FCF97] via-[#A8E6CF] to-[#6FCF97] text-white py-8 md:py-14 cursor-pointer hover:brightness-105 transition-all duration-700 group border-b border-white/20 relative overflow-hidden">
+            <div class="max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-16 relative z-10">
+                <div class="flex flex-col items-center md:items-end">
+                    <span class="font-garamond italic font-light text-[22px] md:text-4xl tracking-[0.1em] leading-none drop-shadow-sm text-stone-700">Official LINE Service</span>
+                    <span class="text-[8px] md:text-[10px] tracking-[0.4em] uppercase opacity-70 mt-1 text-stone-600 inter-font">Concierge Support</span>
+                </div>
+                <div class="flex items-center space-x-6 md:space-x-10 text-stone-700">
+                    <div class="h-8 md:h-12 w-[1px] bg-stone-600/30 hidden md:block"></div>
+                    <span class="text-sm md:text-2xl font-semibold tracking-[0.2em] inter-font">お問合せはこちらから</span>
+                    <div class="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border border-stone-600/30 group-hover:border-stone-600 group-hover:bg-white/20 transition-all duration-500">
+                        <svg class="w-5 h-5 md:w-7 md:h-7 transform group-hover:translate-x-1 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="shimmer-effect z-5 block"></div>
+        </section>
+
+        <section id="instagram-bar" class="bg-gradient-to-l from-[#bfa2db] via-[#f3c1d9] to-[#fce4c4] text-white py-8 md:py-14 cursor-pointer hover:brightness-105 transition-all duration-700 group border-b border-white/20 relative overflow-hidden">
+            <div class="max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-16 relative z-10">
+                <div class="flex flex-col items-center md:items-end">
+                    <span class="font-garamond italic font-light text-[22px] md:text-4xl tracking-[0.1em] leading-none drop-shadow-sm text-stone-700">Official Instagram</span>
+                    <span class="text-[8px] md:text-[10px] tracking-[0.4em] uppercase opacity-70 mt-1 text-stone-600 inter-font">Lookbook & Trends</span>
+                </div>
+                <div class="flex items-center space-x-6 md:space-x-10 text-stone-700">
+                    <div class="h-8 md:h-12 w-[1px] bg-stone-600/30 hidden md:block"></div>
+                    <span class="text-sm md:text-2xl font-semibold tracking-[0.2em] inter-font">instagramはこちらから</span>
+                    <div class="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border border-stone-600/30 group-hover:border-stone-600 group-hover:bg-white/20 transition-all duration-500">
+                        <svg class="w-5 h-5 md:w-7 md:h-7 transform group-hover:translate-x-1 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="shimmer-effect z-5 block"></div>
+        </section>
+
+        <!-- 5. Find your Mood -->
+        <section id="mood" class="py-16 md:py-24 px-4 md:px-12 max-w-[1400px] mx-auto">
+            <!-- UPDATED TITLE SECTION (test2 style) -->
+            <div class="flex flex-col items-center justify-center mb-12">
+                <h3 class="maru-font text-2xl md:text-3xl text-stone-700 mb-2">Find your Mood</h3>
+                <div class="w-12 h-1 bg-rose-200 rounded-full my-4"></div>
+                <p class="text-[11px] text-stone-400 uppercase tracking-widest inter-font">気分に合わせて選ぶ</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+                <!-- Card 1 -->
+                <a href="#" class="mood-card group block relative overflow-hidden rounded-[2rem] bg-stone-100 aspect-[3/4] col-span-2 md:col-span-1 shadow-md hover:shadow-xl transition-all">
+                    <img src="image/mood-heritage.jpg" alt="Heritage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="text-white/80 text-[10px] uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 eng-font">Classic & Sweet</span>
+                        <h4 class="eng-font text-2xl md:text-3xl text-white font-medium">Heritage</h4>
+                    </div>
+                </a>
+                <!-- Card 2 -->
+                <a href="#" class="mood-card group block relative overflow-hidden rounded-[2rem] bg-stone-100 aspect-[3/4] shadow-md hover:shadow-xl transition-all">
+                    <img src="image/mood-minimal.jpg" alt="Minimal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="text-white/80 text-[10px] uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 eng-font">Simple & Clean</span>
+                        <h4 class="eng-font text-2xl md:text-3xl text-white font-medium">Minimalism</h4>
+                    </div>
+                </a>
+                <!-- Card 3 -->
+                <a href="#" class="mood-card group block relative overflow-hidden rounded-[2rem] bg-stone-100 aspect-[3/4] shadow-md hover:shadow-xl transition-all">
+                    <img src="image/mood-avantgarde.jpg" alt="Avant-Garde" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="text-white/80 text-[10px] uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 eng-font">Art & Unique</span>
+                        <h4 class="eng-font text-2xl md:text-3xl text-white font-medium">Avant-Garde</h4>
+                    </div>
+                </a>
+            </div>
+        </section>
 
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-white pt-16 pb-8 border-t border-rose-100 relative">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+            <h2 class="eng-font text-3xl font-bold text-rose-400 mb-6 flex items-center gap-2">
+                 <span class="bg-rose-50 text-rose-400 rounded-full w-10 h-10 flex items-center justify-center text-lg">M</span>
+                Midehyah.
+            </h2>
+            <div class="flex space-x-6 mb-8 text-xs font-bold text-stone-500 tracking-wider inter-font">
+                <a href="#" class="hover:text-rose-400 transition-colors">利用規約</a>
+                <a href="#" class="hover:text-rose-400 transition-colors">プライバシーポリシー</a>
+                <a href="#" class="hover:text-rose-400 transition-colors">特定商取引法に基づく表記</a>
+            </div>
+            <p class="text-stone-300 text-[10px] tracking-[0.2em] uppercase font-bold inter-font">© 2026 Midehyah. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const body = document.body;
+        const categoryToggle = document.getElementById('category-toggle');
+        const categoryItem = document.querySelector('.category-item');
+
+        function openMenu() {
+            mobileMenu.classList.add('active');
+            menuOverlay.style.opacity = '1';
+            menuOverlay.style.pointerEvents = 'auto';
+            body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.remove('active');
+            menuOverlay.style.opacity = '0';
+            menuOverlay.style.pointerEvents = 'none';
+            body.style.overflow = '';
+        }
+
+        menuToggle.addEventListener('click', openMenu);
+        menuClose.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+        
+        if(categoryToggle) {
+            categoryToggle.addEventListener('click', () => {
+                categoryItem.classList.toggle('active');
+            });
+        }
+        
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('bg-white/90', 'shadow-sm');
+            } else {
+                header.classList.remove('bg-white/90', 'shadow-sm');
+            }
+        });
+
+        const slider = document.getElementById('new-arrivals-slider');
+        if (slider) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('dragging');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.classList.remove('dragging');
+            });
+
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.classList.remove('dragging');
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        }
+    </script>
 </body>
 </html>
