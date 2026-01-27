@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDEHYAH - Kawaii Rental Shop</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Kiwi+Maru:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- 新ヘッダー用フォント -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration for Custom Colors/Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'kawaii-pink': '#ffe4e6', /* rose-100 */
+                        'kawaii-pink-dark': '#fda4af', /* rose-300 */
+                        'kawaii-beige': '#fafaf9', /* stone-50 */
+                        'kawaii-brown': '#78716c', /* stone-500 */
+                        'kawaii-text': '#44403c', /* stone-700 */
+                        'kawaii-accent': '#f43f5e', /* rose-500 */
+                    },
+                    fontFamily: {
+                        'sans': ['"Jost"', 'sans-serif'],
+                        'serif': ['"Zen Old Mincho"', 'serif'],
+                        'maru': ['"Kiwi Maru"', 'serif'],
+                    },
+                    backgroundImage: {
+                        'dot-pattern': "radial-gradient(#e7e5e4 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Zen Old Mincho', serif;
+            background-color: #fffdfc;
+            color: #44403c;
+            /* 可愛いドット背景 */
+            background-image: radial-gradient(#f0e8e8 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 英語の見出し用 */
+        .eng-font {
+            font-family: 'Jost', sans-serif;
+        }
+
+        /* 丸みのある見出し用 */
+        .maru-font {
+            font-family: 'Kiwi Maru', serif;
+        }
+
+        /* --- 新ヘッダー用CSS 開始 --- */
+        /* ナビゲーションリンクのアニメーション */
+        .header-nav-link {
+            position: relative;
+            display: inline-block;
+        }
+        .header-nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #e68e8e;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .header-nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* メガメニュー (PC) */
+        .group:hover .dropdown-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .dropdown-menu {
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* モバイルメニューのアコーディオン */
+        .accordion-content {
+            transition: max-height 0.35s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        /* ユーティリティ */
+        .text-brand-pink { color: #e68e8e; }
+        .hover\:text-brand-pink:hover { color: #e68e8e; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* --- 新ヘッダー用CSS 終了 --- */
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 無限ループスライダー */
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: fit-content;
+            animation: marquee 40s linear infinite;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .snap-x-mandatory {
+            scroll-snap-type: x mandatory;
+        }
+
+        .snap-start {
+            scroll-snap-align: start;
+        }
+
+        /* PC用ドラッグスクロール */
+        #new-arrivals-slider {
+            cursor: grab;
+            user-select: none;
+        }
+
+        #new-arrivals-slider:active {
+            cursor: grabbing;
+        }
+
+        #new-arrivals-slider.dragging {
+            scroll-snap-type: none;
+        }
+
+        /* ふわっと浮くカード */
+        .float-card {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        }
+
+        .float-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+        }
+
+        /* 画像ズーム */
+        .zoom-img-container img {
+            transition: transform 0.8s ease;
+        }
+
+        .zoom-img-container:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 波線セパレーター */
+        .wave-separator {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .wave-separator svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 40px;
+        }
+        
+        .wave-separator-top {
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+        
+        .wave-separator-top svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .wave-separator svg, .wave-separator-top svg {
+                height: 60px;
+            }
+        }
+
+        /* キラキラアニメーション */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        .sparkle-icon {
+            animation: sparkle 2s infinite;
+        }
+    </style>
+</head>
+
+<body class="selection:bg-rose-200 selection:text-rose-900">
+
+    <!-- ヘッダー本体 (新規デザイン) -->
+    <header class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] font-['Noto_Sans_JP']">
+        <div class="max-w-[1400px] mx-auto px-4 md:px-8 h-[74px] md:h-[80px] flex items-center justify-between">
+            
+            <!-- Logo Area (Left Aligned on Mobile & PC) -->
+            <div class="flex-shrink-0 flex items-center justify-start md:flex-none w-auto md:w-auto h-full py-2">
+                <a href="#" class="block group h-full flex items-center">
+                    <img 
+                        src="image/logo.png" 
+                        alt="midehyah" 
+                        class="h-full w-auto object-contain transition-opacity duration-300 group-hover:opacity-80 py-1"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-weight:bold; color:#e68e8e; font-size:20px;\'>Midehyah</span>'" 
+                    >
+                </a>
+            </div>
+
+            <!-- Center Area (Hamburger on Mobile, Nav on PC) -->
+            <div class="flex-1 flex items-center justify-center">
+                
+                <!-- Mobile: Hamburger Menu (Center) -->
+                <button id="menu-open-btn" class="md:hidden p-2 text-gray-700 hover:text-black focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+
+                <!-- PC: Navigation (Center) -->
+                <nav class="hidden md:flex flex-1 justify-center items-center space-x-8 text-[13px] font-medium tracking-widest text-gray-700">
+                    <a href="#" class="header-nav-link hover:text-brand-pink transition-colors py-2">HOME</a>
+                    <a href="#" class="header-nav-link hover:text-brand-pink transition-colors py-2">レンタルの流れ</a>
+                    <a href="#" class="header-nav-link hover:text-brand-pink transition-colors py-2">LINE</a>
+                    
+                    <!-- CATEGORY Dropdown -->
+                    <div class="group relative h-full flex items-center">
+                        <a href="#" class="header-nav-link flex items-center hover:text-brand-pink cursor-pointer py-2">
+                            CATEGORY
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-1 transform group-hover:rotate-180 transition-transform duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </a>
+                        
+                        <!-- Mega Menu -->
+                        <div class="dropdown-menu invisible opacity-0 absolute left-1/2 -translate-x-1/2 top-[calc(100%+1px)] w-[800px] bg-white border border-gray-100 shadow-lg pt-6 pb-8 px-8 grid grid-cols-4 gap-8 z-50 cursor-default text-left">
+                            <!-- Column 1 -->
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 text-xs tracking-widest">TOPS</h3>
+                                <ul class="space-y-3 text-gray-500 text-xs tracking-wide">
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">シャツ</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">カットソー</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">パーカー・スウェット</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">ニット</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">アウター</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">シアー / ビスチェ</a></li>
+                                </ul>
+                            </div>
+                            <!-- Column 2 -->
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 text-xs tracking-widest">BOTTOMS</h3>
+                                <ul class="space-y-3 text-gray-500 text-xs tracking-wide">
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">スカート</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">パンツ</a></li>
+                                </ul>
+                            </div>
+                            <!-- Column 3 -->
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 text-xs tracking-widest">SET-UP / DRESS</h3>
+                                <ul class="space-y-3 text-gray-500 text-xs tracking-wide">
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">ドレス</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">ワンピース</a></li>
+                                </ul>
+                            </div>
+                             <!-- Column 4 -->
+                             <div>
+                                <h3 class="font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 text-xs tracking-widest">ACCESSORIES</h3>
+                                <ul class="space-y-3 text-gray-500 text-xs tracking-wide">
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">シューズ</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">バッグ</a></li>
+                                    <li><a href="#" class="hover:text-brand-pink block transition-colors">アクセサリー</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="header-nav-link hover:text-brand-pink transition-colors py-2">利用規約</a>
+                </nav>
+            </div>
+
+            <!-- Right Area (Icons) -->
+            <div class="flex items-center justify-end flex-shrink-0 space-x-3 md:space-x-6 text-gray-700 w-auto md:w-auto md:flex-none">
+                <!-- Search Icon -->
+                <button class="p-1 hover:text-brand-pink transition-colors group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="w-6 h-6 group-hover:scale-105 transition-transform">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </button>
+
+                <!-- Login Text/Icon -->
+                <a href="#" class="hidden md:block text-[13px] font-medium hover:text-brand-pink transition-colors tracking-wide">
+                   Login
+                </a>
+                <a href="#" class="md:hidden p-1 hover:text-brand-pink transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                </a>
+
+                <!-- Cart Icon -->
+                <a href="#" class="p-1 relative hover:text-brand-pink transition-colors group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="w-6 h-6 group-hover:scale-105 transition-transform">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 5.68c.49 2.206-.855 4.313-2.95 4.313H8.087c-2.095 0-3.44-2.107-2.95-4.312l1.263-5.68c.224-1.01.696-1.407 1.258-1.407h10.836c.562 0 1.034.397 1.258 1.407z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- モバイルメニュー (Overlay & Drawer) (新規) -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-50 hidden transition-opacity duration-300 opacity-0 backdrop-blur-sm"></div>
+    
+    <div id="mobile-menu" class="fixed top-0 left-0 w-[90%] max-w-[400px] h-full bg-white z-50 transform -translate-x-full shadow-2xl flex flex-col transition-transform duration-300 ease-out font-['Noto_Sans_JP']">
+        <!-- Drawer Header -->
+        <div class="h-[74px] flex items-center justify-between px-6 border-b border-gray-100 bg-white">
+            <span class="font-bold text-base tracking-widest text-gray-800">MENU</span>
+            <button id="menu-close-btn" class="p-2 -mr-2 text-gray-500 hover:text-black focus:outline-none rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Drawer Content -->
+        <div class="flex-1 overflow-y-auto no-scrollbar py-2">
+            <nav class="flex flex-col text-base font-medium text-gray-700 tracking-wide">
+                <a href="#" class="px-6 py-5 border-b border-gray-100 hover:bg-gray-50 hover:text-brand-pink transition-colors">HOME</a>
+                <a href="#" class="px-6 py-5 border-b border-gray-100 hover:bg-gray-50 hover:text-brand-pink transition-colors">レンタルの流れ</a>
+                <a href="#" class="px-6 py-5 border-b border-gray-100 hover:bg-gray-50 hover:text-brand-pink transition-colors">LINE</a>
+                
+                <!-- Mobile Accordion for Category -->
+                <div class="border-b border-gray-100">
+                    <button id="category-accordion-btn" class="w-full flex items-center justify-between px-6 py-5 hover:bg-gray-50 bg-white hover:text-brand-pink transition-colors group">
+                        <span>CATEGORY</span>
+                        <!-- アイコン: 右向き矢印 (>) -->
+                        <svg id="accordion-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 transform text-gray-400 group-hover:text-brand-pink">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+                    <div id="category-content" class="accordion-content bg-white">
+                        <div class="pl-8 pr-6 py-4 space-y-5">
+                            <!-- Mobile Sub Categories -->
+                            <div>
+                                <p class="text-xs font-bold text-gray-900 mb-2 border-l-2 border-brand-pink pl-2 tracking-widest">TOPS</p>
+                                <div class="pl-3 space-y-3 text-gray-500 text-sm">
+                                    <a href="#" class="block hover:text-brand-pink">シャツ</a>
+                                    <a href="#" class="block hover:text-brand-pink">カットソー</a>
+                                    <a href="#" class="block hover:text-brand-pink">ニット</a>
+                                    <a href="#" class="block hover:text-brand-pink">アウター</a>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <p class="text-xs font-bold text-gray-900 mb-2 border-l-2 border-brand-pink pl-2 tracking-widest">BOTTOMS</p>
+                                <div class="pl-3 space-y-3 text-gray-500 text-sm">
+                                    <a href="#" class="block hover:text-brand-pink">スカート</a>
+                                    <a href="#" class="block hover:text-brand-pink">パンツ</a>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-bold text-gray-900 mb-2 border-l-2 border-brand-pink pl-2 tracking-widest">SET-UP / DRESS</p>
+                                <div class="pl-3 space-y-3 text-gray-500 text-sm">
+                                    <a href="#" class="block hover:text-brand-pink">ワンピース</a>
+                                    <a href="#" class="block hover:text-brand-pink">ドレス</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" class="px-6 py-5 border-b border-gray-100 hover:bg-gray-50 hover:text-brand-pink transition-colors">利用規約</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- メインコンテンツ (元のデザインを維持) -->
+    <!-- ヘッダーがfixedからstickyに変わったため、pt-16は不要になりました -->
+    <main class="">
+        <!-- 1. Hero Section -->
+        <section class="h-[65vh] md:h-[85vh] w-full relative overflow-hidden bg-rose-50 flex items-center justify-center">
+            
+            <!-- Hero Image with Soft Mask -->
+            <div class="absolute inset-4 md:inset-8 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl shadow-rose-100/50">
+                <img src="image/hero-main.jpg" alt="Midehyah Hero" class="w-full h-full object-cover opacity-90 scale-105 animate-[pulse_10s_ease-in-out_infinite]">
+                <div class="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent"></div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="relative z-10 text-center text-white px-6 w-full max-w-4xl mx-auto flex flex-col items-center">
+                <div class="mb-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/40">
+                    <span class="w-2 h-2 bg-rose-300 rounded-full animate-ping"></span>
+                    <span class="eng-font text-[10px] md:text-xs font-medium tracking-widest uppercase text-white">Online rental shop</span>
+                </div>
+                
+                <h2 class="eng-font text-5xl md:text-8xl font-light mb-6 tracking-tight drop-shadow-sm">
+                    Midehyah<span class="text-rose-300">.</span>
+                </h2>
+                
+                <p class="maru-font text-sm md:text-lg font-medium tracking-wide mb-10 max-w-lg leading-loose text-stone-50 drop-shadow-sm">
+                    “かわいい”を、もっと身近に。<br>
+                    特別な日も、なんでもない日も、<br class="md:hidden">あなたらしく輝く一着を。
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <a href="#new-arrivals"
+                        class="bg-white text-stone-800 hover:bg-rose-50 px-8 py-4 rounded-full text-xs md:text-sm font-bold tracking-widest transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 eng-font flex items-center justify-center gap-2 group">
+                        VIEW ITEMS
+                        <span class="group-hover:translate-x-1 transition-transform">→</span>
+                    </a>
+                    <a href="#"
+                        class="bg-white/10 backdrop-blur-md border border-white/50 text-white hover:bg-white/20 px-8 py-4 rounded-full text-xs md:text-sm font-bold tracking-widest transition-all eng-font flex items-center justify-center">
+                        HOW TO RENT
+                    </a>
+                </div>
+            </div>
+
+            <!-- Cute Decorative Elements -->
+            <div class="absolute bottom-12 left-12 hidden md:block animate-bounce duration-[3000ms]">
+                <div class="w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                    <span class="text-2xl">✨</span>
+                </div>
+            </div>
+            
+            <!-- Wave Separator Bottom -->
+            <div class="wave-separator text-[#fffdfc]">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="currentColor"></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Sliding Banner Ad (Marquee) -->
+        <div class="bg-rose-100 py-3 overflow-hidden border-y border-rose-200 relative z-10 -mt-1">
+            <div class="animate-marquee whitespace-nowrap flex items-center">
+                <!-- Content Block -->
+                <div class="flex items-center space-x-16 px-8 text-rose-800">
+                    <span class="eng-font text-xs md:text-sm font-bold tracking-widest flex items-center gap-2">
+                        <span class="text-lg">🍓</span> NEW ARRIVALS: <span class="bg-white px-2 py-0.5 rounded-md text-rose-500">24 ITEMS</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                    <span class="maru-font text-xs md:text-sm font-medium tracking-wider flex items-center gap-2">
+                        <span class="text-lg">🚚</span> 8,000円以上で<span class="underline decoration-wavy decoration-rose-400">返却送料無料</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                    <span class="maru-font text-xs md:text-sm font-medium tracking-wider flex items-center gap-2">
+                        <span class="text-lg">🎀</span> 12,000円以上で<span class="bg-rose-400 text-white px-2 py-0.5 rounded-full text-xs ml-1">往復送料無料</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                </div>
+                 <!-- Content Block Duplicate -->
+                 <div class="flex items-center space-x-16 px-8 text-rose-800">
+                    <span class="eng-font text-xs md:text-sm font-bold tracking-widest flex items-center gap-2">
+                        <span class="text-lg">🍓</span> NEW ARRIVALS: <span class="bg-white px-2 py-0.5 rounded-md text-rose-500">24 ITEMS</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                    <span class="maru-font text-xs md:text-sm font-medium tracking-wider flex items-center gap-2">
+                        <span class="text-lg">🚚</span> 8,000円以上で<span class="underline decoration-wavy decoration-rose-400">返却送料無料</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                    <span class="maru-font text-xs md:text-sm font-medium tracking-wider flex items-center gap-2">
+                        <span class="text-lg">🎀</span> 12,000円以上で<span class="bg-rose-400 text-white px-2 py-0.5 rounded-full text-xs ml-1">往復送料無料</span>
+                    </span>
+                    <span class="text-rose-300 text-xs">●</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. New Arrivals (Horizontal Slider) -->
+        <section id="new-arrivals" class="py-16 md:py-24 px-4 md:px-12 max-w-[1400px] mx-auto overflow-hidden">
+            <div class="flex flex-col items-center justify-center mb-10 text-center">
+                <span class="text-rose-400 text-xs font-bold tracking-[0.2em] uppercase eng-font mb-2">Check it out!</span>
+                <h3 class="maru-font text-3xl md:text-4xl text-stone-700 mb-2">
+                    <span class="eng-font italic text-rose-300 mr-2">New</span>Arrivals
+                </h3>
+                <div class="w-12 h-1 bg-rose-200 rounded-full my-4"></div>
+                <p class="text-xs md:text-sm text-stone-400 tracking-wider">今月の新作アイテムをチェック</p>
+            </div>
+
+            <div id="new-arrivals-slider"
+                class="flex overflow-x-auto hide-scrollbar snap-x-mandatory gap-x-5 md:gap-x-8 px-2 md:px-4 pb-12">
+                <!-- Item 1 -->
+                <div class="flex-none w-[220px] md:w-[280px] snap-start group cursor-pointer float-card bg-white p-3 rounded-2xl shadow-sm border border-stone-100">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-50 rounded-xl mb-4 relative zoom-img-container">
+                        <span class="absolute top-2 left-2 bg-rose-400 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">NEW</span>
+                        <img src="image/new-arrival-1.png" alt="Product 1"
+                            class="w-full h-full object-cover">
+                        <button class="absolute bottom-3 right-3 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-rose-300 hover:text-rose-500 hover:scale-110 transition-all">
+                            ♥
+                        </button>
+                    </div>
+                    <div class="space-y-1 px-1 text-center">
+                        <span class="eng-font text-[10px] text-stone-400 uppercase tracking-widest block font-medium">Yohji Yamamoto</span>
+                        <h5 class="maru-font text-sm font-semibold text-stone-700 truncate">Asymmetric Coat</h5>
+                        <p class="eng-font text-sm font-bold text-rose-400 mt-1">¥18,000 <span class="text-[10px] text-stone-400 font-normal">/ 3Days</span></p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="flex-none w-[220px] md:w-[280px] snap-start group cursor-pointer float-card bg-white p-3 rounded-2xl shadow-sm border border-stone-100">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-50 rounded-xl mb-4 relative zoom-img-container">
+                        <img src="image/new-arrival-2.png" alt="Product 2"
+                            class="w-full h-full object-cover">
+                         <button class="absolute bottom-3 right-3 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-rose-300 hover:text-rose-500 hover:scale-110 transition-all">
+                            ♥
+                        </button>
+                    </div>
+                    <div class="space-y-1 px-1 text-center">
+                        <span class="eng-font text-[10px] text-stone-400 uppercase tracking-widest block font-medium">Prada</span>
+                        <h5 class="maru-font text-sm font-semibold text-stone-700 truncate">Geometric Shirt</h5>
+                        <p class="eng-font text-sm font-bold text-rose-400 mt-1">¥12,000 <span class="text-[10px] text-stone-400 font-normal">/ 3Days</span></p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="flex-none w-[220px] md:w-[280px] snap-start group cursor-pointer float-card bg-white p-3 rounded-2xl shadow-sm border border-stone-100">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-50 rounded-xl mb-4 relative zoom-img-container">
+                        <img src="image/new-arrival-3.png" alt="Product 3"
+                            class="w-full h-full object-cover">
+                         <button class="absolute bottom-3 right-3 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-rose-300 hover:text-rose-500 hover:scale-110 transition-all">
+                            ♥
+                        </button>
+                    </div>
+                    <div class="space-y-1 px-1 text-center">
+                        <span class="eng-font text-[10px] text-stone-400 uppercase tracking-widest block font-medium">Margiela</span>
+                        <h5 class="maru-font text-sm font-semibold text-stone-700 truncate">Replica Knit</h5>
+                        <p class="eng-font text-sm font-bold text-rose-400 mt-1">¥10,000 <span class="text-[10px] text-stone-400 font-normal">/ 3Days</span></p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="flex-none w-[220px] md:w-[280px] snap-start group cursor-pointer float-card bg-white p-3 rounded-2xl shadow-sm border border-stone-100">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-50 rounded-xl mb-4 relative zoom-img-container">
+                        <img src="image/new-arrival-4.png" alt="Product 4"
+                            class="w-full h-full object-cover">
+                         <button class="absolute bottom-3 right-3 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-rose-300 hover:text-rose-500 hover:scale-110 transition-all">
+                            ♥
+                        </button>
+                    </div>
+                    <div class="space-y-1 px-1 text-center">
+                        <span class="eng-font text-[10px] text-stone-400 uppercase tracking-widest block font-medium">Gaultier</span>
+                        <h5 class="maru-font text-sm font-semibold text-stone-700 truncate">Mesh Top</h5>
+                        <p class="eng-font text-sm font-bold text-rose-400 mt-1">¥8,000 <span class="text-[10px] text-stone-400 font-normal">/ 3Days</span></p>
+                    </div>
+                </div>
+                
+                 <!-- Item 5 -->
+                 <div class="flex-none w-[220px] md:w-[280px] snap-start group cursor-pointer float-card bg-white p-3 rounded-2xl shadow-sm border border-stone-100">
+                    <div class="aspect-[3/4] overflow-hidden bg-stone-50 rounded-xl mb-4 relative zoom-img-container">
+                        <img src="image/new-arrival-5.png" alt="Product 5"
+                            class="w-full h-full object-cover">
+                         <button class="absolute bottom-3 right-3 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-rose-300 hover:text-rose-500 hover:scale-110 transition-all">
+                            ♥
+                        </button>
+                    </div>
+                    <div class="space-y-1 px-1 text-center">
+                        <span class="eng-font text-[10px] text-stone-400 uppercase tracking-widest block font-medium">Archive</span>
+                        <h5 class="maru-font text-sm font-semibold text-stone-700 truncate">Wool Blazer</h5>
+                        <p class="eng-font text-sm font-bold text-rose-400 mt-1">¥14,000 <span class="text-[10px] text-stone-400 font-normal">/ 3Days</span></p>
+                    </div>
+                </div>
+
+                <!-- View All Link -->
+                <div class="flex-none w-[180px] md:w-[200px] snap-start flex flex-col items-center justify-center border-2 border-dashed border-rose-200 rounded-3xl aspect-[3/4] group cursor-pointer hover:bg-rose-50 transition-colors bg-white">
+                    <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        →
+                    </div>
+                    <span class="eng-font text-xs font-bold uppercase tracking-widest text-rose-400 text-center">View All<br>Items</span>
+                </div>
+            </div>
+            
+            <div class="flex justify-center mt-2">
+                <a href="#" class="inline-block border border-rose-200 text-rose-400 px-8 py-3 rounded-full text-xs font-bold tracking-widest hover:bg-rose-400 hover:text-white transition-all eng-font">
+                    SEE MORE
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. Service Excellence -->
+        <section id="benefits" class="py-16 md:py-20 bg-rose-50 relative">
+             <div class="wave-separator-top text-[#fffdfc]">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="currentColor"></path>
+                </svg>
+            </div>
+
+            <div class="max-w-5xl mx-auto px-6 md:px-12 pt-10">
+                <div class="text-center mb-8 md:mb-12">
+                    <h3 class="maru-font text-2xl md:text-3xl text-stone-700 mb-2">Why Midehyah?</h3>
+                    <p class="text-[11px] text-stone-400 uppercase tracking-widest">わたしたちのこだわり</p>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+                    <!-- Benefit 1 -->
+                    <div class="bg-white p-4 md:p-8 rounded-2xl md:rounded-[2rem] shadow-sm hover:shadow-lg transition-all text-center flex flex-col items-center group relative overflow-hidden border border-rose-100">
+                        <div class="absolute -top-6 -right-6 md:-top-10 md:-right-10 w-16 h-16 md:w-24 md:h-24 bg-rose-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-full flex items-center justify-center text-rose-400 mb-3 md:mb-6 group-hover:rotate-12 transition-transform">
+                            <svg class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2c0 2 2 3 2 5s-2 3-2 3-2-1-2-3 2-3 2-5z" />
+                                <path d="M2 17c0-2 4-4 10-4s10 2 10 4v2H2v-2z" />
+                                <path d="M12 10v3" />
+                            </svg>
+                        </div>
+                        <h4 class="maru-font text-sm md:text-lg font-bold text-stone-700 mb-1 md:mb-2">個性的な<br>品揃え</h4>
+                        <p class="text-[10px] md:text-xs text-stone-500 leading-relaxed">
+                            他にはない個性的で可愛いアイテムを厳選。
+                        </p>
+                    </div>
+
+                    <!-- Benefit 2 -->
+                    <div class="bg-white p-4 md:p-8 rounded-2xl md:rounded-[2rem] shadow-sm hover:shadow-lg transition-all text-center flex flex-col items-center group relative overflow-hidden border border-rose-100">
+                         <div class="absolute -top-6 -right-6 md:-top-10 md:-right-10 w-16 h-16 md:w-24 md:h-24 bg-rose-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-full flex items-center justify-center text-rose-400 mb-3 md:mb-6 group-hover:rotate-12 transition-transform">
+                            <svg class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 3a9 9 0 1 0 5 1.5" />
+                                <path d="M12 7v5l4 2" />
+                            </svg>
+                        </div>
+                        <h4 class="maru-font text-sm md:text-lg font-bold text-stone-700 mb-1 md:mb-2">ゆったり<br>5泊6日</h4>
+                        <p class="text-[10px] md:text-xs text-stone-500 leading-relaxed">
+                            余裕のあるレンタル期間。焦らず安心です。
+                        </p>
+                    </div>
+
+                    <!-- Benefit 3 -->
+                    <div class="bg-white p-4 md:p-8 rounded-2xl md:rounded-[2rem] shadow-sm hover:shadow-lg transition-all text-center flex flex-col items-center group relative overflow-hidden border border-rose-100">
+                         <div class="absolute -top-6 -right-6 md:-top-10 md:-right-10 w-16 h-16 md:w-24 md:h-24 bg-rose-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-full flex items-center justify-center text-rose-400 mb-3 md:mb-6 group-hover:rotate-12 transition-transform">
+                             <svg class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 16.5l9 4.5 9-4.5" />
+                                <path d="M21 7.5v9" />
+                                <path d="M12 12v9" />
+                                <path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z" />
+                            </svg>
+                        </div>
+                        <h4 class="maru-font text-sm md:text-lg font-bold text-stone-700 mb-1 md:mb-2">お得な<br>送料無料</h4>
+                        <p class="text-[10px] md:text-xs text-stone-500 leading-relaxed">
+                            8,000円以上で返却無料。たくさん借りるとお得。
+                        </p>
+                    </div>
+
+                    <!-- Benefit 4 -->
+                    <div class="bg-white p-4 md:p-8 rounded-2xl md:rounded-[2rem] shadow-sm hover:shadow-lg transition-all text-center flex flex-col items-center group relative overflow-hidden border border-rose-100">
+                         <div class="absolute -top-6 -right-6 md:-top-10 md:-right-10 w-16 h-16 md:w-24 md:h-24 bg-rose-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-full flex items-center justify-center text-rose-400 mb-3 md:mb-6 group-hover:rotate-12 transition-transform">
+                           <svg class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 17v4M12 3v4" />
+                                <path d="M18.5 5.5l-2.5 2.5" />
+                                <path d="M5.5 5.5l2.5 2.5" />
+                                <path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                            </svg>
+                        </div>
+                        <h4 class="maru-font text-sm md:text-lg font-bold text-stone-700 mb-1 md:mb-2">最高な状態で<br>お届け</h4>
+                        <p class="text-[10px] md:text-xs text-stone-500 leading-relaxed">
+                            プロによるプレス仕上げで、新品のような気分で。
+                        </p>
+                    </div>
+                </div>
+            </div>
+             <div class="wave-separator text-[#fffdfc]">
+                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="currentColor"></path>
+                </svg>
+             </div>
+        </section>
+
+        <!-- Official LINE Service Bar -->
+        <section id="line-bar"
+            class="mx-4 md:mx-12 my-6 bg-[#E8F5E9] rounded-3xl overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 group border border-[#C8E6C9] relative">
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiM0Q0FGNTAiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PC9zdmc+')] opacity-30"></div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center p-8 md:p-10 relative z-10">
+                <div class="flex flex-col items-center md:items-start text-center md:text-left space-y-2">
+                    <span class="bg-white/80 backdrop-blur-sm text-[#2E7D32] px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-[#2E7D32]/20">Concierge Support</span>
+                    <h3 class="maru-font text-xl md:text-3xl text-[#1B5E20] font-bold">LINEでお悩み相談</h3>
+                    <p class="text-xs md:text-sm text-[#2E7D32] font-medium">サイズ感やコーディネートのご相談はこちらから。</p>
+                </div>
+                
+                <div class="mt-6 md:mt-0">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center text-[#4CAF50] shadow-md group-hover:scale-110 group-hover:rotate-12 transition-all">
+                         <svg class="w-6 h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 5.92 2 10.75c0 3.32 2.13 6.25 5.34 7.75-.24.87-.87 3.18-.9 3.34-.04.22.08.43.27.52.09.04.18.06.27.06.22 0 .44-.1.57-.29 2.37-3.23 3.33-3.86 4.45-3.86.67 0 1.33.04 2 .1.52 0 1.03.04 1.54.04 6.08 0 10.46-4.66 10.46-9.66S17.52 2 12 2z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Official Instagram Bar -->
+        <section id="instagram-bar"
+             class="mx-4 md:mx-12 mb-12 bg-gradient-to-r from-purple-50 via-pink-50 to-orange-50 rounded-3xl overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 group border border-pink-100 relative">
+             <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNFOTE5MTkiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PC9zdmc+')] opacity-30"></div>
+
+             <div class="flex flex-col md:flex-row justify-between items-center p-8 md:p-10 relative z-10">
+                <div class="flex flex-col items-center md:items-start text-center md:text-left space-y-2">
+                    <span class="bg-white/80 backdrop-blur-sm text-pink-600 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-pink-200">Lookbook & Trends</span>
+                    <h3 class="maru-font text-xl md:text-3xl text-stone-700 font-bold">Instagramをチェック</h3>
+                    <p class="text-xs md:text-sm text-stone-500 font-medium">最新のトレンドやコーディネート例を配信中。</p>
+                </div>
+                
+                <div class="mt-6 md:mt-0">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center text-pink-500 shadow-md group-hover:scale-110 group-hover:rotate-12 transition-all">
+                         <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="2"></rect>
+                            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" stroke-width="2"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2" stroke-linecap="round"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Categorized by Mood -->
+        <section id="mood" class="py-16 md:py-24 px-4 md:px-12 max-w-[1400px] mx-auto">
+            <div class="flex flex-col items-center justify-center mb-12">
+                <h3 class="maru-font text-2xl md:text-3xl text-stone-700 mb-2">Find your Mood</h3>
+                <p class="text-[11px] text-stone-400 uppercase tracking-widest">気分に合わせて選ぶ</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+                <a href="#" class="mood-card group block relative overflow-hidden rounded-[2rem] bg-stone-100 aspect-[3/4] col-span-2 md:col-span-1 shadow-md hover:shadow-xl transition-all">
+                    <img src="image/mood-heritage.jpg" alt="Heritage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="text-white/80 text-[10px] uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">Classic & Sweet</span>
+                        <h4 class="eng-font text-2xl md:text-3xl text-white font-medium">Heritage</h4>
+                    </div>
+                </a>
+
+                <a href="#" class="mood-card group block relative overflow-hidden rounded-[2rem] bg-stone-100 aspect-[3/4] shadow-md hover:shadow-xl transition-all">
+                    <img src="image/mood-minimal.jpg" alt="Minimal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="text-white/80 text-[10px] uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">Simple & Clean</span>
+                        <h4 class="eng-font text-2xl md:text-3xl text-white font-medium">Minimalism</h4>
+                    </div>
+                </a>
+                
+                <a href="#" class="mood-card group block relative overflow-hidden rounded-[2rem] bg-stone-100 aspect-[3/4] shadow-md hover:shadow-xl transition-all">
+                    <img src="image/mood-avantgarde.jpg" alt="Avant-Garde" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="text-white/80 text-[10px] uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">Art & Unique</span>
+                        <h4 class="eng-font text-2xl md:text-3xl text-white font-medium">Avant-Garde</h4>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 5. Shop Attention & Guide Section -->
+        <section id="shop-attention" class="py-16 px-6 md:px-12 max-w-[800px] mx-auto text-center mt-12 mb-20">
+            <div class="bg-white border-2 border-dashed border-rose-200 rounded-[3rem] p-8 md:p-16 relative">
+                <!-- Deco Tape -->
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-rose-100/80 rotate-1 shadow-sm"></div>
+
+                <div class="space-y-8">
+                    <div class="space-y-2">
+                        <span class="eng-font text-xs text-rose-400 font-bold tracking-widest uppercase">Important Notice</span>
+                        <h3 class="maru-font text-xl md:text-2xl font-bold text-stone-700">
+                            レンタルのご注意
+                        </h3>
+                    </div>
+
+                    <div class="text-left space-y-6">
+                        <div class="flex space-x-4 items-start bg-rose-50 p-4 rounded-xl">
+                            <span class="flex-shrink-0 w-6 h-6 bg-rose-200 text-rose-500 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">1</span>
+                            <p class="text-xs md:text-sm leading-relaxed text-stone-600 font-medium">
+                                表示価格は<span class="font-bold text-rose-500">5泊6日</span>のレンタル価格です。
+                            </p>
+                        </div>
+                        <div class="flex space-x-4 items-start bg-rose-50 p-4 rounded-xl">
+                            <span class="flex-shrink-0 w-6 h-6 bg-rose-200 text-rose-500 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">2</span>
+                            <p class="text-xs md:text-sm leading-relaxed text-stone-600 font-medium">
+                                初めてご利用の方は必ず<a href="#" class="text-rose-500 underline decoration-rose-300 hover:text-rose-600">レンタルの流れ</a>をご覧ください。
+                            </p>
+                        </div>
+                         <div class="flex space-x-4 items-start bg-rose-50 p-4 rounded-xl">
+                            <span class="flex-shrink-0 w-6 h-6 bg-rose-200 text-rose-500 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">3</span>
+                            <p class="text-xs md:text-sm leading-relaxed text-stone-600 font-medium">
+                                配送地域によって到着日が異なります。余裕を持ってご注文ください。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <a href="#"
+                            class="inline-block bg-[#06C755] text-white px-10 py-4 rounded-full text-xs font-bold tracking-widest hover:shadow-lg hover:shadow-[#06C755]/30 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2 w-full md:w-auto mx-auto">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.92 2 10.75c0 3.32 2.13 6.25 5.34 7.75-.24.87-.87 3.18-.9 3.34-.04.22.08.43.27.52.09.04.18.06.27.06.22 0 .44-.1.57-.29 2.37-3.23 3.33-3.86 4.45-3.86.67 0 1.33.04 2 .1.52 0 1.03.04 1.54.04 6.08 0 10.46-4.66 10.46-9.66S17.52 2 12 2z"/></svg>
+                            LINEでお問い合わせ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white pt-16 pb-8 border-t border-rose-100 relative">
+        <div class="wave-separator-top text-rose-50 top-[-30px] md:top-[-50px]">
+             <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="#fff" transform="scale(1 -1) translate(0 -120)"></path>
+            </svg>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+            <h2 class="eng-font text-3xl font-bold text-rose-400 mb-6 flex items-center gap-2">
+                 <span class="bg-rose-50 text-rose-400 rounded-full w-10 h-10 flex items-center justify-center text-lg">M</span>
+                Midehyah.
+            </h2>
+            
+            <div class="flex space-x-6 mb-8 text-xs font-bold text-stone-500 tracking-wider">
+                <a href="#" class="hover:text-rose-400 transition-colors">利用規約</a>
+                <a href="#" class="hover:text-rose-400 transition-colors">プライバシーポリシー</a>
+                <a href="#" class="hover:text-rose-400 transition-colors">特定商取引法に基づく表記</a>
+            </div>
+
+            <div class="flex space-x-4 mb-8">
+                 <a href="#" class="w-10 h-10 rounded-full bg-rose-50 text-rose-400 flex items-center justify-center hover:bg-rose-400 hover:text-white transition-colors">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                 </a>
+                 <a href="#" class="w-10 h-10 rounded-full bg-rose-50 text-rose-400 flex items-center justify-center hover:bg-rose-400 hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                 </a>
+            </div>
+            
+            <p class="text-stone-300 text-[10px] tracking-[0.2em] uppercase font-bold">© 2026 Midehyah. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Mobile Menu Toggle (新規) ---
+        const menuOpenBtn = document.getElementById('menu-open-btn');
+        const menuCloseBtn = document.getElementById('menu-close-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('mobile-menu-overlay');
+        const body = document.body;
+
+        function openMenu() {
+            mobileMenu.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+            body.style.overflow = '';
+        }
+
+        if (menuOpenBtn) menuOpenBtn.addEventListener('click', openMenu);
+        if (menuCloseBtn) menuCloseBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- Mobile Accordion (新規) ---
+        const accordionBtn = document.getElementById('category-accordion-btn');
+        const accordionContent = document.getElementById('category-content');
+        const arrowIcon = document.getElementById('accordion-arrow');
+
+        if (accordionBtn) {
+            accordionBtn.addEventListener('click', () => {
+                if (accordionContent.style.maxHeight) {
+                    // Close
+                    accordionContent.style.maxHeight = null;
+                    arrowIcon.style.transform = 'rotate(0deg)'; // 0度に戻す
+                    accordionBtn.classList.remove('text-brand-pink');
+                } else {
+                    // Open
+                    accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+                    arrowIcon.style.transform = 'rotate(90deg)'; // 90度回転（下向き）
+                    accordionBtn.classList.add('text-brand-pink');
+                }
+            });
+        }
+
+        // --- Slider Drag Logic (既存スクリプト) ---
+        const slider = document.getElementById('new-arrivals-slider');
+        if (slider) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('dragging');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.classList.remove('dragging');
+            });
+
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.classList.remove('dragging');
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        }
+    </script>
+</body>
+
+</html>
