@@ -167,22 +167,17 @@
 
     <!-- 
         [HEADER STRATEGY]
-        Layer 1 (Bottom): Contains Nav, Button, Icons with mix-blend-difference. Logo is transparent spacer.
-        Layer 2 (Top): Contains Logo ONLY with normal blend. Other items are hidden/pointer-events-none.
+        Layer 1 (Bottom): Contains Nav, Icons, and Burger Menu (Right) with mix-blend-difference. Logo is transparent spacer (Left).
+        Layer 2 (Top): Contains Logo ONLY (Left) with normal blend. Other items are hidden/pointer-events-none.
     -->
 
     <!-- Layer 1: Nav & Icons (Color Inversion Active) -->
-    <!-- Added top-0 left-0 to fix position -->
     <header class="fixed top-0 left-0 w-full z-50 text-white py-4 md:py-6 px-6 md:px-12 flex justify-between items-center mix-blend-difference pointer-events-none">
+        <!-- LEFT SIDE: Logo Spacer (and Desktop Nav) -->
         <div class="flex items-center space-x-4 md:space-x-12 pointer-events-auto">
-            <button id="menu-toggle" class="lg:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none" aria-label="Menu">
-                <span class="block w-6 h-0.5 transition-transform duration-300 bg-current"></span>
-                <span class="block w-6 h-0.5 transition-transform duration-300 bg-current"></span>
-                <span class="block w-4 h-0.5 self-start transition-transform duration-300 bg-current"></span>
-            </button>
             <h1>
-                <!-- Spacer Logo: Hidden on mobile (to allow center placement in Layer 2), Visible on Desktop to hold space -->
-                <a href="#" class="hidden lg:block hover:opacity-80 transition-opacity opacity-0 cursor-default">
+                <!-- Spacer Logo: Visible on both mobile and desktop (opacity 0) to hold space on the left -->
+                <a href="#" class="block hover:opacity-80 transition-opacity opacity-0 cursor-default">
                     <img src="image/logo.png" alt="Midehyah" class="h-10 md:h-16 w-auto object-contain">
                 </a>
             </h1>
@@ -193,7 +188,9 @@
                 <a href="#" class="nav-link">About Us</a>
             </nav>
         </div>
-        <div class="flex items-center space-x-2 md:space-x-8 text-[10px] font-semibold uppercase tracking-[0.2em] inter-font pointer-events-auto">
+
+        <!-- RIGHT SIDE: Icons & Burger Menu -->
+        <div class="flex items-center space-x-4 md:space-x-8 text-[10px] font-semibold uppercase tracking-[0.2em] inter-font pointer-events-auto">
             <button class="p-2 hover:opacity-60 transition-opacity focus:outline-none" aria-label="Search">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -205,33 +202,28 @@
                 </svg>
                 <span class="absolute top-2 right-2 w-1.5 h-1.5 bg-white rounded-full"></span>
             </button>
+            
+            <!-- Burger Menu Button: Moved to Right Side -->
+            <button id="menu-toggle" class="lg:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none ml-2" aria-label="Menu">
+                <span class="block w-6 h-0.5 transition-transform duration-300 bg-current"></span>
+                <span class="block w-6 h-0.5 transition-transform duration-300 bg-current"></span>
+                <span class="block w-4 h-0.5 self-start transition-transform duration-300 bg-current"></span>
+            </button>
+
             <a href="#" class="hidden md:block nav-link">Customer Care</a>
             <a href="#" class="hidden md:block bg-white text-black px-6 py-3 rounded-full hover:bg-zinc-200 transition-colors">Login / Sign up</a>
         </div>
     </header>
 
     <!-- Layer 2: Logo Only (Normal Color) -->
-    <!-- Added top-0 left-0 to fix position -->
-    <div class="fixed top-0 left-0 w-full z-50 py-4 md:py-6 px-6 md:px-12 flex justify-between items-center pointer-events-none">
-        <div class="flex items-center space-x-4 md:space-x-12 w-full lg:w-auto justify-center lg:justify-start">
-            <!-- Invisible Menu Toggle (Spacer) - Added back on mobile to maintain container height equal to Layer 1 -->
-            <div class="lg:hidden w-10 h-10 pointer-events-none"></div> 
-            
-            <!-- Visible, Clickable Logo -->
-            <!-- Mobile: Absolute Center. Desktop: Static Left -->
-            <h1 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:static lg:translate-x-0 lg:translate-y-0 pointer-events-auto">
-                <a href="#" class="block hover:opacity-80 transition-opacity">
-                    <img src="image/logo.png" alt="Midehyah" class="h-10 md:h-16 w-auto object-contain">
-                </a>
-            </h1>
-            
-            <!-- Hidden Nav (Spacer) -->
-            <div class="hidden lg:flex space-x-8 opacity-0">
-               <!-- Spacers if needed -->
-            </div>
-        </div>
-        <!-- Empty Right Side -->
-        <div></div>
+    <!-- Positioned Left for both Mobile and Desktop -->
+    <div class="fixed top-0 left-0 w-full z-50 py-4 md:py-6 px-6 md:px-12 pointer-events-none flex items-center justify-start">
+         <h1 class="pointer-events-auto">
+            <a href="#" class="block hover:opacity-80 transition-opacity">
+                <!-- Visible Logo -->
+                <img src="image/logo.png" alt="Midehyah" class="h-10 md:h-16 w-auto object-contain">
+            </a>
+        </h1>
     </div>
 
     <!-- Mobile Menu Overlay (From test1.html - Left Side) -->
@@ -468,7 +460,7 @@
                     </div>
                     <h4 class="text-[12px] md:text-[15px] font-bold tracking-[0.1em] leading-tight uppercase inter-font">最高な状態で</h4>
                     <p class="text-[10.5px] md:text-[12.5px] text-stone-400 leading-relaxed font-medium inter-font">
-                        丁寧な梱包で、新品のような気分で。</p>
+                        プロによるプレス仕上げで、新品のような気分で。</p>
                 </div>
             </div>
         </section>
@@ -714,4 +706,3 @@
     </script>
 </body>
 </html>
-
