@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O bag Japan 公式オンラインストア</title>
+  <meta name="description" content="O bag Japan公式オンラインストア。イタリア発の100%リサイクル可能なEVA素材バッグをカスタマイズ。ボディ、ハンドル、インナーを自由に組み合わせて、あなただけのO bagを。">
+  <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="O bag Japan 公式オンラインストア">
+  <meta property="og:description" content="イタリア発・カスタマイズバッグブランド O bag の日本公式ストア。100%リサイクル可能なEVA素材で、あなただけの一品を。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="../images/obag-official/hero-1.webp">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="announce-items">
+      <span>&yen;10,000以上で送料無料</span>
+      <span class="announce-dot">&bull;</span>
+      <span>30日間返品対応</span>
+      <span class="announce-dot">&bull;</span>
+      <span>Made in Italy</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <a href="/" class="logo">O bag</a>
+      </div>
+      <nav class="header-nav" id="desktopNav">
+        <ul>
+          <li><a href="customizer.html">カスタマイズ</a></li>
+          <li><a href="#ready-to-wear">バッグ一覧</a></li>
+          <li><a href="#shop-by-parts">パーツ</a></li>
+          <li><a href="#about">ブランド</a></li>
+          <li><a href="#howto">ご利用ガイド</a></li>
+        </ul>
+      </nav>
+      <div class="header-right">
+        <button class="icon-btn" aria-label="検索">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="アカウント">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+        <button class="icon-btn cart-btn" aria-label="カート">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="メニュー">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Nav Drawer -->
+    <nav class="mobile-nav" id="mobileNav">
+      <ul>
+        <li><a href="customizer.html">カスタマイズ</a></li>
+        <li><a href="#ready-to-wear">バッグ一覧</a></li>
+        <li><a href="#shop-by-parts">パーツ</a></li>
+        <li><a href="#about">ブランド</a></li>
+        <li><a href="#howto">ご利用ガイド</a></li>
+        <li><a href="#">よくある質問</a></li>
+        <li><a href="#">お問い合わせ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Slider: ピンク春→ブルー花→ベージュクラシック -->
+    <section class="hero">
+      <div class="hero-slide active" id="heroSlide1">
+        <div class="hero-image"><img src="../images/obag-official/hero-1.webp" alt="O bag 春のカラーコレクション" class="sample-img" style="position:absolute;inset:0;"></div>
+        <div class="hero-content">
+          <p class="hero-eyebrow">2026 春夏コレクション</p>
+          <h1 class="hero-title">あなただけの<br>バッグを作ろう</h1>
+          <p class="hero-subtitle">イタリア生まれ、あなた仕上げ。</p>
+          <a href="customizer.html" class="btn btn-primary">カスタマイズを始める</a>
+        </div>
+      </div>
+      <div class="hero-slide" id="heroSlide2">
+        <div class="hero-image"><img src="../images/obag-official/section-2-desktop.webp" alt="O bag カスタマイズ" class="sample-img" style="position:absolute;inset:0;"></div>
+        <div class="hero-content">
+          <p class="hero-eyebrow">新作コレクション</p>
+          <h1 class="hero-title">Ready to<br>Wear</h1>
+          <p class="hero-subtitle">完成デザインのバッグをそのままお届け。</p>
+          <a href="#ready-to-wear" class="btn btn-primary">コレクションを見る</a>
+        </div>
+      </div>
+      <div class="hero-slide" id="heroSlide3">
+        <div class="hero-image"><img src="../images/obag-official/section-4-desktop.webp" alt="O bag クラシックモデル" class="sample-img" style="position:absolute;inset:0;"></div>
+        <div class="hero-content">
+          <p class="hero-eyebrow">サステナビリティ</p>
+          <h1 class="hero-title">地球に優しい<br>素材で作る</h1>
+          <p class="hero-subtitle">100%リサイクル可能なEVA素材。</p>
+          <a href="#about" class="btn btn-primary">詳しく見る</a>
+        </div>
+      </div>
+      <div class="hero-controls">
+        <button class="hero-dot active" data-slide="0"></button>
+        <button class="hero-dot" data-slide="1"></button>
+        <button class="hero-dot" data-slide="2"></button>
+      </div>
+      <button class="hero-arrow hero-arrow-left" aria-label="前へ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button class="hero-arrow hero-arrow-right" aria-label="次へ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </section>
+
+    <!-- Make Your Own CTA: ライフスタイル写真 -->
+    <section class="section myo-cta" id="make-your-own">
+      <div class="container">
+        <div class="split-section">
+          <div class="split-image">
+            <img src="../images/obag-official/obag-lifestyle-outfit-2.jpg" alt="O bag スタイリング" loading="lazy" class="sample-img">
+          </div>
+          <div class="split-content">
+            <p class="section-eyebrow">MAKE YOUR OWN</p>
+            <h2 class="section-title">あなただけの<br>O bag を作ろう</h2>
+            <p class="section-text">ボディ、ハンドル、インナーバッグを自由に組み合わせ。何千通りものカスタマイズから、世界にひとつだけのバッグが生まれます。</p>
+            <a href="customizer.html" class="btn btn-dark">カスタマイズを始める</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works: ボディ→ハンドル→完成品 -->
+    <section class="section how-section" id="howto">
+      <div class="container">
+        <p class="section-eyebrow text-center">カスタマイズの流れ</p>
+        <h2 class="section-title text-center">3ステップで完成</h2>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <div class="step-image"><img src="../images/obag-official/body-swing-cedro.jpg" alt="ボディを選ぶ" loading="lazy" class="sample-img"></div>
+            <h3>モデルを選ぶ</h3>
+            <p>O bag、O bag mini、O bag reverseなど、お好みの形をお選びください。</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <div class="step-image"><img src="../images/obag-official/acc-handle-1.jpg" alt="ハンドルを選ぶ" loading="lazy" class="sample-img"></div>
+            <h3>パーツを決める</h3>
+            <p>ボディカラー、ハンドル、インナーバッグを自由にカスタマイズ。</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <div class="step-image"><img src="../images/obag-official/obag-black-classic.jpg" alt="完成したO bag" loading="lazy" class="sample-img"></div>
+            <h3>完成 &amp; お届け</h3>
+            <p>プレビューで確認したら注文。あなただけのO bagをお届けします。</p>
+          </div>
+        </div>
+        <div class="text-center" style="margin-top: 3rem;">
+          <a href="customizer.html" class="btn btn-primary">カスタマイザーを試す</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ready to Wear: 定番O bagトート4種 -->
+    <section class="section rtw-section" id="ready-to-wear">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">READY TO WEAR</p>
+            <h2 class="section-title">新着バッグ</h2>
+          </div>
+          <a href="#" class="link-arrow">すべて見る <span>&rarr;</span></a>
+        </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-image"><img src="../images/obag-official/obag-mini-navy-rope.jpg" alt="O bag Mini ネイビー" loading="lazy" class="sample-img"></div>
+            <div class="product-info">
+              <h3 class="product-name">O bag Mini</h3>
+              <p class="product-color">ネイビー×ロープ</p>
+              <p class="product-price">&yen;18,700</p>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-image"><img src="../images/obag-official/obag-white-classic.jpg" alt="O bag Classic ホワイト" loading="lazy" class="sample-img"></div>
+            <div class="product-info">
+              <h3 class="product-name">O bag Classic</h3>
+              <p class="product-color">ホワイト</p>
+              <p class="product-price">&yen;24,200</p>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-image"><img src="../images/obag-official/obag-sand-brown-long.jpg" alt="O bag Grande サンド" loading="lazy" class="sample-img"></div>
+            <div class="product-info">
+              <h3 class="product-name">O bag Grande</h3>
+              <p class="product-color">サンド×ブラウン</p>
+              <p class="product-price">&yen;28,600</p>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-image"><img src="../images/obag-official/obag-mini-black-brown.jpg" alt="O bag Mini ブラック" loading="lazy" class="sample-img"></div>
+            <div class="product-info">
+              <h3 class="product-name">O bag Mini</h3>
+              <p class="product-color">ブラック×ブラウン</p>
+              <p class="product-price">&yen;22,000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shop by Parts: 各カテゴリに正確なパーツ画像 -->
+    <section class="section parts-section" id="shop-by-parts">
+      <div class="container">
+        <p class="section-eyebrow text-center">SHOP BY PARTS</p>
+        <h2 class="section-title text-center">パーツから選ぶ</h2>
+        <div class="parts-grid">
+          <a href="#" class="part-card">
+            <div class="part-image"><img src="../images/obag-official/body-swing-pink.jpg" alt="ボディ" loading="lazy" class="sample-img"></div>
+            <h3>ボディ</h3>
+          </a>
+          <a href="#" class="part-card">
+            <div class="part-image"><img src="../images/obag-official/acc-handle-3.jpg" alt="ハンドル" loading="lazy" class="sample-img"></div>
+            <h3>ハンドル</h3>
+          </a>
+          <a href="#" class="part-card">
+            <div class="part-image"><img src="../images/obag-official/part-inner-1.jpg" alt="インナーバッグ" loading="lazy" class="sample-img"></div>
+            <h3>インナーバッグ</h3>
+          </a>
+          <a href="#" class="part-card">
+            <div class="part-image"><img src="../images/obag-official/acc-trim-1.jpg" alt="アクセサリー" loading="lazy" class="sample-img"></div>
+            <h3>アクセサリー</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand Movie: バナー画像で代用 -->
+    <section class="section brand-video">
+      <div class="video-container">
+        <img src="../images/obag-official/section-2-desktop.webp" alt="O bag ブランドムービー" loading="lazy" class="sample-img" style="position:absolute;inset:0;">
+        <div class="video-overlay">
+          <h2>Made in Italy.<br>あなたのために。</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- About: ライフスタイル写真 -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="split-section reverse">
+          <div class="split-image">
+            <img src="../images/obag-official/obag-lifestyle-trench.jpg" alt="O bag ライフスタイル" loading="lazy" class="sample-img">
+          </div>
+          <div class="split-content">
+            <p class="section-eyebrow">ABOUT O BAG</p>
+            <h2 class="section-title">イタリアの創造性、<br>日本の感性</h2>
+            <p class="section-text">2009年イタリアで誕生したO bagは、革新的でカスタマイズ可能なEVAバッグで、アクセサリーの世界に革命を起こしました。日本では、その創造性とサステナブルなクラフトマンシップの精神をお届けします。</p>
+            <a href="#" class="link-arrow">ブランドストーリーを読む <span>&rarr;</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sustainability -->
+    <section class="section sustainability">
+      <div class="container">
+        <div class="sustainability-grid">
+          <div class="sustainability-card">
+            <div class="sustainability-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>リサイクル可能なEVA</h3>
+            <p>メイン素材は100%リサイクル可能。軽量で耐久性に優れています。</p>
+          </div>
+          <div class="sustainability-card">
+            <div class="sustainability-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <h3>Made in Italy</h3>
+            <p>ヴェネト州の工房で、一つひとつ丁寧に製造しています。</p>
+          </div>
+          <div class="sustainability-card">
+            <div class="sustainability-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <h3>あなただけのスタイル</h3>
+            <p>何千通りもの組み合わせで、世界にひとつだけのバッグに。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instagram: 完成品・パーツのミックス -->
+    <section class="section instagram-section">
+      <div class="container">
+        <p class="section-eyebrow text-center">フォローする</p>
+        <h2 class="section-title text-center">@obag_japan</h2>
+        <div class="instagram-grid">
+          <div class="instagram-item"><img src="../images/obag-official/obag-sand-navy.jpg" alt="@obag_japan" loading="lazy" class="sample-img"></div>
+          <div class="instagram-item"><img src="../images/obag-official/obag-mini-white-black.jpg" alt="@obag_japan" loading="lazy" class="sample-img"></div>
+          <div class="instagram-item"><img src="../images/obag-official/part-inner-2.jpg" alt="@obag_japan" loading="lazy" class="sample-img"></div>
+          <div class="instagram-item"><img src="../images/obag-official/obag-navy-beige.jpg" alt="@obag_japan" loading="lazy" class="sample-img"></div>
+          <div class="instagram-item hide-mobile"><img src="../images/obag-official/body-swing-cedro.jpg" alt="@obag_japan" loading="lazy" class="sample-img"></div>
+          <div class="instagram-item hide-mobile"><img src="../images/obag-official/obag-mini-sand-black.jpg" alt="@obag_japan" loading="lazy" class="sample-img"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="section newsletter">
+      <div class="container">
+        <div class="newsletter-inner">
+          <h2 class="section-title">最新情報をお届け</h2>
+          <p>新着コレクション、限定オファー、カスタマイズのヒントをお届けします。</p>
+          <form class="newsletter-form" onsubmit="return false;">
+            <input type="email" placeholder="メールアドレスを入力" required>
+            <button type="submit" class="btn btn-dark">登録する</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <span class="footer-logo">O bag</span>
+          <p class="footer-tagline">Made in Italy. あなた仕上げ。</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="TikTok">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+            </a>
+            <a href="#" aria-label="LINE">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>ショップ</h4>
+          <ul>
+            <li><a href="customizer.html">カスタマイズ</a></li>
+            <li><a href="#">バッグ一覧</a></li>
+            <li><a href="#">パーツ</a></li>
+            <li><a href="#">新着商品</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>サポート</h4>
+          <ul>
+            <li><a href="#">ご利用ガイド</a></li>
+            <li><a href="#">よくある質問</a></li>
+            <li><a href="#">配送・返品</a></li>
+            <li><a href="#">お問い合わせ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>会社情報</h4>
+          <ul>
+            <li><a href="#">ブランドストーリー</a></li>
+            <li><a href="#">サステナビリティ</a></li>
+            <li><a href="#">ニュース</a></li>
+            <li><a href="#">プライバシーポリシー</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 O bag Japan. All rights reserved.</p>
+        <div class="payment-icons">
+          <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3" fill="#fff" fill-opacity=".08"/><text x="19" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#9a9a9a">VISA</text></svg>
+          <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3" fill="#fff" fill-opacity=".08"/><circle cx="15" cy="12" r="6" fill="#9a9a9a" fill-opacity=".35"/><circle cx="23" cy="12" r="6" fill="#9a9a9a" fill-opacity=".5"/></svg>
+          <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3" fill="#fff" fill-opacity=".08"/><text x="19" y="15" text-anchor="middle" font-size="7" font-weight="700" fill="#9a9a9a">AMEX</text></svg>
+          <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3" fill="#fff" fill-opacity=".08"/><text x="19" y="14.5" text-anchor="middle" font-size="6" fill="#9a9a9a">Apple Pay</text></svg>
+          <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3" fill="#fff" fill-opacity=".08"/><text x="19" y="14.5" text-anchor="middle" font-size="6" fill="#9a9a9a">G Pay</text></svg>
+          <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3" fill="#fff" fill-opacity=".08"/><text x="19" y="14.5" text-anchor="middle" font-size="5.5" fill="#9a9a9a">amazon pay</text></svg>
+          <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3" fill="#fff" fill-opacity=".08"/><text x="19" y="14.5" text-anchor="middle" font-size="6.5" font-weight="600" fill="#9a9a9a">Paidy</text></svg>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="/" class="mobile-nav-item active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>ホーム</span>
+    </a>
+    <a href="customizer.html" class="mobile-nav-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <span>カスタマイズ</span>
+    </a>
+    <a href="#" class="mobile-nav-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>検索</span>
+    </a>
+    <a href="#" class="mobile-nav-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>アカウント</span>
+    </a>
+    <a href="#" class="mobile-nav-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span>カート</span>
+    </a>
+  </nav>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
