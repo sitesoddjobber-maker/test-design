@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O bag カスタマイザー — デザイン閲覧</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --white: #ffffff;
+      --off-white: #f8f7f5;
+      --near-black: #1a1816;
+      --dark-gray: #555250;
+      --mid-gray: #8a8580;
+      --gold: #c9a96e;
+      --gold-dark: #a68a4b;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
+      background: var(--off-white);
+      color: var(--near-black);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .header {
+      text-align: center;
+      padding: 64px 24px 24px;
+    }
+    .header-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--near-black);
+      margin-bottom: 8px;
+    }
+    .header-sub {
+      font-size: 0.78rem;
+      color: var(--mid-gray);
+      letter-spacing: 0.08em;
+    }
+
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin: 32px auto;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    .card-thumb {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: linear-gradient(180deg, #faf6f0 0%, #efe6d6 100%);
+    }
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 24px;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .card:hover .card-thumb img {
+      transform: scale(1.04);
+    }
+    .card-thumb--white { background: #f7f7f5; }
+    .card-thumb--atelier {
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 35%, rgba(212, 165, 116, 0.18) 0%, transparent 60%),
+        linear-gradient(180deg, #15110d 0%, #0a0908 100%);
+    }
+    .card-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--white);
+      color: var(--near-black);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+    .card-thumb--atelier .card-badge { background: #d4a574; color: #0a0908; }
+
+    .card-info {
+      padding: 28px 24px 32px;
+    }
+    .card-info h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .card-info p {
+      font-size: 0.78rem;
+      color: var(--dark-gray);
+      line-height: 1.7;
+      margin: 0 0 18px;
+    }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--gold-dark);
+      transition: gap 0.3s ease;
+    }
+    .card:hover .card-link {
+      gap: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 32px 24px 48px;
+      border-top: 1px solid #e8e5e0;
+    }
+    .footer p {
+      font-size: 0.72rem;
+      color: var(--mid-gray);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 768px) {
+      .cards {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        gap: 24px;
+        padding: 0 20px 60px;
+      }
+      .header { padding: 48px 20px 20px; }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 720px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-logo">O bag カスタマイザー閲覧用</div>
+  </header>
+
+  <div class="divider"></div>
+
+  <div class="cards">
+
+    <a href="customizer-champagne.html" class="card">
+      <div class="card-thumb">
+        <img src="obag_parts/Body/main/Body_O_bag_standard_Biscotto__822.jpg" alt="Champagne カスタマイザー プレビュー" loading="lazy">
+        <span class="card-badge">A</span>
+      </div>
+      <div class="card-info">
+        <h2>Champagne</h2>
+        <p>クリーム＋ゴールドの上品な色味。Longchamp／Mansur Gavriel に着想を得た王道のラグジュアリー版。</p>
+        <span class="card-link">カスタマイズを開く <span>&rarr;</span></span>
+      </div>
+    </a>
+
+    <a href="customizer-white.html" class="card">
+      <div class="card-thumb card-thumb--white">
+        <img src="obag_parts/Body/main/Body_O_bag_standard_Latte__6733.jpg" alt="White カスタマイザー プレビュー" loading="lazy">
+        <span class="card-badge">B</span>
+      </div>
+      <div class="card-info">
+        <h2>White</h2>
+        <p>純白の余白を活かしたモノトーン構成。Aesop／The Row／Hermès の構成美を取り入れたミニマル版。</p>
+        <span class="card-link">カスタマイズを開く <span>&rarr;</span></span>
+      </div>
+    </a>
+
+    <a href="customizer-atelier.html" class="card">
+      <div class="card-thumb card-thumb--atelier">
+        <img src="obag_parts/Body/main/Body_O_bag_standard_Nero__6728.jpg" alt="Atelier カスタマイザー プレビュー" loading="lazy">
+        <span class="card-badge">C</span>
+      </div>
+      <div class="card-info">
+        <h2>Atelier</h2>
+        <p>暗背景＋アンバーグロウの没入型。Nike By You／Apple Watch Studio／Tesla configurator に着想を得たシネマティック版。</p>
+        <span class="card-link">カスタマイズを開く <span>&rarr;</span></span>
+      </div>
+    </a>
+
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 サイトの万事屋</p>
+  </footer>
+
+</body>
+</html>
