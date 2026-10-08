@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カスタマイズ | O bag Japan</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/customizer.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-body">
+  <!-- Header -->
+  <header class="cust-header">
+    <div class="cust-header-inner">
+      <a href="index.html" class="cust-back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
+        <span>ストアに戻る</span>
+      </a>
+      <span class="cust-logo">O bag <small>カスタマイザー</small></span>
+      <div class="cust-actions">
+        <button class="icon-btn cart-btn" aria-label="カート">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="cust-main">
+    <!-- Step Indicators -->
+    <div class="cust-steps-bar">
+      <div class="cust-steps">
+        <button class="cust-step active" data-step="1"><span class="cust-step-num">1</span><span class="cust-step-label">モデル</span></button>
+        <div class="cust-step-line"></div>
+        <button class="cust-step" data-step="2"><span class="cust-step-num">2</span><span class="cust-step-label">カラー</span></button>
+        <div class="cust-step-line"></div>
+        <button class="cust-step" data-step="3"><span class="cust-step-num">3</span><span class="cust-step-label">ハンドル</span></button>
+        <div class="cust-step-line"></div>
+        <button class="cust-step" data-step="4"><span class="cust-step-num">4</span><span class="cust-step-label">インナー</span></button>
+        <div class="cust-step-line"></div>
+        <button class="cust-step" data-step="5"><span class="cust-step-num">5</span><span class="cust-step-label">アクセサリー</span></button>
+      </div>
+    </div>
+
+    <div class="cust-layout">
+      <!-- Left: Preview -->
+      <div class="cust-preview">
+        <div class="cust-preview-area">
+          <div class="cust-preview-box" id="previewBox">
+            <!-- SVG Bag Preview -->
+            <svg class="bag-preview-svg" id="bagPreviewSvg" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <filter id="bagShadow" x="-20%" y="-10%" width="140%" height="130%">
+                  <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="rgba(0,0,0,0.35)"/>
+                </filter>
+                <pattern id="knitPattern" patternUnits="userSpaceOnUse" width="20" height="8">
+                  <rect width="20" height="4" fill="rgba(255,255,255,0.06)"/>
+                  <rect y="4" width="20" height="4" fill="rgba(0,0,0,0.08)"/>
+                </pattern>
+                <pattern id="quiltPattern" patternUnits="userSpaceOnUse" width="24" height="24" patternTransform="rotate(45)">
+                  <line x1="0" y1="0" x2="24" y2="0" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                  <line x1="0" y1="0" x2="0" y2="24" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                </pattern>
+                <linearGradient id="bodySheen" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="rgba(255,255,255,0.10)"/>
+                  <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,0.08)"/>
+                </linearGradient>
+                <linearGradient id="reverseGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop id="reverseStop1" offset="50%" stop-color="#c9b99a"/>
+                  <stop id="reverseStop2" offset="50%" stop-color="#8a7a6a"/>
+                </linearGradient>
+                <clipPath id="bodyClip"><path id="bodyClipPath" d="M60,100 Q60,82 78,82 L222,82 Q240,82 240,100 L240,290 Q240,322 208,322 L92,322 Q60,322 60,290 Z"/></clipPath>
+              </defs>
+
+              <!-- Ground shadow -->
+              <ellipse id="svgShadow" cx="150" cy="375" rx="90" ry="10" fill="rgba(0,0,0,0.15)"/>
+
+              <!-- Handle group -->
+              <g id="svgHandleGroup" filter="url(#bagShadow)">
+                <path id="svgHandle" d="M108,100 Q108,48 150,48 Q192,48 192,100" fill="none" stroke="#8a7a6a" stroke-width="5" stroke-linecap="round"/>
+                <path id="svgHandle2" d="M116,100 Q116,58 150,58 Q184,58 184,100" fill="none" stroke="#8a7a6a" stroke-width="5" stroke-linecap="round" opacity="0"/>
+              </g>
+
+              <!-- Body -->
+              <g filter="url(#bagShadow)">
+                <path id="svgBody" d="M60,100 Q60,82 78,82 L222,82 Q240,82 240,100 L240,290 Q240,322 208,322 L92,322 Q60,322 60,290 Z" fill="#c9b99a"/>
+                <path id="svgBodySheen" d="M60,100 Q60,82 78,82 L222,82 Q240,82 240,100 L240,290 Q240,322 208,322 L92,322 Q60,322 60,290 Z" fill="url(#bodySheen)"/>
+                <path id="svgKnitOverlay" d="M60,100 Q60,82 78,82 L222,82 Q240,82 240,100 L240,290 Q240,322 208,322 L92,322 Q60,322 60,290 Z" fill="url(#knitPattern)" opacity="0"/>
+                <line id="svgReverseLine" x1="60" y1="200" x2="240" y2="200" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" opacity="0"/>
+              </g>
+
+              <!-- Inner bag group -->
+              <g id="svgInnerGroup">
+                <path id="svgInner" d="M72,82 L72,68 Q72,58 82,58 L218,58 Q228,58 228,68 L228,82" fill="#e0d8c8" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
+                <path id="svgInnerFold" d="M78,82 Q150,92 222,82" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+                <line id="svgInnerZip" x1="100" y1="70" x2="200" y2="70" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0"/>
+                <circle id="svgInnerZipPull" cx="150" cy="70" r="3" fill="rgba(255,255,255,0.3)" opacity="0"/>
+                <rect id="svgInnerQuilt" x="72" y="58" width="156" height="24" rx="4" fill="url(#quiltPattern)" clip-path="url(#bodyClip)" opacity="0"/>
+              </g>
+
+              <!-- Accessories group -->
+              <g id="svgAccessoryGroup">
+                <g id="svgAccFlower" opacity="0" transform="translate(228,140)">
+                  <circle cx="0" cy="-8" r="6" fill="#e8c4c4" opacity="0.9"/>
+                  <circle cx="7" cy="-2" r="6" fill="#dfc9a0" opacity="0.9"/>
+                  <circle cx="4" cy="7" r="6" fill="#e8c4c4" opacity="0.9"/>
+                  <circle cx="-4" cy="7" r="6" fill="#dfc9a0" opacity="0.9"/>
+                  <circle cx="-7" cy="-2" r="6" fill="#e8c4c4" opacity="0.9"/>
+                  <circle cx="0" cy="0" r="4" fill="#c9a96e"/>
+                  <line x1="0" y1="12" x2="0" y2="28" stroke="#c9a96e" stroke-width="1.5"/>
+                </g>
+                <g id="svgAccLetter" opacity="0" transform="translate(225,145)">
+                  <circle cx="0" cy="0" r="12" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+                  <text x="0" y="5" text-anchor="middle" font-family="Montserrat" font-size="13" font-weight="700" fill="#c9a96e">A</text>
+                  <line x1="0" y1="-12" x2="0" y2="-24" stroke="#c9a96e" stroke-width="1"/>
+                </g>
+                <g id="svgAccScarf" opacity="0">
+                  <path d="M120,72 Q115,65 118,55 Q122,45 130,50 Q125,60 128,70" fill="#b5a7d1" opacity="0.6"/>
+                  <path d="M122,72 Q130,60 126,48 Q132,42 138,50 Q134,60 132,72" fill="#dfc9a0" opacity="0.5"/>
+                </g>
+                <g id="svgAccTrim" opacity="0">
+                  <path d="M68,100 Q78,92 88,100 Q98,108 108,100 Q118,92 128,100 Q138,108 148,100 Q158,92 168,100 Q178,108 188,100 Q198,92 208,100 Q218,108 228,100 Q238,92 240,100" fill="none" stroke="#c9a96e" stroke-width="2" opacity="0.5"/>
+                </g>
+              </g>
+
+              <!-- Brand watermark -->
+              <text x="150" y="215" text-anchor="middle" font-family="Montserrat" font-size="14" font-weight="600" fill="rgba(255,255,255,0.06)" letter-spacing="3">O bag</text>
+            </svg>
+            <p class="preview-hint" id="previewHint">モデルを選んでください</p>
+          </div>
+        </div>
+        <div class="cust-price-panel">
+          <div class="cust-price-rows">
+            <div class="cust-price-row" id="prModel"><span>モデル</span><span>&mdash;</span></div>
+            <div class="cust-price-row" id="prColor"><span>ボディカラー</span><span>&mdash;</span></div>
+            <div class="cust-price-row" id="prHandle"><span>ハンドル</span><span>&mdash;</span></div>
+            <div class="cust-price-row" id="prInner"><span>インナーバッグ</span><span>&mdash;</span></div>
+            <div class="cust-price-row" id="prExtras"><span>アクセサリー</span><span>&mdash;</span></div>
+          </div>
+          <div class="cust-price-total">
+            <span>合計</span>
+            <span id="totalPrice">&yen;0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Options -->
+      <div class="cust-options">
+        <!-- Step 1: Model -->
+        <div class="cust-panel active" id="panel1">
+          <h2 class="cust-panel-title">モデルを選ぶ</h2>
+          <p class="cust-panel-desc">あなたのライフスタイルにぴったりの形を。</p>
+          <div class="model-grid">
+            <button class="model-tile" data-model="O bag" data-price="8800">
+              <div class="model-tile-img"><div class="sample-img sample-model sample-model-classic"></div></div>
+              <div class="model-tile-info"><h3>O bag</h3><p>アイコニックな定番。たっぷり収納。</p><span>&yen;8,800</span></div>
+            </button>
+            <button class="model-tile" data-model="O bag Mini" data-price="6600">
+              <div class="model-tile-img"><div class="sample-img sample-model sample-model-mini"></div></div>
+              <div class="model-tile-info"><h3>O bag Mini</h3><p>コンパクトで毎日のお出かけに。</p><span>&yen;6,600</span></div>
+            </button>
+            <button class="model-tile" data-model="O bag Reverse" data-price="9900">
+              <div class="model-tile-img"><div class="sample-img sample-model sample-model-reverse"></div></div>
+              <div class="model-tile-info"><h3>O bag Reverse</h3><p>ツートーンのモダンなデザイン。</p><span>&yen;9,900</span></div>
+            </button>
+            <button class="model-tile" data-model="O bag Square" data-price="7700">
+              <div class="model-tile-img"><div class="sample-img sample-model sample-model-square"></div></div>
+              <div class="model-tile-info"><h3>O bag Square</h3><p>ジオメトリックなエレガンス。</p><span>&yen;7,700</span></div>
+            </button>
+            <button class="model-tile" data-model="O bag City" data-price="11000">
+              <div class="model-tile-img"><div class="sample-img sample-model sample-model-city"></div></div>
+              <div class="model-tile-info"><h3>O bag City</h3><p>都会的なイタリアンスタイル。</p><span>&yen;11,000</span></div>
+            </button>
+            <button class="model-tile" data-model="O bag Knit" data-price="12100">
+              <div class="model-tile-img"><div class="sample-img sample-model sample-model-knit"></div></div>
+              <div class="model-tile-info"><h3>O bag Knit</h3><p>テクスチャーのある温かみ。</p><span>&yen;12,100</span></div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Color -->
+        <div class="cust-panel" id="panel2">
+          <h2 class="cust-panel-title">ボディカラーを選ぶ</h2>
+          <p class="cust-panel-desc">シグネチャーEVA素材、お好みの色で。</p>
+          <div class="color-grid">
+            <button class="color-opt" data-color="ブラック" data-hex="#1a1815" data-price="0"><span class="color-circle" style="background:#1a1815"></span><span>ブラック</span></button>
+            <button class="color-opt" data-color="ネイビー" data-hex="#1e2a3a" data-price="0"><span class="color-circle" style="background:#1e2a3a"></span><span>ネイビー</span></button>
+            <button class="color-opt" data-color="セージ" data-hex="#8a9a7b" data-price="0"><span class="color-circle" style="background:#8a9a7b"></span><span>セージ</span></button>
+            <button class="color-opt" data-color="アイボリー" data-hex="#f0ebe0" data-price="0"><span class="color-circle" style="background:#f0ebe0;border:1px solid rgba(255,255,255,0.2)"></span><span>アイボリー</span></button>
+            <button class="color-opt" data-color="ブラッシュ" data-hex="#e8c4c4" data-price="0"><span class="color-circle" style="background:#e8c4c4"></span><span>ブラッシュ</span></button>
+            <button class="color-opt" data-color="テラコッタ" data-hex="#c67d5b" data-price="0"><span class="color-circle" style="background:#c67d5b"></span><span>テラコッタ</span></button>
+            <button class="color-opt" data-color="ラベンダー" data-hex="#b5a7d1" data-price="0"><span class="color-circle" style="background:#b5a7d1"></span><span>ラベンダー</span></button>
+            <button class="color-opt" data-color="サンド" data-hex="#c9b99a" data-price="0"><span class="color-circle" style="background:#c9b99a"></span><span>サンド</span></button>
+            <button class="color-opt" data-color="レッド" data-hex="#c44040" data-price="0"><span class="color-circle" style="background:#c44040"></span><span>レッド</span></button>
+            <button class="color-opt" data-color="スカイブルー" data-hex="#8bb8d4" data-price="0"><span class="color-circle" style="background:#8bb8d4"></span><span>スカイブルー</span></button>
+          </div>
+        </div>
+
+        <!-- Step 3: Handle -->
+        <div class="cust-panel" id="panel3">
+          <h2 class="cust-panel-title">ハンドルを選ぶ</h2>
+          <p class="cust-panel-desc">スタイルに合わせたグリップを。</p>
+          <div class="opt-list">
+            <button class="opt-row" data-handle="ショートフラット" data-price="3300" data-handle-color="#3a3632">
+              <div class="opt-row-img"><div class="sample-img sample-handle sample-handle-short"></div></div>
+              <div class="opt-row-info"><h3>ショートフラットハンドル</h3><p>クラシックなレザーストラップ</p></div>
+              <span class="opt-row-price">&yen;3,300</span>
+            </button>
+            <button class="opt-row" data-handle="ロングストラップ" data-price="4400" data-handle-color="#555250">
+              <div class="opt-row-img"><div class="sample-img sample-handle sample-handle-long"></div></div>
+              <div class="opt-row-info"><h3>ロングショルダーストラップ</h3><p>調節可能なクロスボディ</p></div>
+              <span class="opt-row-price">&yen;4,400</span>
+            </button>
+            <button class="opt-row" data-handle="ロープ" data-price="2750" data-handle-color="#c9b99a">
+              <div class="opt-row-img"><div class="sample-img sample-handle sample-handle-rope"></div></div>
+              <div class="opt-row-info"><h3>ロープハンドル</h3><p>ノーティカルな編み込みロープ</p></div>
+              <span class="opt-row-price">&yen;2,750</span>
+            </button>
+            <button class="opt-row" data-handle="チェーン" data-price="5500" data-handle-color="#c9a96e">
+              <div class="opt-row-img"><div class="sample-img sample-handle sample-handle-chain"></div></div>
+              <div class="opt-row-info"><h3>チェーンストラップ</h3><p>メタリックなイブニングエレガンス</p></div>
+              <span class="opt-row-price">&yen;5,500</span>
+            </button>
+            <button class="opt-row" data-handle="チューブラー" data-price="3850" data-handle-color="#8a8580">
+              <div class="opt-row-img"><div class="sample-img sample-handle sample-handle-tube"></div></div>
+              <div class="opt-row-info"><h3>チューブラーハンドル</h3><p>丸みのあるモダンなプロファイル</p></div>
+              <span class="opt-row-price">&yen;3,850</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 4: Inner -->
+        <div class="cust-panel" id="panel4">
+          <h2 class="cust-panel-title">インナーバッグを選ぶ</h2>
+          <p class="cust-panel-desc">機能性とスタイルの融合。</p>
+          <div class="opt-list">
+            <button class="opt-row" data-inner="キャンバス ナチュラル" data-price="3300" data-inner-color="#e0d8c8">
+              <div class="opt-row-img"><div class="sample-img sample-inner sample-inner-natural"></div></div>
+              <div class="opt-row-info"><h3>キャンバス - ナチュラル</h3><p>ライトコットン、スナップ留め</p></div>
+              <span class="opt-row-price">&yen;3,300</span>
+            </button>
+            <button class="opt-row" data-inner="キャンバス ブラック" data-price="3300" data-inner-color="#2a2725">
+              <div class="opt-row-img"><div class="sample-img sample-inner sample-inner-black"></div></div>
+              <div class="opt-row-info"><h3>キャンバス - ブラック</h3><p>クリーンなクラシックインテリア</p></div>
+              <span class="opt-row-price">&yen;3,300</span>
+            </button>
+            <button class="opt-row" data-inner="ジップ ブラック" data-price="4950" data-inner-color="#1a1816">
+              <div class="opt-row-img"><div class="sample-img sample-inner sample-inner-zip-bk"></div></div>
+              <div class="opt-row-info"><h3>ジップインナー - ブラック</h3><p>フルジップ、ポケット付き</p></div>
+              <span class="opt-row-price">&yen;4,950</span>
+            </button>
+            <button class="opt-row" data-inner="ジップ ベージュ" data-price="4950" data-inner-color="#d4c5b0">
+              <div class="opt-row-img"><div class="sample-img sample-inner sample-inner-zip-bg"></div></div>
+              <div class="opt-row-info"><h3>ジップインナー - ベージュ</h3><p>温かみのあるトーン、フルジップ</p></div>
+              <span class="opt-row-price">&yen;4,950</span>
+            </button>
+            <button class="opt-row" data-inner="キルティング" data-price="6050" data-inner-color="#8a7a6a">
+              <div class="opt-row-img"><div class="sample-img sample-inner sample-inner-quilted"></div></div>
+              <div class="opt-row-info"><h3>キルティングインナー</h3><p>パッド入りの保護仕様</p></div>
+              <span class="opt-row-price">&yen;6,050</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 5: Extras -->
+        <div class="cust-panel" id="panel5">
+          <h2 class="cust-panel-title">アクセサリーを追加</h2>
+          <p class="cust-panel-desc">仕上げのタッチ。複数選択可。</p>
+          <div class="opt-list">
+            <button class="opt-row multi" data-extra="フラワーチャーム" data-price="1650">
+              <div class="opt-row-img"><div class="sample-img sample-acc sample-acc-flower"></div></div>
+              <div class="opt-row-info"><h3>フラワーチャーム</h3><p>シリコン製、季節のカラー</p></div>
+              <span class="opt-row-price">&yen;1,650</span>
+              <span class="opt-check"></span>
+            </button>
+            <button class="opt-row multi" data-extra="レターチャーム" data-price="1100">
+              <div class="opt-row-img"><div class="sample-img sample-acc sample-acc-letter"></div></div>
+              <div class="opt-row-info"><h3>レターチャーム</h3><p>A-Zでパーソナライズ</p></div>
+              <span class="opt-row-price">&yen;1,100</span>
+              <span class="opt-check"></span>
+            </button>
+            <button class="opt-row multi" data-extra="シルクスカーフ" data-price="3850">
+              <div class="opt-row-img"><div class="sample-img sample-acc sample-acc-scarf"></div></div>
+              <div class="opt-row-info"><h3>シルクスカーフ</h3><p>ハンドルラップ、パリジャンタッチ</p></div>
+              <span class="opt-row-price">&yen;3,850</span>
+              <span class="opt-check"></span>
+            </button>
+            <button class="opt-row multi" data-extra="デコラティブトリム" data-price="2200">
+              <div class="opt-row-img"><div class="sample-img sample-acc sample-acc-trim"></div></div>
+              <div class="opt-row-info"><h3>デコラティブトリム</h3><p>スナップオンのフレームトリム</p></div>
+              <span class="opt-row-price">&yen;2,200</span>
+              <span class="opt-check"></span>
+            </button>
+          </div>
+          <p class="cust-skip-msg">アクセサリーが不要な場合は「完了」を押してください。</p>
+        </div>
+
+        <!-- Nav -->
+        <div class="cust-nav">
+          <button class="btn btn-outline-dark cust-prev" id="custPrev" disabled>戻る</button>
+          <button class="btn btn-gold cust-next" id="custNext">次へ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Done Modal -->
+    <div class="done-modal" id="doneModal">
+      <div class="done-backdrop"></div>
+      <div class="done-card">
+        <div class="done-badge">完了</div>
+        <h2>あなたのO bagが完成しました</h2>
+        <div class="done-summary" id="doneSummary"></div>
+        <div class="done-total"><span>合計</span><span id="doneTotalPrice"></span></div>
+        <div class="done-btns">
+          <button class="btn btn-gold" onclick="alert('デザインプレビューのみです。')">カートに追加</button>
+          <button class="btn btn-outline-dark" id="doneReset">最初からやり直す</button>
+          <a href="index.html" class="btn btn-outline-dark" style="text-decoration:none;">トップページに戻る</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile Price -->
+  <div class="cust-mobile-price" id="custMobilePrice">
+    <span>合計</span>
+    <span id="mobileTotal">&yen;0</span>
+  </div>
+
+  <script src="js/customizer.js"></script>
+</body>
+</html>
